@@ -27,12 +27,45 @@
         line-height: 1.4;
       }
 
+      #camera-controls {
+        position: fixed;
+        left: 12px;
+        right: 12px;
+        bottom: max(12px, env(safe-area-inset-bottom));
+        z-index: 999;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(17, 24, 39, 0.82);
+        color: #e5e7eb;
+      }
+
+      #camera-controls label {
+        display: block;
+        font-size: 0.85rem;
+        margin-bottom: 0.35rem;
+      }
+
+      #zoom-slider {
+        width: 100%;
+      }
+
+      #zoom-note {
+        margin-top: 0.35rem;
+        font-size: 0.8rem;
+        color: #93c5fd;
+      }
+
       @media (max-width: 480px) {
         #status {
           left: 8px;
           right: 8px;
           padding: 10px 12px;
           font-size: 0.9rem;
+        }
+
+        #camera-controls {
+          left: 8px;
+          right: 8px;
         }
       }
 
@@ -45,12 +78,17 @@
     <div id="status">
       <strong>Waiting for marker...</strong> Allow camera access and point to a Hiro marker.
     </div>
+    <div id="camera-controls" hidden>
+      <label for="zoom-slider">Camera zoom</label>
+      <input id="zoom-slider" type="range" min="1" max="1" step="0.1" value="1" />
+      <div id="zoom-note">Rear camera is preferred automatically on supported phones.</div>
+    </div>
 
     <a-scene
       embedded
       vr-mode-ui="enabled: false"
       renderer="logarithmicDepthBuffer: true; precision: medium;"
-      arjs="sourceType: webcam; debugUIEnabled: false;"
+      arjs="sourceType: webcam; facingMode: environment; debugUIEnabled: false;"
     >
       <a-marker preset="hiro" id="chart-marker"></a-marker>
       <a-entity camera></a-entity>
