@@ -395,3 +395,19 @@ buildChart().catch(() => {
 });
 
 void setupCameraUi();
+
+/** Ask A-Frame to reflow when orientation or mobile dynamic viewport changes */
+const notifyViewportChange = () => {
+  requestAnimationFrame(() => {
+    window.dispatchEvent(new Event("resize"));
+  });
+};
+
+window.addEventListener("orientationchange", notifyViewportChange, {
+  passive: true,
+});
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", notifyViewportChange, {
+    passive: true,
+  });
+}

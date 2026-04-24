@@ -11,21 +11,55 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <style>
       /**
-       * HUD must be *after* <a-scene> in the DOM and sit above the WebGL layer.
-       * (Earlier siblings paint under the A-Frame canvas, so fixed UI looked “missing”.)
+       * Full-screen camera viewport: AR video + WebGL fit the device. HUD stays in a
+       * sibling layer *after* the viewport so it paints above the canvas.
        */
       html,
       body {
         margin: 0;
         width: 100%;
-        height: 100%;
+        min-height: 100%;
+        min-height: 100dvh;
+        min-height: 100svh;
         overflow: hidden;
         font-family: Inter, system-ui, sans-serif;
+        /* Mobile: stable layout; avoid iOS 100vh jump when URL bar shows/hides */
+        height: 100%;
       }
 
-      #ar-scene {
+      #ar-viewport {
+        position: fixed;
+        inset: 0;
         z-index: 0;
-        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 100svh;
+        background: #000;
+        overflow: hidden;
+      }
+
+      #ar-viewport a-scene {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* AR.js camera + A-Frame canvas: fill the viewport (camera-app style) */
+      #ar-viewport video {
+        object-fit: cover;
+        width: 100% !important;
+        height: 100% !important;
+        min-width: 100%;
+        min-height: 100%;
+      }
+
+      #ar-viewport .a-canvas,
+      #ar-viewport canvas {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        display: block;
       }
 
       #ar-hud {
@@ -149,16 +183,18 @@
     </style>
   </head>
   <body>
-    <a-scene
-      id="ar-scene"
-      embedded
-      vr-mode-ui="enabled: false"
-      renderer="logarithmicDepthBuffer: true; precision: medium;"
-      arjs="sourceType: webcam; facingMode: environment; debugUIEnabled: false;"
-    >
-      <a-marker preset="hiro" id="chart-marker"></a-marker>
-      <a-entity camera></a-entity>
-    </a-scene>
+    <div id="ar-viewport" class="ar-viewport">
+      <a-scene
+        id="ar-scene"
+        embedded
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true; precision: medium;"
+        arjs="sourceType: webcam; facingMode: environment; debugUIEnabled: false;"
+      >
+        <a-marker preset="hiro" id="chart-marker"></a-marker>
+        <a-entity camera></a-entity>
+      </a-scene>
+    </div>
 
     <div id="ar-hud">
       <div id="status" class="hud-interactive">
