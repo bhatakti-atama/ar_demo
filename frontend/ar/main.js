@@ -53,7 +53,7 @@ const buildChart = async () => {
     return;
   }
 
-  const response = await fetch("/data/chartData.json");
+  const response = await fetch("../data/chartData.json");
   const chartData = await response.json();
   const maxValue = Math.max(...chartData.map((point) => point.value));
 
