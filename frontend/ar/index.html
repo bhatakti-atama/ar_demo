@@ -13,12 +13,14 @@
         font-family: Inter, system-ui, sans-serif;
       }
 
+      /* A-Frame / WebGL canvas uses high stacking; keep HUD above it */
       #status {
         position: fixed;
         top: max(12px, env(safe-area-inset-top));
         left: 12px;
         right: 12px;
-        z-index: 999;
+        z-index: 2147483000;
+        pointer-events: auto;
         padding: 12px 14px;
         border-radius: 12px;
         background: rgba(17, 24, 39, 0.88);
@@ -32,11 +34,16 @@
         left: 12px;
         right: 12px;
         bottom: max(12px, env(safe-area-inset-bottom));
-        z-index: 999;
+        z-index: 2147483000;
+        pointer-events: auto;
         padding: 10px 12px;
         border-radius: 12px;
-        background: rgba(17, 24, 39, 0.82);
+        background: rgba(17, 24, 39, 0.92);
         color: #e5e7eb;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        max-height: 42vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       #camera-controls label {
@@ -45,8 +52,20 @@
         margin-bottom: 0.35rem;
       }
 
+      #camera-select {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        padding: 0.55rem 0.5rem;
+        border-radius: 8px;
+        border: 1px solid #475569;
+        background: #0f172a;
+        color: #e2e8f0;
+        font-size: 0.9rem;
+      }
+
       #zoom-slider {
         width: 100%;
+        touch-action: manipulation;
       }
 
       #zoom-note {
@@ -78,10 +97,12 @@
     <div id="status">
       <strong>Waiting for marker...</strong> Allow camera access and point to a Hiro marker.
     </div>
-    <div id="camera-controls" hidden>
-      <label for="zoom-slider">Camera zoom</label>
+    <div id="camera-controls" aria-live="polite">
+      <label for="camera-select">Camera</label>
+      <select id="camera-select" aria-label="Choose camera"></select>
+      <label for="zoom-slider">Zoom</label>
       <input id="zoom-slider" type="range" min="1" max="1" step="0.1" value="1" />
-      <div id="zoom-note">Rear camera is preferred automatically on supported phones.</div>
+      <div id="zoom-note">Loading camera…</div>
     </div>
 
     <a-scene

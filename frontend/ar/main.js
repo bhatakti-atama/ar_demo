@@ -3,6 +3,9 @@ const marker = document.getElementById("chart-marker");
 const zoomControls = document.getElementById("camera-controls");
 const zoomSlider = document.getElementById("zoom-slider");
 const zoomNote = document.getElementById("zoom-note");
+const cameraSelect = document.getElementById("camera-select");
+
+const STORAGE_DEVICE_KEY = "ar-charts-preferred-camera-device-id";
 
 const palette = ["#2563eb", "#16a34a", "#f59e0b", "#dc2626", "#7c3aed"];
 
@@ -10,6 +13,18 @@ const setStatus = (message) => {
   if (statusNode) {
     statusNode.innerHTML = message;
   }
+};
+
+const findArVideo = () => {
+  const scene = document.querySelector("a-scene");
+  const inScene = scene?.querySelector?.("video");
+  if (inScene) {
+    return inScene;
+  }
+  const withStream = [...document.querySelectorAll("video")].find(
+    (video) => video.srcObject,
+  );
+  return withStream ?? document.querySelector("video");
 };
 
 const toHeight = (value, maxValue) => {
@@ -26,31 +41,77 @@ const getTrackCapabilities = (track) => {
 };
 
 const waitForVideoTrack = async () => {
-  for (let i = 0; i < 25; i += 1) {
-    const video = document.querySelector("video");
+  const maxAttempts = 80;
+
+  const tryOnce = () => {
+    const video = findArVideo();
     const stream = video?.srcObject;
     const tracks = stream?.getVideoTracks?.() ?? [];
-    const track = tracks[0];
-    if (track) {
-      return track;
-    }
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    return tracks[0] ?? null;
+  };
+
+  let track = tryOnce();
+  if (track) {
+    return { track, video: findArVideo() };
   }
-  return null;
+
+  await new Promise((resolve) => {
+    const observer = new MutationObserver(() => {
+      track = tryOnce();
+      if (track) {
+        observer.disconnect();
+        resolve();
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    setTimeout(() => {
+      observer.disconnect();
+      resolve();
+    }, 15000);
+  });
+
+  track = tryOnce();
+  if (track) {
+    return { track, video: findArVideo() };
+  }
+
+  for (let i = 0; i < maxAttempts; i += 1) {
+    track = tryOnce();
+    if (track) {
+      return { track, video: findArVideo() };
+    }
+    await new Promise((resolve) => setTimeout(resolve, 250));
+  }
+
+  return { track: null, video: findArVideo() };
 };
 
-const setupZoomControl = async () => {
-  const track = await waitForVideoTrack();
-  if (!track || !zoomControls || !zoomSlider || !zoomNote) {
+/** @type {((this: HTMLInputElement, ev: Event) => void) | null} */
+let zoomInputHandler = null;
+
+const detachZoomHandler = () => {
+  if (zoomSlider && zoomInputHandler) {
+    zoomSlider.removeEventListener("input", zoomInputHandler);
+  }
+  zoomInputHandler = null;
+};
+
+const setupZoomForTrack = (track) => {
+  detachZoomHandler();
+  if (!zoomSlider || !zoomNote) {
     return;
   }
 
   const capabilities = getTrackCapabilities(track);
+
   if (!capabilities?.zoom) {
     zoomNote.textContent =
-      "This device/browser does not expose camera zoom controls.";
-    zoomControls.hidden = false;
+      "Zoom: not available on this browser (common on iOS Safari).";
     zoomSlider.disabled = true;
+    zoomSlider.min = "1";
+    zoomSlider.max = "1";
+    zoomSlider.step = "0.1";
+    zoomSlider.value = "1";
     return;
   }
 
@@ -62,26 +123,150 @@ const setupZoomControl = async () => {
   zoomSlider.max = String(max);
   zoomSlider.step = String(step);
   zoomSlider.value = String(min);
+  zoomSlider.disabled = false;
 
   const applyZoom = async (value) => {
     try {
       await track.applyConstraints({
         advanced: [{ zoom: value }],
       });
-      zoomNote.textContent = `Zoom: ${value.toFixed(1)}x`;
+      zoomNote.textContent = `Zoom: ${Number(value).toFixed(1)}x`;
     } catch {
       zoomNote.textContent =
-        "Zoom change blocked by browser. Try Chrome on Android.";
+        "Zoom blocked by browser. Try Chrome on Android, or move closer.";
     }
   };
 
-  zoomSlider.addEventListener("input", () => {
+  zoomInputHandler = () => {
     const value = Number(zoomSlider.value);
     void applyZoom(value);
-  });
+  };
+  zoomSlider.addEventListener("input", zoomInputHandler);
 
-  zoomControls.hidden = false;
-  zoomNote.textContent = "Rear camera preferred. Adjust zoom if tracking is unstable.";
+  zoomNote.textContent =
+    "Rear camera preferred. Adjust zoom if the marker looks blurry.";
+};
+
+const populateCameraSelect = async (currentDeviceId) => {
+  if (!cameraSelect) {
+    return;
+  }
+
+  cameraSelect.innerHTML = "";
+
+  if (!navigator.mediaDevices?.enumerateDevices) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "Camera list not supported";
+    cameraSelect.appendChild(option);
+    cameraSelect.disabled = true;
+    return;
+  }
+
+  const devices = await navigator.mediaDevices.enumerateDevices();
+  const videoInputs = devices.filter((device) => device.kind === "videoinput");
+
+  if (videoInputs.length === 0) {
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "No cameras found";
+    cameraSelect.appendChild(option);
+    cameraSelect.disabled = true;
+    return;
+  }
+
+  for (const device of videoInputs) {
+    const option = document.createElement("option");
+    option.value = device.deviceId;
+    const label =
+      device.label?.trim() ||
+      `Camera ${device.deviceId.slice(0, 6)}…`;
+    option.textContent = label;
+    if (device.deviceId === currentDeviceId) {
+      option.selected = true;
+    }
+    cameraSelect.appendChild(option);
+  }
+
+  cameraSelect.disabled = false;
+};
+
+const switchCamera = async (deviceId) => {
+  const video = findArVideo();
+  if (!video || !deviceId) {
+    return;
+  }
+
+  const oldStream = video.srcObject;
+  oldStream?.getTracks?.().forEach((t) => t.stop());
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { deviceId: { exact: deviceId } },
+      audio: false,
+    });
+    video.srcObject = stream;
+    localStorage.setItem(STORAGE_DEVICE_KEY, deviceId);
+    const track = stream.getVideoTracks()[0];
+    if (track) {
+      setupZoomForTrack(track);
+    }
+    zoomNote.textContent = "Switched camera.";
+  } catch {
+    zoomNote.textContent =
+      "Could not switch camera. Allow camera permission and try again.";
+  }
+};
+
+const setupCameraUi = async () => {
+  if (!zoomControls || !zoomSlider || !zoomNote) {
+    return;
+  }
+
+  zoomNote.textContent = "Waiting for AR camera stream…";
+  zoomSlider.disabled = true;
+
+  const { track, video } = await waitForVideoTrack();
+
+  if (!track || !video) {
+    zoomNote.textContent =
+      "No camera video found. Allow camera access, then refresh this page.";
+    if (cameraSelect) {
+      cameraSelect.innerHTML = "";
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = "Unavailable";
+      cameraSelect.appendChild(option);
+      cameraSelect.disabled = true;
+    }
+    return;
+  }
+
+  const settings = track.getSettings?.() ?? {};
+  const currentId = settings.deviceId ?? "";
+
+  await populateCameraSelect(currentId);
+
+  if (cameraSelect && !cameraSelect.disabled) {
+    cameraSelect.addEventListener("change", () => {
+      const nextId = cameraSelect.value;
+      if (nextId) {
+        void switchCamera(nextId);
+      }
+    });
+
+    const preferred = localStorage.getItem(STORAGE_DEVICE_KEY);
+    if (
+      preferred &&
+      preferred !== currentId &&
+      [...cameraSelect.options].some((o) => o.value === preferred)
+    ) {
+      cameraSelect.value = preferred;
+      await switchCamera(preferred);
+    }
+  }
+
+  setupZoomForTrack(track);
 };
 
 const createBar = (point, index, maxValue) => {
@@ -155,4 +340,4 @@ buildChart().catch(() => {
   );
 });
 
-void setupZoomControl();
+void setupCameraUi();
