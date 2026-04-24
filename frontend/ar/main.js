@@ -1,3 +1,6 @@
+import "aframe";
+import "@ar-js-org/ar.js";
+
 const statusNode = document.getElementById("status");
 const marker = document.getElementById("chart-marker");
 const cameraPanel = document.getElementById("camera-panel");
@@ -16,6 +19,43 @@ const setStatus = (message) => {
     statusNode.innerHTML = message;
   }
 };
+
+const reportBootError = () => {
+  window.addEventListener("error", (event) => {
+    const message = event.message || "Script error";
+    setStatus(
+      `<strong>Runtime error.</strong> ${message} Use HTTPS and allow the camera.`,
+    );
+  });
+  window.addEventListener("unhandledrejection", (event) => {
+    const reason =
+      event.reason instanceof Error
+        ? event.reason.message
+        : String(event.reason);
+    setStatus(`<strong>Async error.</strong> ${reason}`);
+  });
+};
+
+const ensureArVideoPlaysOnMobile = () => {
+  const apply = () => {
+    for (const video of document.querySelectorAll("#ar-viewport video")) {
+      video.muted = true;
+      video.setAttribute("playsinline", "");
+      video.setAttribute("webkit-playsinline", "");
+      void video.play().catch(() => {});
+    }
+  };
+  const scene = document.querySelector("a-scene");
+  if (scene) {
+    scene.addEventListener("loaded", apply, { once: true });
+  }
+  apply();
+  setTimeout(apply, 800);
+  setTimeout(apply, 2500);
+};
+
+reportBootError();
+ensureArVideoPlaysOnMobile();
 
 const syncCameraPanel = (isOpen) => {
   if (!cameraPanel || !cameraToggle) {
