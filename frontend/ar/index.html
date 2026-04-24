@@ -15,14 +15,25 @@
 
       #status {
         position: fixed;
-        top: 12px;
+        top: max(12px, env(safe-area-inset-top));
         left: 12px;
         right: 12px;
         z-index: 999;
-        padding: 10px 12px;
-        border-radius: 10px;
+        padding: 12px 14px;
+        border-radius: 12px;
         background: rgba(17, 24, 39, 0.88);
         color: #e5e7eb;
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+
+      @media (max-width: 480px) {
+        #status {
+          left: 8px;
+          right: 8px;
+          padding: 10px 12px;
+          font-size: 0.9rem;
+        }
       }
 
       #status strong {
