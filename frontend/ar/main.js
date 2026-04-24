@@ -1,6 +1,8 @@
 const statusNode = document.getElementById("status");
 const marker = document.getElementById("chart-marker");
-const zoomControls = document.getElementById("camera-controls");
+const cameraPanel = document.getElementById("camera-panel");
+const cameraToggle = document.getElementById("camera-toggle");
+const refreshCamerasBtn = document.getElementById("refresh-cameras");
 const zoomSlider = document.getElementById("zoom-slider");
 const zoomNote = document.getElementById("zoom-note");
 const cameraSelect = document.getElementById("camera-select");
@@ -14,6 +16,21 @@ const setStatus = (message) => {
     statusNode.innerHTML = message;
   }
 };
+
+const syncCameraPanel = (isOpen) => {
+  if (!cameraPanel || !cameraToggle) {
+    return;
+  }
+  cameraPanel.setAttribute("aria-hidden", isOpen ? "false" : "true");
+  cameraToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+};
+
+if (cameraToggle && cameraPanel) {
+  cameraToggle.addEventListener("click", () => {
+    const isHidden = cameraPanel.getAttribute("aria-hidden") === "true";
+    syncCameraPanel(!isHidden);
+  });
+}
 
 const findArVideo = () => {
   const scene = document.querySelector("a-scene");
@@ -106,7 +123,7 @@ const setupZoomForTrack = (track) => {
 
   if (!capabilities?.zoom) {
     zoomNote.textContent =
-      "Zoom: not available on this browser (common on iOS Safari).";
+      "Zoom: not available in this browser (common on iOS Safari).";
     zoomSlider.disabled = true;
     zoomSlider.min = "1";
     zoomSlider.max = "1";
@@ -133,7 +150,7 @@ const setupZoomForTrack = (track) => {
       zoomNote.textContent = `Zoom: ${Number(value).toFixed(1)}x`;
     } catch {
       zoomNote.textContent =
-        "Zoom blocked by browser. Try Chrome on Android, or move closer.";
+        "Zoom blocked by the browser. Try Chrome on Android or move closer.";
     }
   };
 
@@ -144,8 +161,13 @@ const setupZoomForTrack = (track) => {
   zoomSlider.addEventListener("input", zoomInputHandler);
 
   zoomNote.textContent =
-    "Rear camera preferred. Adjust zoom if the marker looks blurry.";
+    "Rear camera preferred. Adjust zoom if the marker looks soft.";
 };
+
+const getVideoInputs = () =>
+  navigator.mediaDevices
+    .enumerateDevices()
+    .then((devices) => devices.filter((d) => d.kind === "videoinput"));
 
 const populateCameraSelect = async (currentDeviceId) => {
   if (!cameraSelect) {
@@ -157,14 +179,13 @@ const populateCameraSelect = async (currentDeviceId) => {
   if (!navigator.mediaDevices?.enumerateDevices) {
     const option = document.createElement("option");
     option.value = "";
-    option.textContent = "Camera list not supported";
+    option.textContent = "Camera list is not supported here";
     cameraSelect.appendChild(option);
     cameraSelect.disabled = true;
     return;
   }
 
-  const devices = await navigator.mediaDevices.enumerateDevices();
-  const videoInputs = devices.filter((device) => device.kind === "videoinput");
+  const videoInputs = await getVideoInputs();
 
   if (videoInputs.length === 0) {
     const option = document.createElement("option");
@@ -178,9 +199,7 @@ const populateCameraSelect = async (currentDeviceId) => {
   for (const device of videoInputs) {
     const option = document.createElement("option");
     option.value = device.deviceId;
-    const label =
-      device.label?.trim() ||
-      `Camera ${device.deviceId.slice(0, 6)}…`;
+    const label = device.label?.trim() || `Camera ${device.deviceId.slice(0, 6)}…`;
     option.textContent = label;
     if (device.deviceId === currentDeviceId) {
       option.selected = true;
@@ -189,6 +208,20 @@ const populateCameraSelect = async (currentDeviceId) => {
   }
 
   cameraSelect.disabled = false;
+};
+
+const requestStreamForDevice = async (deviceId) => {
+  try {
+    return await navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: { deviceId: { exact: deviceId } },
+    });
+  } catch {
+    return navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: { deviceId: { ideal: deviceId } },
+    });
+  }
 };
 
 const switchCamera = async (deviceId) => {
@@ -201,36 +234,53 @@ const switchCamera = async (deviceId) => {
   oldStream?.getTracks?.().forEach((t) => t.stop());
 
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: { deviceId: { exact: deviceId } },
-      audio: false,
-    });
+    const stream = await requestStreamForDevice(deviceId);
     video.srcObject = stream;
     localStorage.setItem(STORAGE_DEVICE_KEY, deviceId);
     const track = stream.getVideoTracks()[0];
     if (track) {
       setupZoomForTrack(track);
     }
-    zoomNote.textContent = "Switched camera.";
+    if (zoomNote) {
+      zoomNote.textContent = "Switched camera.";
+    }
+    const settings = track?.getSettings?.() ?? {};
+    await populateCameraSelect(settings.deviceId ?? deviceId);
   } catch {
-    zoomNote.textContent =
-      "Could not switch camera. Allow camera permission and try again.";
+    if (zoomNote) {
+      zoomNote.textContent =
+        "Could not switch camera. Check permission and try again.";
+    }
   }
 };
 
+const setupCameraChangeHandler = () => {
+  if (!cameraSelect || cameraSelect.dataset.bound === "1") {
+    return;
+  }
+  cameraSelect.dataset.bound = "1";
+  cameraSelect.addEventListener("change", () => {
+    const nextId = cameraSelect.value;
+    if (nextId) {
+      void switchCamera(nextId);
+    }
+  });
+};
+
 const setupCameraUi = async () => {
-  if (!zoomControls || !zoomSlider || !zoomNote) {
+  if (!zoomSlider || !zoomNote) {
     return;
   }
 
-  zoomNote.textContent = "Waiting for AR camera stream…";
+  syncCameraPanel(true);
+  zoomNote.textContent = "Waiting for the AR camera stream…";
   zoomSlider.disabled = true;
 
   const { track, video } = await waitForVideoTrack();
 
   if (!track || !video) {
     zoomNote.textContent =
-      "No camera video found. Allow camera access, then refresh this page.";
+      "No camera video from AR yet. Allow camera, then refresh the page.";
     if (cameraSelect) {
       cameraSelect.innerHTML = "";
       const option = document.createElement("option");
@@ -246,27 +296,31 @@ const setupCameraUi = async () => {
   const currentId = settings.deviceId ?? "";
 
   await populateCameraSelect(currentId);
+  setupCameraChangeHandler();
 
-  if (cameraSelect && !cameraSelect.disabled) {
-    cameraSelect.addEventListener("change", () => {
-      const nextId = cameraSelect.value;
-      if (nextId) {
-        void switchCamera(nextId);
-      }
+  if (refreshCamerasBtn && refreshCamerasBtn.dataset.bound !== "1") {
+    refreshCamerasBtn.dataset.bound = "1";
+    refreshCamerasBtn.addEventListener("click", async () => {
+      const video = findArVideo();
+      const activeId =
+        video?.srcObject?.getVideoTracks?.()[0]?.getSettings?.().deviceId ??
+        currentId;
+      await populateCameraSelect(activeId);
     });
-
-    const preferred = localStorage.getItem(STORAGE_DEVICE_KEY);
-    if (
-      preferred &&
-      preferred !== currentId &&
-      [...cameraSelect.options].some((o) => o.value === preferred)
-    ) {
-      cameraSelect.value = preferred;
-      await switchCamera(preferred);
-    }
   }
 
-  setupZoomForTrack(track);
+  const preferred = localStorage.getItem(STORAGE_DEVICE_KEY);
+  if (
+    preferred &&
+    preferred !== currentId &&
+    cameraSelect &&
+    [...cameraSelect.options].some((o) => o.value === preferred)
+  ) {
+    cameraSelect.value = preferred;
+    await switchCamera(preferred);
+  } else {
+    setupZoomForTrack(track);
+  }
 };
 
 const createBar = (point, index, maxValue) => {
@@ -330,13 +384,13 @@ marker?.addEventListener("markerFound", () => {
 
 marker?.addEventListener("markerLost", () => {
   setStatus(
-    "<strong>Marker lost.</strong> Re-center camera on Hiro marker for stable tracking.",
+    "<strong>Marker lost.</strong> Re-center the camera on the Hiro marker.",
   );
 });
 
 buildChart().catch(() => {
   setStatus(
-    "<strong>Unable to load chart data.</strong> Refresh page and check connection.",
+    "<strong>Unable to load chart data.</strong> Refresh and check the connection.",
   );
 });
 
