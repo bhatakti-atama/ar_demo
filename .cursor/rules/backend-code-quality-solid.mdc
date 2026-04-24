@@ -1,0 +1,70 @@
+---
+description: Backend code quality and SOLID engineering standards
+globs: backend/**/*.{ts,js,py,go,java}
+alwaysApply: false
+---
+
+# Backend Code Quality + SOLID
+
+Design predictable services: clear boundaries, explicit contracts, safe failures, and testable logic.
+
+## Core Rules
+
+- Single responsibility per module (router, service, repository, mapper should stay separate).
+- Depend on abstractions/interfaces; inject collaborators instead of hard-coding implementations.
+- Keep controllers/handlers thin; business rules live in domain/service layer.
+- Use composition and small units over monolithic utility files.
+- Keep public service contracts explicit and stable (DTOs/schemas/types).
+
+## API and Data Integrity
+
+- Validate and sanitize all external input at boundaries.
+- Enforce authn/authz checks at endpoint/service boundaries.
+- Use explicit, consistent error mapping (domain -> HTTP/status/error code).
+- Never trust client-provided identifiers, roles, or computed totals.
+- Keep persistence logic out of handlers; isolate in repositories/data-access layer.
+
+## Reliability and Observability
+
+- Fail loudly with structured logs; do not swallow exceptions.
+- Include correlation/request IDs in logs when available.
+- Use retries/timeouts/circuit-breaker patterns for unstable downstream calls.
+- Make side effects idempotent where practical (especially write endpoints/jobs).
+
+## Maintainability and Testing
+
+- Prefer pure functions for domain logic to simplify testing.
+- Add/adjust tests for success, failure, and edge cases when behavior changes.
+- Remove dead code and unused endpoints/exports.
+- Keep modules cohesive; split files when responsibility grows.
+
+## Quick Examples
+
+```typescript
+// BAD: handler contains validation + business logic + persistence
+app.post("/orders", async (req, res) => {
+  // mixed responsibilities and weak boundaries
+});
+
+// GOOD: handler delegates; service coordinates domain logic
+app.post("/orders", async (req, res) => {
+  const input = validateCreateOrder(req.body);
+  const result = await orderService.create(input);
+  res.status(201).json(result);
+});
+```
+
+```typescript
+// BAD: swallowed exception
+try {
+  await repository.save(entity);
+} catch (e) {}
+
+// GOOD: structured log + mapped domain error
+try {
+  await repository.save(entity);
+} catch (e) {
+  logger.error("Order save failed", { error: e, orderId: entity.id });
+  throw new PersistenceError("Could not persist order", { cause: e });
+}
+```

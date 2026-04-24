@@ -1,0 +1,62 @@
+---
+description: Frontend code quality and SOLID engineering standards
+globs: frontend/**/*.{ts,tsx,js,jsx}
+alwaysApply: false
+---
+
+# Frontend Code Quality + SOLID
+
+Build small, testable, maintainable units. Optimize for readability and safe change.
+
+## Core Rules
+
+- Single responsibility per module/component; split files that do too many things.
+- Depend on abstractions (interfaces/types/hooks), not concrete implementations.
+- Keep UI components presentational when possible; move side effects and data access to hooks/services.
+- Functions should be short, intention-revealing, and avoid hidden side effects.
+- Prefer composition over deep inheritance or rigid base classes.
+- Keep public APIs stable and minimal; avoid exposing internals.
+
+## Reliability Standards
+
+- Validate external input (URL params, API payloads, form values) before use.
+- Handle async failures explicitly; never swallow errors.
+- Return typed/domain-safe values instead of raw loosely-shaped objects.
+- Add/keep tests for business logic and edge/error paths when behavior changes.
+
+## Maintainability Standards
+
+- Use descriptive naming for files, symbols, and props.
+- Remove dead code, commented-out logic, and unused exports.
+- Avoid large conditional trees; extract strategy/helpers when branching grows.
+- Keep files cohesive; if a file exceeds reasonable size, split by responsibility.
+
+## Quick Examples
+
+```typescript
+// BAD: component fetches, transforms, and renders all in one place
+export function RevenueChart() {
+  // network + business logic + rendering in same unit
+}
+
+// GOOD: data logic in hook/service, component focuses on rendering
+export function RevenueChart() {
+  const { series, isLoading, error } = useRevenueSeries();
+  return <ChartView series={series} isLoading={isLoading} error={error} />;
+}
+```
+
+```typescript
+// BAD: swallowed error
+try {
+  await saveSettings(payload);
+} catch (e) {}
+
+// GOOD: explicit handling + propagation
+try {
+  await saveSettings(payload);
+} catch (e) {
+  logger.error("saveSettings failed", { error: e });
+  throw e;
+}
+```
