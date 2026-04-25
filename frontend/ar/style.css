@@ -1,0 +1,249 @@
+/**
+ * Phase 1: AR view + transparent UI overlay (plan.md).
+ * AR.js injects video; A-Frame owns the canvas — both fill the viewport.
+ */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  min-height: 100dvh;
+  min-height: 100svh;
+  overflow: hidden;
+  font-family: Inter, system-ui, sans-serif;
+  height: 100%;
+  /* Letterboxing only; the feed must not sit behind an opaque full-screen div */
+  background: #000;
+}
+
+/**
+ * Stacking: AR.js injects <video> (often under <body>). The WebGL canvas must sit
+ * on top with alpha, and #ar-viewport must NOT be opaque — otherwise "transparent"
+ * canvas pixels composite against #000 and you never see the camera (black screen).
+ */
+#ar-viewport {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 100svh;
+  background: transparent;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+#ar-viewport a-scene {
+  display: block;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* Camera video: bottom of #ar stack (injected or reparented). */
+#ar-viewport > video,
+body > video#arjs-video,
+video#arjs-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+#ar-viewport .a-canvas,
+#ar-viewport canvas {
+  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+#ar-scene [class*="enter-vr"] {
+  display: none !important;
+}
+
+/**
+ * Plan Prompt C: fixed bottom overlay for controls (zoom / device list).
+ * z-index above typical AR.js layers.
+ */
+.ar-ui-overlay {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: max(70px, calc(12px + env(safe-area-inset-bottom)));
+  z-index: 10000;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(17, 24, 39, 0.95);
+  color: #e5e7eb;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  max-height: 50vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ar-ui-overlay[aria-hidden="true"] {
+  display: none;
+}
+
+.ar-ui-overlay label {
+  display: block;
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+}
+
+#ar-hud {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  pointer-events: none;
+}
+
+#ar-hud .hud-interactive {
+  pointer-events: auto;
+}
+
+#status {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top));
+  left: 12px;
+  right: 12px;
+  z-index: 1;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(17, 24, 39, 0.9);
+  color: #e5e7eb;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+#status strong {
+  color: #93c5fd;
+}
+
+#camera-toggle {
+  position: fixed;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 2;
+  min-height: 48px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid #475569;
+  background: #1e293b;
+  color: #e2e8f0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+#camera-select {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 0.55rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #475569;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+#refresh-cameras {
+  width: 100%;
+  margin-bottom: 0.75rem;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #0b1220;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+}
+
+#zoom-slider {
+  width: 100%;
+  touch-action: manipulation;
+}
+
+#zoom-note {
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: #93c5fd;
+}
+
+.hud-button-primary {
+  width: 100%;
+  min-height: 48px;
+  margin-bottom: 0.5rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid #2563eb;
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hud-hint {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: #94a3b8;
+}
+
+.debug-wrap {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.debug-wrap summary {
+  cursor: pointer;
+  color: #93c5fd;
+  user-select: none;
+}
+
+.app-debug-log {
+  margin: 0.5rem 0 0;
+  max-height: 14rem;
+  overflow: auto;
+  padding: 0.5rem;
+  background: #020617;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 0.65rem;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+#start-camera {
+  position: relative;
+  z-index: 3;
+}
+
+@media (max-width: 480px) {
+  #status {
+    left: 8px;
+    right: 8px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .ar-ui-overlay {
+    left: 8px;
+    right: 8px;
+  }
+}

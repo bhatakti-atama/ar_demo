@@ -2,204 +2,48 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Phase 1 (plan): mobile viewport, no UI zoom fighting the camera -->
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
     />
-    <!-- Allow camera in embedded WebViews / strict mobile policies -->
-    <meta http-equiv="Permissions-Policy" content="camera=(self)" />
-    <title>AR Charts Viewer</title>
-    <style>
-      /**
-       * Full-screen camera viewport: AR video + WebGL fit the device. HUD stays in a
-       * sibling layer *after* the viewport so it paints above the canvas.
-       */
-      html,
-      body {
-        margin: 0;
-        width: 100%;
-        min-height: 100%;
-        min-height: 100dvh;
-        min-height: 100svh;
-        overflow: hidden;
-        font-family: Inter, system-ui, sans-serif;
-        /* Mobile: stable layout; avoid iOS 100vh jump when URL bar shows/hides */
-        height: 100%;
-      }
-
-      #ar-viewport {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        width: 100%;
-        height: 100%;
-        min-height: 100svh;
-        background: #000;
-        overflow: hidden;
-      }
-
-      #ar-viewport a-scene {
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-
-      /* AR.js camera + A-Frame canvas: fill the viewport (camera-app style) */
-      #ar-viewport video {
-        object-fit: cover;
-        width: 100% !important;
-        height: 100% !important;
-        min-width: 100%;
-        min-height: 100%;
-      }
-
-      #ar-viewport .a-canvas,
-      #ar-viewport canvas {
-        width: 100% !important;
-        height: 100% !important;
-        max-width: 100% !important;
-        max-height: 100% !important;
-        display: block;
-      }
-
-      #ar-hud {
-        position: fixed;
-        inset: 0;
-        z-index: 100000;
-        pointer-events: none;
-      }
-
-      #ar-hud .hud-interactive {
-        pointer-events: auto;
-      }
-
-      #status {
-        position: fixed;
-        top: max(12px, env(safe-area-inset-top));
-        left: 12px;
-        right: 12px;
-        z-index: 1;
-        padding: 12px 14px;
-        border-radius: 12px;
-        background: rgba(17, 24, 39, 0.9);
-        color: #e5e7eb;
-        font-size: 0.95rem;
-        line-height: 1.4;
-        border: 1px solid rgba(148, 163, 184, 0.35);
-      }
-
-      #status strong {
-        color: #93c5fd;
-      }
-
-      #camera-toggle {
-        position: fixed;
-        right: max(12px, env(safe-area-inset-right));
-        bottom: max(12px, env(safe-area-inset-bottom));
-        z-index: 2;
-        min-height: 48px;
-        padding: 0 16px;
-        border-radius: 999px;
-        border: 1px solid #475569;
-        background: #1e293b;
-        color: #e2e8f0;
-        font-size: 0.95rem;
-        font-weight: 600;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-      }
-
-      #camera-panel {
-        position: fixed;
-        left: 12px;
-        right: 12px;
-        bottom: max(70px, calc(12px + env(safe-area-inset-bottom)));
-        z-index: 2;
-        padding: 10px 12px;
-        border-radius: 12px;
-        background: rgba(17, 24, 39, 0.95);
-        color: #e5e7eb;
-        border: 1px solid rgba(148, 163, 184, 0.35);
-        max-height: 50vh;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      #camera-panel[aria-hidden="true"] {
-        display: none;
-      }
-
-      #camera-panel label {
-        display: block;
-        font-size: 0.85rem;
-        margin-bottom: 0.35rem;
-      }
-
-      #camera-select {
-        width: 100%;
-        margin-bottom: 0.5rem;
-        padding: 0.55rem 0.5rem;
-        border-radius: 8px;
-        border: 1px solid #475569;
-        background: #0f172a;
-        color: #e2e8f0;
-        font-size: 0.9rem;
-      }
-
-      #refresh-cameras {
-        width: 100%;
-        margin-bottom: 0.75rem;
-        min-height: 44px;
-        border-radius: 8px;
-        border: 1px solid #334155;
-        background: #0b1220;
-        color: #e2e8f0;
-        font-size: 0.9rem;
-      }
-
-      #zoom-slider {
-        width: 100%;
-        touch-action: manipulation;
-      }
-
-      #zoom-note {
-        margin-top: 0.35rem;
-        font-size: 0.8rem;
-        color: #93c5fd;
-      }
-
-      @media (max-width: 480px) {
-        #status {
-          left: 8px;
-          right: 8px;
-          padding: 10px 12px;
-          font-size: 0.9rem;
-        }
-
-        #camera-panel {
-          left: 8px;
-          right: 8px;
-        }
-      }
-    </style>
+    <title>AR Charts — Phase 1 scaffold</title>
+    <link rel="stylesheet" href="./style.css" />
+    <!-- CDN: single global THREE for A-Frame + AR.js (per plan.md) -->
+    <script src="https://cdn.jsdelivr.net/npm/aframe@1.7.0/dist/aframe.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@ar-js-org/ar.js@3.4.8/aframe/build/aframe-ar.js"
+    ></script>
   </head>
   <body>
-    <div id="ar-viewport" class="ar-viewport">
+    <div id="ar-viewport" class="ar-viewport" aria-label="AR view">
       <a-scene
         id="ar-scene"
         embedded
         vr-mode-ui="enabled: false"
-        renderer="logarithmicDepthBuffer: true; precision: medium;"
-        arjs="trackingMethod: best; sourceType: webcam; facingMode: environment; videoTexture: true; debugUIEnabled: false;"
+        background="color: #000000; transparent: true"
+        renderer="logarithmicDepthBuffer: true; precision: medium; antialias: true; alpha: true;"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false"
       >
-        <a-marker preset="hiro" id="chart-marker"></a-marker>
-        <a-entity camera></a-entity>
+        <a-marker id="hiro-marker" preset="hiro">
+          <a-box
+            id="phase1-box"
+            position="0 0.5 0"
+            color="#ffffff"
+            height="0.4"
+            width="0.4"
+            depth="0.4"
+          ></a-box>
+        </a-marker>
+        <a-entity id="ar-default-camera" camera></a-entity>
       </a-scene>
     </div>
 
     <div id="ar-hud">
       <div id="status" class="hud-interactive">
-        <strong>Waiting for marker…</strong> Allow camera access and point at a Hiro
-        marker. Tap <em>Camera</em> (bottom-right) to pick lens or zoom.
+        <strong>Phase 1 — A-Frame + AR.js</strong> Allow camera, point at a
+        <strong>Hiro</strong> marker. You should see a white box when tracking.
+        <em>Controls</em> (bottom) — open with <em>Controls</em> button.
       </div>
       <button
         type="button"
@@ -207,16 +51,24 @@
         class="hud-interactive"
         aria-controls="camera-panel"
         aria-expanded="true"
+        aria-label="Toggle controls panel"
       >
-        Camera
+        Controls
       </button>
       <div
         id="camera-panel"
-        class="hud-interactive"
+        class="ar-ui-overlay hud-interactive"
         role="region"
-        aria-label="Camera settings"
+        aria-label="Device and debug"
         aria-hidden="false"
       >
+        <button type="button" id="start-camera" class="hud-button-primary">
+          Nudge camera / play
+        </button>
+        <p id="start-camera-hint" class="hud-hint">
+          AR.js requests the camera when the scene loads. This button nudges
+          <code>video.play()</code> and re-runs device detection (useful on mobile if the feed stays black).
+        </p>
         <label for="camera-select">Camera</label>
         <select id="camera-select" aria-label="Choose camera"></select>
         <button type="button" id="refresh-cameras">Refresh camera list</button>
@@ -229,10 +81,14 @@
           step="0.1"
           value="1"
         />
-        <div id="zoom-note">Open panel after the camera stream starts…</div>
+        <div id="zoom-note">AR video track status.</div>
+        <details id="debug-wrap" class="debug-wrap" open>
+          <summary>Debug log (verbose, copy for issues)</summary>
+          <pre id="app-debug-log" class="app-debug-log" aria-live="polite"></pre>
+        </details>
       </div>
     </div>
 
-    <script type="module" src="./main.js"></script>
+    <script type="module" src="./app.js"></script>
   </body>
 </html>

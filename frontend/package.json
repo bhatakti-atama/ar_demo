@@ -21,8 +21,6 @@
     "vite": "^8.0.10"
   },
   "dependencies": {
-    "@ar-js-org/ar.js": "^3.4.8",
-    "aframe": "^1.7.1",
     "qrcode": "^1.5.4"
   }
 }
