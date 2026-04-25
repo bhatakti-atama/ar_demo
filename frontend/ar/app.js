@@ -10,18 +10,27 @@ const MAX_DEBUG_LOG_LINES = 220;
 const STORAGE_DEVICE_KEY = "ar-charts-preferred-camera-device-id";
 const PERMISSIONS_QUERY_TIMEOUT_MS = 2000;
 
-const statusNode = document.getElementById("status");
 const markerEl = document.getElementById("hiro-marker");
 const boxEl = document.getElementById("phase1-box");
-const cameraPanel = document.getElementById("camera-panel");
-const cameraToggle = document.getElementById("camera-toggle");
+const settingsDrawer = document.getElementById("settings-drawer");
+const settingsGear = document.getElementById("settings-gear");
+const drawerClose = document.getElementById("drawer-close");
 const refreshCamerasBtn = document.getElementById("refresh-cameras");
 const zoomSlider = document.getElementById("zoom-slider");
 const zoomNote = document.getElementById("zoom-note");
 const cameraSelect = document.getElementById("camera-select");
-const startCameraBtn = document.getElementById("start-camera");
+const splashScreen = document.getElementById("splash-screen");
+const splashStart = document.getElementById("splash-start");
+const crosshair = document.getElementById("crosshair");
+const crosshairLabel = document.getElementById("crosshair-label");
+const hudHeader = document.getElementById("hud-header");
+const signalBarInner = document.getElementById("signal-bar-inner");
 const arViewport = document.getElementById("ar-viewport");
 const arScene = document.getElementById("ar-scene");
+
+let firstMarkerLock = true;
+let signalJitterId = 0;
+let toastHideTimer = 0;
 
 /** @type {string[]} */
 const logBuffer = [];
@@ -61,10 +70,106 @@ const debugLog = (tag, ...parts) => {
   }
 };
 
-const setStatus = (message) => {
-  if (statusNode) {
-    statusNode.innerHTML = message;
+const showToast = (message, durationMs = 3200) => {
+  const el = document.getElementById("hud-toast");
+  if (!el) {
+    return;
   }
+  el.textContent = message;
+  el.removeAttribute("hidden");
+  el.classList.add("hud-toast--show");
+  if (toastHideTimer) {
+    clearTimeout(toastHideTimer);
+  }
+  toastHideTimer = window.setTimeout(() => {
+    el.classList.remove("hud-toast--show");
+    el.setAttribute("hidden", "true");
+  }, durationMs);
+};
+
+const setCrosshairScanning = () => {
+  if (!crosshair) {
+    return;
+  }
+  crosshair.classList.remove("locked");
+  crosshair.classList.add("scanning");
+  if (crosshairLabel) {
+    crosshairLabel.textContent = "SEARCH";
+  }
+  if (signalBarInner) {
+    signalBarInner.dataset.lock = "0";
+  }
+};
+
+const setCrosshairLocked = () => {
+  if (!crosshair) {
+    return;
+  }
+  crosshair.classList.remove("scanning");
+  crosshair.classList.add("locked");
+  if (crosshairLabel) {
+    crosshairLabel.textContent = "LOCK-ON";
+  }
+  if (signalBarInner) {
+    signalBarInner.dataset.lock = "1";
+    signalBarInner.style.width = "100%";
+  }
+};
+
+const startSignalJitter = () => {
+  if (signalJitterId || !signalBarInner) {
+    return;
+  }
+  signalJitterId = window.setInterval(() => {
+    if (signalBarInner.dataset.lock === "1") {
+      return;
+    }
+    const pct = 22 + Math.random() * 68;
+    signalBarInner.style.width = `${pct.toFixed(0)}%`;
+  }, 450);
+  debugLog("P1:hud:signalJitter", "started");
+};
+
+const stopSignalJitter = () => {
+  if (signalJitterId) {
+    clearInterval(signalJitterId);
+    signalJitterId = 0;
+  }
+};
+
+const runHeaderGlitch = () => {
+  if (!hudHeader) {
+    return;
+  }
+  hudHeader.classList.add("glitch-active");
+  setTimeout(() => {
+    hudHeader.classList.remove("glitch-active");
+  }, 220);
+};
+
+const dismissSplash = () => {
+  if (!splashScreen) {
+    return;
+  }
+  splashScreen.classList.add("splash--dismissed");
+  splashScreen.setAttribute("aria-hidden", "true");
+  debugLog("P1:hud:splash", "dismissed");
+};
+
+const onStartMission = async () => {
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (typeof AC === "function") {
+      const ctx = new AC();
+      await ctx.resume();
+      debugLog("P1:hud:audioContext", { state: ctx.state });
+    }
+  } catch (e) {
+    debugLog("P1:hud:audioContext:skip", e instanceof Error ? e.message : e);
+  }
+  dismissSplash();
+  showToast("Sensors online. Point camera at Hiro target.", 4500);
+  await onNudgeOrManualCamera();
 };
 
 const safeJson = (o) => {
@@ -461,9 +566,7 @@ const withTimeout = (promise, ms, label) => {
 const applyInitialPermissionHints = async () => {
   if (!isSecureCameraContext()) {
     debugLog("P1:perm:unsafe", "Not a safe context for camera (need HTTPS or localhost).");
-    setStatus(
-      "<strong>Not a secure context.</strong> Use HTTPS, or in dev <code>localhost</code> / <code>127.0.0.1</code> only.",
-    );
+    showToast("Unsafe context: use HTTPS or localhost.", 6000);
     return;
   }
   try {
@@ -573,7 +676,7 @@ const populateCameraSelect = async (currentDeviceId) => {
   if (cameraSelect.options.length === 0) {
     const option = document.createElement("option");
     option.value = "";
-    option.textContent = "No IDs yet — use Nudge, then refresh";
+    option.textContent = "No IDs yet — START SCAN, then refresh";
     cameraSelect.appendChild(option);
     cameraSelect.disabled = true;
     return;
@@ -641,24 +744,30 @@ const applyStreamToTargetVideo = async (stream) => {
     await populateCameraSelect(settings.deviceId ?? "");
     setupZoomForTrack(track);
   }
-  setStatus("<strong>Manual stream</strong> attached to preview element (AR may also have its own video).");
+  showToast("Manual stream attached to preview (check drawer if AR conflicts).", 4000);
   debugLog("P1:cam:applyStream:done", { toId: video.id });
 };
 
 // --- 8) Orchestration: scene, marker, nudge button ---
 
-const syncCameraPanel = (isOpen) => {
-  if (!cameraPanel || !cameraToggle) {
+const syncSettingsDrawer = (open) => {
+  if (!settingsDrawer || !settingsGear) {
     return;
   }
-  cameraPanel.setAttribute("aria-hidden", isOpen ? "false" : "true");
-  cameraToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  settingsDrawer.classList.toggle("drawer--open", open);
+  settingsDrawer.setAttribute("aria-hidden", open ? "false" : "true");
+  settingsGear.setAttribute("aria-expanded", open ? "true" : "false");
 };
 
-if (cameraToggle && cameraPanel) {
-  cameraToggle.addEventListener("click", () => {
-    const isHidden = cameraPanel.getAttribute("aria-hidden") === "true";
-    syncCameraPanel(!isHidden);
+if (settingsGear && settingsDrawer) {
+  settingsGear.addEventListener("click", () => {
+    const isOpen = settingsDrawer.classList.contains("drawer--open");
+    syncSettingsDrawer(!isOpen);
+  });
+}
+if (drawerClose && settingsDrawer) {
+  drawerClose.addEventListener("click", () => {
+    syncSettingsDrawer(false);
   });
 }
 
@@ -684,16 +793,13 @@ const onNudgeOrManualCamera = async () => {
     logTrackDetail(track);
     await populateCameraSelect(track.getSettings?.().deviceId ?? "");
     setupZoomForTrack(track);
-    setStatus("<strong>AR video track</strong> detected — zoom / device if supported.");
+    showToast("Video track live — use optical zoom in footer.", 4000);
     debugLog("P1:cam:nudge:ar-track-present");
     return;
   }
   if (!window.navigator.mediaDevices?.getUserMedia) {
     debugLog("P1:cam:nudge:no-gum");
     return;
-  }
-  if (startCameraBtn) {
-    startCameraBtn.textContent = "Requesting getUserMedia…";
   }
   try {
     const stream = await requestCameraStream();
@@ -704,9 +810,7 @@ const onNudgeOrManualCamera = async () => {
     if (zoomNote) {
       zoomNote.textContent = msg;
     }
-  }
-  if (startCameraBtn) {
-    startCameraBtn.textContent = "Nudge camera / play";
+    showToast(msg, 5000);
   }
 };
 
@@ -737,6 +841,7 @@ const wireLifecycle = () => {
     debugLog("P1:life:visibility", { state: document.visibilityState });
   });
   window.addEventListener("pagehide", () => {
+    stopSignalJitter();
     debugLog("P1:life:pagehide");
   });
   window.addEventListener("pageshow", (e) => {
@@ -772,7 +877,9 @@ reportBootError();
 wireLifecycle();
 watchVideoElements();
 void applyInitialPermissionHints();
-syncCameraPanel(true);
+syncSettingsDrawer(false);
+startSignalJitter();
+setCrosshairScanning();
 
 if (arScene) {
   arScene.addEventListener("loaded", () => {
@@ -802,17 +909,23 @@ if (markerEl) {
       timeMs: Math.round(performance.now() - BOOT_T0),
       box: boxEl ? "present" : "none",
     });
-    setStatus("<strong>Marker found.</strong> White box should align on the card.");
+    setCrosshairLocked();
+    showToast("DATA LINK ESTABLISHED", 4200);
+    if (firstMarkerLock) {
+      firstMarkerLock = false;
+      runHeaderGlitch();
+    }
   });
   markerEl.addEventListener("markerLost", () => {
     debugLog("P1:marker:lost");
-    setStatus("<strong>Marker lost.</strong> Re-center the Hiro target.");
+    setCrosshairScanning();
+    showToast("Target lost — reacquire Hiro.", 3200);
   });
 }
 
-if (startCameraBtn) {
-  startCameraBtn.addEventListener("click", () => {
-    void onNudgeOrManualCamera();
+if (splashStart) {
+  splashStart.addEventListener("click", () => {
+    void onStartMission();
   });
 }
 
@@ -886,10 +999,5 @@ setTimeout(() => {
   }
   logVideoList("2s-snapshot");
 }, 2000);
-
-setStatus(
-  "<strong>Phase 1</strong> — AR.js starts the camera when the scene loads. " +
-    "If the feed is black, open <em>Controls</em> and tap <em>Nudge camera / play</em>.",
-);
 
 debugLog("P1:boot:app-js:end", { ms: Math.round(performance.now() - BOOT_T0) });

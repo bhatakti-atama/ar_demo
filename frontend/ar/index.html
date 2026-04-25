@@ -2,14 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Phase 1 (plan): mobile viewport, no UI zoom fighting the camera -->
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
     />
-    <title>AR Charts — Phase 1 scaffold</title>
+    <title>HELIOS-V1 — Solar scan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./style.css" />
-    <!-- CDN: single global THREE for A-Frame + AR.js (per plan.md) -->
     <script src="https://cdn.jsdelivr.net/npm/aframe@1.7.0/dist/aframe.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/@ar-js-org/ar.js@3.4.8/aframe/build/aframe-ar.js"
@@ -39,54 +43,118 @@
       </a-scene>
     </div>
 
-    <div id="ar-hud">
-      <div id="status" class="hud-interactive">
-        <strong>Phase 1 — A-Frame + AR.js</strong> Allow camera, point at a
-        <strong>Hiro</strong> marker. You should see a white box when tracking.
-        <em>Controls</em> (bottom) — open with <em>Controls</em> button.
-      </div>
-      <button
-        type="button"
-        id="camera-toggle"
-        class="hud-interactive"
-        aria-controls="camera-panel"
-        aria-expanded="true"
-        aria-label="Toggle controls panel"
-      >
-        Controls
-      </button>
+    <!-- Subtle CRT scanlines over the feed (above AR, below HUD chrome) -->
+    <div id="scanline-overlay" class="scanline-overlay" aria-hidden="true"></div>
+
+    <div id="hud-root" class="hud-root">
+      <!-- A) Onboarding splash -->
       <div
-        id="camera-panel"
-        class="ar-ui-overlay hud-interactive"
-        role="region"
-        aria-label="Device and debug"
-        aria-hidden="false"
+        id="splash-screen"
+        class="splash-screen"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="splash-title"
       >
-        <button type="button" id="start-camera" class="hud-button-primary">
-          Nudge camera / play
+        <div class="splash-inner glass-panel">
+          <p class="splash-eyebrow">ORBITAL TELEMETRY UNIT</p>
+          <h1 id="splash-title" class="splash-title">Solar System Scan</h1>
+          <p class="splash-sub">Initialize sensors and align to Hiro target.</p>
+          <button type="button" id="splash-start" class="btn-mission">
+            START SCAN
+          </button>
+        </div>
+      </div>
+
+      <!-- B) Command header -->
+      <header class="hud-header glass-panel" id="hud-header">
+        <div class="hud-header-row">
+          <span class="hud-project">HELIOS-V1</span>
+          <span class="hud-sep">//</span>
+          <span class="hud-mission">SOLAR SCAN</span>
+        </div>
+        <div class="hud-live" title="Camera stream">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>LIVE FEED</span>
+        </div>
+      </header>
+
+      <!-- C) Targeting reticle -->
+      <div
+        id="crosshair"
+        class="crosshair scanning"
+        role="presentation"
+        aria-hidden="true"
+      >
+        <div class="crosshair-ring"></div>
+        <div class="crosshair-ticks" aria-hidden="true"></div>
+        <span id="crosshair-label" class="crosshair-label">SEARCH</span>
+      </div>
+
+      <!-- Toast / data link -->
+      <div id="hud-toast" class="hud-toast" role="status" aria-live="polite" hidden></div>
+
+      <!-- D) Interaction footer -->
+      <footer class="control-bar glass-panel" aria-label="Optical controls">
+        <div class="signal-gauge" title="Simulated signal strength">
+          <span class="signal-label">SIG</span>
+          <div class="signal-track">
+            <div id="signal-bar-inner" class="signal-fill"></div>
+          </div>
+        </div>
+        <div class="zoom-wrap">
+          <label for="zoom-slider" class="zoom-label">OPTICAL ZOOM</label>
+          <input
+            id="zoom-slider"
+            type="range"
+            min="1"
+            max="1"
+            step="0.1"
+            value="1"
+          />
+        </div>
+        <button
+          type="button"
+          id="settings-gear"
+          class="btn-gear"
+          aria-label="Open settings and debug"
+          aria-controls="settings-drawer"
+          aria-expanded="false"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+          </svg>
         </button>
-        <p id="start-camera-hint" class="hud-hint">
-          AR.js requests the camera when the scene loads. This button nudges
-          <code>video.play()</code> and re-runs device detection (useful on mobile if the feed stays black).
+      </footer>
+
+      <!-- Drawer: camera + debug (developer) -->
+      <aside
+        id="settings-drawer"
+        class="settings-drawer glass-panel"
+        aria-hidden="true"
+        role="region"
+        aria-label="Settings and telemetry"
+      >
+        <div class="drawer-header">
+          <span>SUBSYSTEMS</span>
+          <button type="button" id="drawer-close" class="btn-text" aria-label="Close settings">
+            Close
+          </button>
+        </div>
+        <p class="drawer-hint">
+          Camera list, manual stream override, and verbose log for demos.
         </p>
-        <label for="camera-select">Camera</label>
+        <label for="camera-select">Camera input</label>
         <select id="camera-select" aria-label="Choose camera"></select>
-        <button type="button" id="refresh-cameras">Refresh camera list</button>
-        <label for="zoom-slider">Zoom</label>
-        <input
-          id="zoom-slider"
-          type="range"
-          min="1"
-          max="1"
-          step="0.1"
-          value="1"
-        />
-        <div id="zoom-note">AR video track status.</div>
-        <details id="debug-wrap" class="debug-wrap" open>
-          <summary>Debug log (verbose, copy for issues)</summary>
+        <button type="button" id="refresh-cameras" class="btn-secondary">
+          Refresh camera list
+        </button>
+        <div id="zoom-note" class="zoom-note"></div>
+        <details class="debug-wrap">
+          <summary>Telemetry log (debug)</summary>
           <pre id="app-debug-log" class="app-debug-log" aria-live="polite"></pre>
         </details>
-      </div>
+      </aside>
     </div>
 
     <script type="module" src="./app.js"></script>
