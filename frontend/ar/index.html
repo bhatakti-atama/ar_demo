@@ -195,11 +195,11 @@
           <label for="roll-slider" class="tune-label">Roll <span id="roll-value" class="tune-value">0deg</span></label>
           <input id="roll-slider" class="tune-slider" type="range" min="-180" max="180" step="1" value="0" />
         </div>
-        <details class="debug-wrap">
+        <details class="debug-wrap" open>
           <summary>Telemetry log (debug)</summary>
-          <div class="debug-actions">
-            <button id="copy-debug-log" class="debug-btn" type="button">Copy</button>
-            <button id="clear-debug-log" class="debug-btn" type="button">Clear</button>
+          <div class="debug-actions" style="display: flex;">
+            <button id="copy-debug-log" class="debug-btn" type="button">📋 Copy</button>
+            <button id="clear-debug-log" class="debug-btn" type="button">🗑️ Clear</button>
           </div>
           <pre id="app-debug-log" class="app-debug-log" aria-live="polite"></pre>
         </details>

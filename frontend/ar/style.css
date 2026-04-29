@@ -714,32 +714,41 @@ label[for="camera-select"] {
 }
 
 .debug-actions {
-  display: flex;
+  display: flex !important;
   gap: 0.5rem;
-  margin-bottom: 0.4rem;
+  margin: 0.5rem 0;
+  padding: 0.25rem 0;
 }
 
 .debug-btn {
-  padding: 0.25rem 0.6rem;
-  font-size: 0.65rem;
+  display: inline-block !important;
+  visibility: visible !important;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.7rem;
   font-family: inherit;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--glass-border);
-  border-radius: 3px;
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid var(--solar-gold);
+  border-radius: 4px;
   color: var(--solar-gold);
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+  touch-action: manipulation;
 }
 
-.debug-btn:hover {
-  background: rgba(255, 193, 7, 0.15);
+.debug-btn:hover,
+.debug-btn:focus {
+  background: rgba(255, 193, 7, 0.2);
   border-color: var(--solar-gold);
+  outline: none;
 }
 
 .debug-btn:active {
-  background: rgba(255, 193, 7, 0.25);
+  background: rgba(255, 193, 7, 0.35);
+  transform: scale(0.98);
 }
 
 .settings-drawer label {
