@@ -454,18 +454,16 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       this.debugCounter = 0;
     },
     computeOffsets() {
-      const firstMarker = this.markerConfig[0]?.el;
-      const markerSizeAttr = firstMarker ? Number(firstMarker.getAttribute("size")) || 1.0 : 1.0;
-      
       for (const marker of this.markerConfig) {
-        marker.offset = getCornerOffset(this.THREERef, marker.spec.corner, markerSizeAttr);
+        marker.offset = getCornerOffset(this.THREERef, marker.spec.corner);
       }
       this.offsetsComputed = true;
       debugLog("P1:stabilizer:offsets", {
-        markerSizeAttr,
+        chartDimensions: { width: 0.6, height: 0.45, markerSize: 0.065 },
+        halfSpan: { x: (0.6 - 0.065) / 2, y: (0.45 - 0.065) / 2 },
         offsets: this.markerConfig.map((m) => ({
           corner: m.spec.corner,
-          offset: { x: m.offset.x.toFixed(3), y: m.offset.y.toFixed(3), z: m.offset.z.toFixed(3) },
+          offset: { x: m.offset.x.toFixed(4), y: m.offset.y.toFixed(4), z: m.offset.z.toFixed(4) },
         })),
       });
     },
@@ -476,6 +474,7 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       let count = 0;
       this.avgPos.set(0, 0, 0);
       this.hasInitQuat = false;
+      const visibleCorners = [];
 
       for (const marker of this.markerConfig) {
         const markerObj = marker.el?.object3D;
@@ -487,6 +486,17 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
         this.tmpOffset.copy(marker.offset).multiplyScalar(-1).applyQuaternion(this.tmpQuat);
         this.chartCenter.copy(this.tmpPos).add(this.tmpOffset);
         this.avgPos.add(this.chartCenter);
+        visibleCorners.push(marker.spec.corner);
+
+        if (count === 0 && this.debugCounter % 30 === 0) {
+          debugLog("P1:stabilizer:marker", {
+            corner: marker.spec.corner,
+            markerPos: { x: this.tmpPos.x.toFixed(3), y: this.tmpPos.y.toFixed(3), z: this.tmpPos.z.toFixed(3) },
+            offset: { x: marker.offset.x.toFixed(3), y: marker.offset.y.toFixed(3), z: marker.offset.z.toFixed(3) },
+            negOffset: { x: this.tmpOffset.x.toFixed(3), y: this.tmpOffset.y.toFixed(3), z: this.tmpOffset.z.toFixed(3) },
+            chartCenter: { x: this.chartCenter.x.toFixed(3), y: this.chartCenter.y.toFixed(3), z: this.chartCenter.z.toFixed(3) },
+          });
+        }
 
         if (!this.hasInitQuat) {
           this.avgQuat.copy(this.tmpQuat);
@@ -520,6 +530,7 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       const rotDeltaDeg = (this.el.object3D.quaternion.angleTo(this.avgQuat) * 180) / Math.PI;
 
       if (posDelta < stabilizerState.positionDeadband && rotDeltaDeg < stabilizerState.rotationDeadbandDeg) {
+        this.debugCounter++;
         return;
       }
 
@@ -530,6 +541,7 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       if (this.debugCounter % 60 === 0) {
         debugLog("P1:stabilizer:tick", {
           count,
+          corners: visibleCorners,
           avgPos: { x: this.avgPos.x.toFixed(3), y: this.avgPos.y.toFixed(3), z: this.avgPos.z.toFixed(3) },
           elPos: {
             x: this.el.object3D.position.x.toFixed(3),

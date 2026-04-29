@@ -1,27 +1,21 @@
 /**
  * Model transformation logic - scaling, positioning, and rotation.
- * Consolidates 5 overlapping functions into 2 clear ones.
+ * All units are in METERS since AR.js with size="X" works in meter units.
  * @file model-transform.js
  */
 
 import { layersModelEl } from "./dom-elements.js";
-import {
-  CHART_HEIGHT_M,
-  CHART_WIDTH_M,
-  MARKER_SIZE_M,
-  getMarkerSizeUnits,
-} from "./marker-config.js";
+import { CHART_HEIGHT_M, CHART_WIDTH_M } from "./marker-config.js";
 import { modelPosition, modelRotation, modelSize, syncDisplaysFromState } from "./slider-bindings.js";
 
 /** @typedef {(tag: string, ...parts: unknown[]) => void} DebugLogFn */
 
 const IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 
-const MODEL_CENTER_RATIO_FROM_CHART = { x: 0.0, y: -0.06 };
-const MODEL_DEPTH_RELATIVE_TO_TAG = 2.3;
+const MODEL_CENTER_OFFSET_M = { x: 0.0, y: -0.03, z: 0.15 };
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
-  ? { size: 2.0, pitch: -41, yaw: 2, roll: 2 }
-  : { size: 1.5, pitch: 0, yaw: 0, roll: 0 };
+  ? { size: 1.5, pitch: -41, yaw: 2, roll: 2 }
+  : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
 
 let modelBaseMaxDim = 0;
 let modelFitDone = false;
@@ -56,7 +50,7 @@ export const resetModelState = () => {
 };
 
 /**
- * Scale model to fit marker size
+ * Scale model to fit chart size (in meters)
  * @returns {boolean} true if successful
  */
 const fitModelScale = () => {
@@ -74,10 +68,10 @@ const fitModelScale = () => {
     modelBaseMaxDim = worldMaxDim / currentScale;
     
     debugLog("P1:model:measure", {
-      worldSize: { x: worldSize.x.toFixed(3), y: worldSize.y.toFixed(3), z: worldSize.z.toFixed(3) },
-      worldMaxDim: worldMaxDim.toFixed(3),
+      worldSize: { x: worldSize.x.toFixed(4), y: worldSize.y.toFixed(4), z: worldSize.z.toFixed(4) },
+      worldMaxDim: worldMaxDim.toFixed(4),
       currentScale,
-      modelBaseMaxDim: modelBaseMaxDim.toFixed(3),
+      modelBaseMaxDim: modelBaseMaxDim.toFixed(4),
     });
   }
 
@@ -85,12 +79,10 @@ const fitModelScale = () => {
     return false;
   }
 
-  const markerSizeAttr = getMarkerSizeUnits();
-  const targetDiameterInWorld = CHART_WIDTH_M * 0.8;
-  const targetInMarkerUnits = targetDiameterInWorld / MARKER_SIZE_M * markerSizeAttr;
+  const targetDiameterMeters = CHART_WIDTH_M * 0.7;
   
   if (!baseComputedSize) {
-    baseComputedSize = targetInMarkerUnits / modelBaseMaxDim;
+    baseComputedSize = targetDiameterMeters / modelBaseMaxDim;
     modelSize.value = baseComputedSize * MODEL_DEVICE_CALIBRATION.size;
   }
 
@@ -98,35 +90,25 @@ const fitModelScale = () => {
   layersModelEl.setAttribute("scale", `${s} ${s} ${s}`);
   
   debugLog("P1:model:scale", {
-    markerSizeAttr,
-    targetDiameterInWorld,
-    targetInMarkerUnits: targetInMarkerUnits.toFixed(3),
-    baseComputedSize: baseComputedSize.toFixed(3),
-    appliedScale: s.toFixed(3),
+    targetDiameterMeters,
+    baseComputedSize: baseComputedSize.toFixed(4),
+    appliedScale: s.toFixed(4),
   });
   
   return true;
 };
 
 /**
- * Position and rotate model relative to marker
+ * Position and rotate model relative to chart center (in meters)
  */
 const placeModel = () => {
   if (!layersModelEl) return;
 
-  const markerSize = getMarkerSizeUnits();
-  const chartWidthInMarkerUnits = CHART_WIDTH_M / markerSize;
-  const chartHeightInMarkerUnits = CHART_HEIGHT_M / markerSize;
+  const x = MODEL_CENTER_OFFSET_M.x + modelPosition.x * 0.1;
+  const y = MODEL_CENTER_OFFSET_M.y + modelPosition.y * 0.1;
+  const z = MODEL_CENTER_OFFSET_M.z + modelPosition.z * 0.1;
 
-  const baseX = MODEL_CENTER_RATIO_FROM_CHART.x * chartWidthInMarkerUnits;
-  const baseY = MODEL_CENTER_RATIO_FROM_CHART.y * chartHeightInMarkerUnits;
-  const baseZ = MODEL_DEPTH_RELATIVE_TO_TAG;
-
-  layersModelEl.setAttribute(
-    "position",
-    `${(baseX + modelPosition.x) * markerSize} ${(baseY + modelPosition.y) * markerSize} ${(baseZ + modelPosition.z) * markerSize}`,
-  );
-
+  layersModelEl.setAttribute("position", `${x} ${y} ${z}`);
   layersModelEl.setAttribute(
     "rotation",
     `${modelRotation.pitch + MODEL_DEVICE_CALIBRATION.pitch} ${modelRotation.yaw + MODEL_DEVICE_CALIBRATION.yaw} ${modelRotation.roll + MODEL_DEVICE_CALIBRATION.roll}`,
