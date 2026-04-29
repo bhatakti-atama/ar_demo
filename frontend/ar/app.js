@@ -21,9 +21,11 @@ const zoomSlider = document.getElementById("zoom-slider");
 const zoomNote = document.getElementById("zoom-note");
 const autofocusBtn = document.getElementById("autofocus-now");
 const focusNote = document.getElementById("focus-note");
+const sizeSlider = document.getElementById("size-slider");
 const pitchSlider = document.getElementById("pitch-slider");
 const yawSlider = document.getElementById("yaw-slider");
 const rollSlider = document.getElementById("roll-slider");
+const sizeValue = document.getElementById("size-value");
 const pitchValue = document.getElementById("pitch-value");
 const yawValue = document.getElementById("yaw-value");
 const rollValue = document.getElementById("roll-value");
@@ -41,9 +43,13 @@ let firstMarkerLock = true;
 let signalJitterId = 0;
 let toastHideTimer = 0;
 let layersModelFitDone = false;
+const IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 const MODEL_POSITION_RELATIVE_TO_TAG = { x: -1.5, y: -2.0, z: 1.0 };
 const MODEL_ROTATION = { pitch: -72, yaw: 5, roll: 3 };
-const MODEL_SIZE_RELATIVE_TO_TAG = 3;
+let MODEL_SIZE_RELATIVE_TO_TAG = 3;
+const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
+  ? { size: 0.85, pitch: 0, yaw: 0, roll: 0 }
+  : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
 
 /** @type {string[]} */
 const logBuffer = [];
@@ -853,30 +859,63 @@ const populateCameraSelect = async (currentDeviceId) => {
   cameraSelect.disabled = false;
 };
 
+const buildPreferredVideoConstraints = (baseVideo = {}) => {
+  return {
+    ...baseVideo,
+    width: { ideal: 1920 },
+    height: { ideal: 1080 },
+    frameRate: { ideal: 30, max: 60 },
+    // These are best-effort hints and can be ignored by browsers.
+    focusMode: "continuous",
+    exposureMode: "continuous",
+  };
+};
+
 const requestStreamForDevice = async (deviceId) => {
   try {
     return await navigator.mediaDevices.getUserMedia({
       audio: false,
-      video: { deviceId: { exact: deviceId } },
+      video: buildPreferredVideoConstraints({ deviceId: { exact: deviceId } }),
     });
-  } catch {
-    return navigator.mediaDevices.getUserMedia({
-      audio: false,
-      video: { deviceId: { ideal: deviceId } },
-    });
+  } catch (e1) {
+    debugLog("P1:cam:getUserMedia:device:exact:fail", e1 instanceof Error ? e1.name : String(e1));
+    try {
+      return await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: buildPreferredVideoConstraints({ deviceId: { ideal: deviceId } }),
+      });
+    } catch (e2) {
+      debugLog("P1:cam:getUserMedia:device:ideal:fail", e2 instanceof Error ? e2.name : String(e2));
+      return navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: { deviceId: { ideal: deviceId } },
+      });
+    }
   }
 };
 
 const requestCameraStream = async () => {
-  debugLog("P1:cam:getUserMedia:try", { idealFacing: "environment" });
+  debugLog("P1:cam:getUserMedia:try", {
+    idealFacing: "environment",
+    idealWidth: 1920,
+    idealHeight: 1080,
+    idealFps: 30,
+  });
   try {
-    const s = await navigator.mediaDevices.getUserMedia({
+    return await navigator.mediaDevices.getUserMedia({
       audio: false,
-      video: { facingMode: { ideal: "environment" } },
+      video: buildPreferredVideoConstraints({ facingMode: { ideal: "environment" } }),
     });
-    return s;
   } catch (e) {
-    debugLog("P1:cam:getUserMedia:fallback:video-true", e instanceof Error ? e.name : e);
+    debugLog("P1:cam:getUserMedia:fallback:base", e instanceof Error ? e.name : String(e));
+    try {
+      return await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: { facingMode: { ideal: "environment" } },
+      });
+    } catch (eBase) {
+      debugLog("P1:cam:getUserMedia:fallback:facing-only", eBase instanceof Error ? eBase.name : String(eBase));
+    }
     if (
       e &&
       typeof e === "object" &&
@@ -1042,6 +1081,10 @@ const wireLifecycle = () => {
 // --- 11) Run ---
 
 logBootEnvironment();
+debugLog("P1:model:device-calibration", {
+  isMobile: IS_MOBILE_DEVICE,
+  calibration: MODEL_DEVICE_CALIBRATION,
+});
 logScriptTags();
 logAframeAndThree();
 reportBootError();
@@ -1114,7 +1157,7 @@ const fitLayersModelToMarker = () => {
     Number(markerEl?.getAttribute("size")) > 0
       ? Number(markerEl?.getAttribute("size"))
       : 1.0;
-  const target = markerSize * MODEL_SIZE_RELATIVE_TO_TAG;
+  const target = markerSize * MODEL_SIZE_RELATIVE_TO_TAG * MODEL_DEVICE_CALIBRATION.size;
   if (!maxDim || !Number.isFinite(maxDim) || maxDim <= 0) {
     return false;
   }
@@ -1141,11 +1184,16 @@ const placeLayersModelInFrontOfMarker = () => {
   );
   layersModelEl.setAttribute(
     "rotation",
-    `${MODEL_ROTATION.pitch} ${MODEL_ROTATION.yaw} ${MODEL_ROTATION.roll}`,
+    `${MODEL_ROTATION.pitch + MODEL_DEVICE_CALIBRATION.pitch} ${
+      MODEL_ROTATION.yaw + MODEL_DEVICE_CALIBRATION.yaw
+    } ${MODEL_ROTATION.roll + MODEL_DEVICE_CALIBRATION.roll}`,
   );
 };
 
 const updateRotationReadout = () => {
+  if (sizeValue) {
+    sizeValue.textContent = `${MODEL_SIZE_RELATIVE_TO_TAG.toFixed(2)}x`;
+  }
   if (pitchValue) {
     pitchValue.textContent = `${Math.round(MODEL_ROTATION.pitch)}deg`;
   }
@@ -1158,6 +1206,9 @@ const updateRotationReadout = () => {
 };
 
 const syncRotationSlidersFromModel = () => {
+  if (sizeSlider) {
+    sizeSlider.value = String(MODEL_SIZE_RELATIVE_TO_TAG);
+  }
   if (pitchSlider) {
     pitchSlider.value = String(MODEL_ROTATION.pitch);
   }
@@ -1275,6 +1326,15 @@ if (yawSlider) {
 if (rollSlider) {
   rollSlider.addEventListener("input", () => {
     MODEL_ROTATION.roll = Number(rollSlider.value);
+    placeLayersModelInFrontOfMarker();
+    updateRotationReadout();
+  });
+}
+
+if (sizeSlider) {
+  sizeSlider.addEventListener("input", () => {
+    MODEL_SIZE_RELATIVE_TO_TAG = Number(sizeSlider.value);
+    fitLayersModelToMarker();
     placeLayersModelInFrontOfMarker();
     updateRotationReadout();
   });
