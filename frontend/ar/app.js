@@ -38,7 +38,7 @@ let layersModelFitDone = false;
 const MODEL_OFFSET_X = -1.5;
 const MODEL_OFFSET_Y = -2.0;
 const MODEL_OFFSET_Z = 1.0;
-const MODEL_TARGET_SIZE = 8.0;
+const MODEL_TARGET_SIZE = 10.0;
 
 /** @type {string[]} */
 const logBuffer = [];
