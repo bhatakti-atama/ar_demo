@@ -57,7 +57,7 @@ const MODEL_POSITION_RELATIVE_TO_TAG = { x: -1.35, y: -1.65, z: 2.3 };
 const MODEL_ROTATION = { pitch: -78, yaw: 0, roll: 3 };
 let MODEL_SIZE_RELATIVE_TO_TAG = 3;
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
-  ? { size: 1.0, pitch: 0, yaw: 0, roll: 0 }
+  ? { size: 1.25, pitch: -41, yaw: 2, roll: 2 }
   : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
 
 const getMarkerSizeUnits = () =>
