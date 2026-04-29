@@ -460,11 +460,13 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
         marker.offset = getCornerOffset(this.THREERef, marker.spec.corner);
       }
       this.offsetsComputed = true;
+      const scaleFactor = 1 / 0.065;
       debugLog("P1:stabilizer:offsets", {
-        halfSpan: { x: 0.2675, y: 0.1925 },
+        scaleFactor: scaleFactor.toFixed(2),
+        halfSpanScaled: { x: (0.2675 * scaleFactor).toFixed(2), y: (0.1925 * scaleFactor).toFixed(2) },
         offsets: this.markerConfig.map((m) => ({
           corner: m.spec.corner,
-          offset: `(${m.offset.x.toFixed(4)}, ${m.offset.y.toFixed(4)}, ${m.offset.z.toFixed(4)})`,
+          offset: `(${m.offset.x.toFixed(2)}, ${m.offset.y.toFixed(2)}, ${m.offset.z.toFixed(2)})`,
         })),
       });
     },

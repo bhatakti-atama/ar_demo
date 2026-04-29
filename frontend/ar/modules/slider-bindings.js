@@ -26,9 +26,9 @@ import { VISIBILITY_CONTEXT_BIAS } from "./marker-config.js";
 
 /** @type {{ stabilizerLerp: number, positionDeadband: number, rotationDeadbandDeg: number }} */
 export const stabilizerState = {
-  stabilizerLerp: 0.12,
-  positionDeadband: 0.015,
-  rotationDeadbandDeg: 2.0,
+  stabilizerLerp: 0.08,
+  positionDeadband: 0.25,
+  rotationDeadbandDeg: 3.0,
 };
 
 /** @type {{ x: number, y: number, z: number }} */

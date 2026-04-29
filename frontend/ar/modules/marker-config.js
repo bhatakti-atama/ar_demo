@@ -70,16 +70,21 @@ export const getContextBiasByVisibleCount = (count) => {
 
 /**
  * Get offset from chart center to corner marker.
- * Returns the position of the corner RELATIVE TO the chart center (in meters).
+ * Returns the position of the corner RELATIVE TO the chart center.
  * To get from corner to center, negate this offset.
  * 
- * AR.js with size="X" means the world units are in meters.
+ * AR.js with size="X" uses a coordinate system scaled by 1/X.
+ * So we need to scale our meter offsets by 1/MARKER_SIZE_M to match.
  * @param {typeof THREE} THREERef
  * @param {string} corner
  */
 export const getCornerOffset = (THREERef, corner) => {
-  const halfSpanX = (CHART_WIDTH_M - MARKER_SIZE_M) / 2;
-  const halfSpanY = (CHART_HEIGHT_M - MARKER_SIZE_M) / 2;
+  const halfSpanXMeters = (CHART_WIDTH_M - MARKER_SIZE_M) / 2;
+  const halfSpanYMeters = (CHART_HEIGHT_M - MARKER_SIZE_M) / 2;
+  
+  const scaleFactor = 1 / MARKER_SIZE_M;
+  const halfSpanX = halfSpanXMeters * scaleFactor;
+  const halfSpanY = halfSpanYMeters * scaleFactor;
 
   let base;
   if (corner === "top-left") {

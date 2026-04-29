@@ -1,18 +1,20 @@
 /**
  * Model transformation logic - scaling, positioning, and rotation.
- * All units are in METERS since AR.js with size="X" works in meter units.
+ * AR.js with size="X" uses coordinates scaled by 1/X.
+ * So positions must be scaled by 1/MARKER_SIZE_M.
  * @file model-transform.js
  */
 
 import { layersModelEl } from "./dom-elements.js";
-import { CHART_HEIGHT_M, CHART_WIDTH_M } from "./marker-config.js";
+import { CHART_HEIGHT_M, CHART_WIDTH_M, MARKER_SIZE_M } from "./marker-config.js";
 import { modelPosition, modelRotation, modelSize, syncDisplaysFromState } from "./slider-bindings.js";
 
 /** @typedef {(tag: string, ...parts: unknown[]) => void} DebugLogFn */
 
 const IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+const COORD_SCALE = 1 / MARKER_SIZE_M;
 
-const MODEL_CENTER_OFFSET_M = { x: 0.0, y: -0.03, z: 0.15 };
+const MODEL_CENTER_OFFSET_M = { x: 0.0, y: -0.5, z: 2.0 };
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
   ? { size: 1.5, pitch: -41, yaw: 2, roll: 2 }
   : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
@@ -99,14 +101,14 @@ const fitModelScale = () => {
 };
 
 /**
- * Position and rotate model relative to chart center (in meters)
+ * Position and rotate model relative to chart center (in AR.js scaled units)
  */
 const placeModel = () => {
   if (!layersModelEl) return;
 
-  const x = MODEL_CENTER_OFFSET_M.x + modelPosition.x * 0.1;
-  const y = MODEL_CENTER_OFFSET_M.y + modelPosition.y * 0.1;
-  const z = MODEL_CENTER_OFFSET_M.z + modelPosition.z * 0.1;
+  const x = MODEL_CENTER_OFFSET_M.x + modelPosition.x;
+  const y = MODEL_CENTER_OFFSET_M.y + modelPosition.y;
+  const z = MODEL_CENTER_OFFSET_M.z + modelPosition.z;
 
   layersModelEl.setAttribute("position", `${x} ${y} ${z}`);
   layersModelEl.setAttribute(
