@@ -13,9 +13,7 @@ export const MARKER_LAYOUT = [
 export const MARKER_SIZE_M = 0.065;
 export const CHART_WIDTH_M = 0.6;
 export const CHART_HEIGHT_M = 0.45;
-export const MODEL_DIAMETER_RATIO_OF_CHART_WIDTH = 0.56;
-const MARKER_CENTER_HALF_SPAN_X_M = (CHART_WIDTH_M - MARKER_SIZE_M) / 2;
-const MARKER_CENTER_HALF_SPAN_Y_M = (CHART_HEIGHT_M - MARKER_SIZE_M) / 2;
+export const MODEL_DIAMETER_RATIO_OF_CHART_WIDTH = 0.8;
 
 export const CORNER_CENTER_TUNE = {
   "top-left": { x: 0, y: 0, z: 0 },
@@ -70,15 +68,34 @@ export const getContextBiasByVisibleCount = (count) => {
   return VISIBILITY_CONTEXT_BIAS.one;
 };
 
-export const getCornerOffset = (THREERef, corner) => {
-  let base = new THREERef.Vector3(MARKER_CENTER_HALF_SPAN_X_M, -MARKER_CENTER_HALF_SPAN_Y_M, 0);
+/**
+ * Get offset from corner marker to chart center.
+ * Returns the position of the corner RELATIVE TO the chart center.
+ * To get from corner to center, negate this offset.
+ * 
+ * Uses the marker's size attribute to scale properly with AR.js coordinate system.
+ * @param {typeof THREE} THREERef
+ * @param {string} corner
+ * @param {number} markerSizeAttr - The marker's "size" attribute value (A-Frame units)
+ */
+export const getCornerOffset = (THREERef, corner, markerSizeAttr = 1.0) => {
+  const halfSpanXMeters = (CHART_WIDTH_M - MARKER_SIZE_M) / 2;
+  const halfSpanYMeters = (CHART_HEIGHT_M - MARKER_SIZE_M) / 2;
+  
+  const halfSpanX = halfSpanXMeters / MARKER_SIZE_M * markerSizeAttr;
+  const halfSpanY = halfSpanYMeters / MARKER_SIZE_M * markerSizeAttr;
+
+  let base;
   if (corner === "top-left") {
-    base = new THREERef.Vector3(-MARKER_CENTER_HALF_SPAN_X_M, MARKER_CENTER_HALF_SPAN_Y_M, 0);
+    base = new THREERef.Vector3(-halfSpanX, halfSpanY, 0);
   } else if (corner === "top-right") {
-    base = new THREERef.Vector3(MARKER_CENTER_HALF_SPAN_X_M, MARKER_CENTER_HALF_SPAN_Y_M, 0);
+    base = new THREERef.Vector3(halfSpanX, halfSpanY, 0);
   } else if (corner === "bottom-left") {
-    base = new THREERef.Vector3(-MARKER_CENTER_HALF_SPAN_X_M, -MARKER_CENTER_HALF_SPAN_Y_M, 0);
+    base = new THREERef.Vector3(-halfSpanX, -halfSpanY, 0);
+  } else {
+    base = new THREERef.Vector3(halfSpanX, -halfSpanY, 0);
   }
+
   const tune = getCornerTune(corner);
   return base.add(new THREERef.Vector3(tune.x, tune.y, tune.z));
 };

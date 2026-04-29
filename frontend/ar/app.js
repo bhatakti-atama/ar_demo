@@ -437,21 +437,41 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       const THREERef = window.THREE;
       if (!THREERef) return;
       this.THREERef = THREERef;
+      this.offsetsComputed = false;
       this.markerConfig = MARKER_LAYOUT.map((spec) => ({
         spec,
         el: document.getElementById(spec.elementId),
-        offset: getCornerOffset(THREERef, spec.corner),
+        offset: null,
       })).filter((x) => x.el);
       this.avgPos = new THREERef.Vector3();
       this.tmpPos = new THREERef.Vector3();
       this.tmpOffset = new THREERef.Vector3();
+      this.chartCenter = new THREERef.Vector3();
       this.avgQuat = new THREERef.Quaternion();
       this.tmpQuat = new THREERef.Quaternion();
       this.hasInitQuat = false;
       this.el.object3D.visible = false;
+      this.debugCounter = 0;
+    },
+    computeOffsets() {
+      const firstMarker = this.markerConfig[0]?.el;
+      const markerSizeAttr = firstMarker ? Number(firstMarker.getAttribute("size")) || 1.0 : 1.0;
+      
+      for (const marker of this.markerConfig) {
+        marker.offset = getCornerOffset(this.THREERef, marker.spec.corner, markerSizeAttr);
+      }
+      this.offsetsComputed = true;
+      debugLog("P1:stabilizer:offsets", {
+        markerSizeAttr,
+        offsets: this.markerConfig.map((m) => ({
+          corner: m.spec.corner,
+          offset: { x: m.offset.x.toFixed(3), y: m.offset.y.toFixed(3), z: m.offset.z.toFixed(3) },
+        })),
+      });
     },
     tick() {
       if (!this.avgPos) return;
+      if (!this.offsetsComputed) this.computeOffsets();
 
       let count = 0;
       this.avgPos.set(0, 0, 0);
@@ -459,13 +479,14 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
 
       for (const marker of this.markerConfig) {
         const markerObj = marker.el?.object3D;
-        if (!markerObj || !markerObj.visible) continue;
+        if (!markerObj || !markerObj.visible || !marker.offset) continue;
 
         markerObj.getWorldPosition(this.tmpPos);
         markerObj.getWorldQuaternion(this.tmpQuat);
 
         this.tmpOffset.copy(marker.offset).multiplyScalar(-1).applyQuaternion(this.tmpQuat);
-        this.avgPos.add(this.tmpPos.add(this.tmpOffset));
+        this.chartCenter.copy(this.tmpPos).add(this.tmpOffset);
+        this.avgPos.add(this.chartCenter);
 
         if (!this.hasInitQuat) {
           this.avgQuat.copy(this.tmpQuat);
@@ -487,7 +508,7 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
 
       this.avgPos.divideScalar(count);
       const contextBias = getContextBiasByVisibleCount(count);
-      if (contextBias) {
+      if (contextBias && (contextBias.x !== 0 || contextBias.y !== 0 || contextBias.z !== 0)) {
         this.tmpOffset.set(contextBias.x, contextBias.y, contextBias.z).applyQuaternion(this.avgQuat);
         this.avgPos.add(this.tmpOffset);
       }
@@ -504,6 +525,19 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
 
       this.el.object3D.position.lerp(this.avgPos, lerpFactor);
       this.el.object3D.quaternion.slerp(this.avgQuat, lerpFactor);
+
+      this.debugCounter++;
+      if (this.debugCounter % 60 === 0) {
+        debugLog("P1:stabilizer:tick", {
+          count,
+          avgPos: { x: this.avgPos.x.toFixed(3), y: this.avgPos.y.toFixed(3), z: this.avgPos.z.toFixed(3) },
+          elPos: {
+            x: this.el.object3D.position.x.toFixed(3),
+            y: this.el.object3D.position.y.toFixed(3),
+            z: this.el.object3D.position.z.toFixed(3),
+          },
+        });
+      }
     },
   });
 }

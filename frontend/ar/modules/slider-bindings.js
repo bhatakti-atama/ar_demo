@@ -38,7 +38,7 @@ export const modelPosition = { x: 0, y: 0, z: 0 };
 export const modelRotation = { pitch: -78, yaw: 0, roll: 3 };
 
 /** @type {{ value: number }} */
-export const modelSize = { value: 0 };
+export const modelSize = { value: 3.0 };
 
 const fmt2 = (v) => v.toFixed(2);
 const fmt3 = (v) => v.toFixed(3);

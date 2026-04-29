@@ -8,7 +8,7 @@ import { layersModelEl } from "./dom-elements.js";
 import {
   CHART_HEIGHT_M,
   CHART_WIDTH_M,
-  computeModelSizeRelativeToTag,
+  MARKER_SIZE_M,
   getMarkerSizeUnits,
 } from "./marker-config.js";
 import { modelPosition, modelRotation, modelSize, syncDisplaysFromState } from "./slider-bindings.js";
@@ -20,13 +20,14 @@ const IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userA
 const MODEL_CENTER_RATIO_FROM_CHART = { x: 0.0, y: -0.06 };
 const MODEL_DEPTH_RELATIVE_TO_TAG = 2.3;
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
-  ? { size: 1.25, pitch: -41, yaw: 2, roll: 2 }
-  : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
+  ? { size: 2.0, pitch: -41, yaw: 2, roll: 2 }
+  : { size: 1.5, pitch: 0, yaw: 0, roll: 0 };
 
 let modelBaseMaxDim = 0;
 let modelFitDone = false;
 let transformRafId = 0;
 let scaleRefreshPending = false;
+let baseComputedSize = 0;
 
 /** @type {DebugLogFn} */
 let debugLog = () => {};
@@ -51,6 +52,7 @@ export const isMobileDevice = () => IS_MOBILE_DEVICE;
 export const resetModelState = () => {
   modelBaseMaxDim = 0;
   modelFitDone = false;
+  baseComputedSize = 0;
 };
 
 /**
@@ -70,17 +72,39 @@ const fitModelScale = () => {
     const worldMaxDim = Math.max(worldSize.x, worldSize.y, worldSize.z);
     const currentScale = Number(layersModelEl.object3D.scale?.x) || 1;
     modelBaseMaxDim = worldMaxDim / currentScale;
+    
+    debugLog("P1:model:measure", {
+      worldSize: { x: worldSize.x.toFixed(3), y: worldSize.y.toFixed(3), z: worldSize.z.toFixed(3) },
+      worldMaxDim: worldMaxDim.toFixed(3),
+      currentScale,
+      modelBaseMaxDim: modelBaseMaxDim.toFixed(3),
+    });
   }
 
   if (!modelBaseMaxDim || !Number.isFinite(modelBaseMaxDim) || modelBaseMaxDim <= 0) {
     return false;
   }
 
-  const markerSize = getMarkerSizeUnits();
-  modelSize.value = computeModelSizeRelativeToTag(markerSize);
-  const target = markerSize * modelSize.value * MODEL_DEVICE_CALIBRATION.size;
-  const s = target / modelBaseMaxDim;
+  const markerSizeAttr = getMarkerSizeUnits();
+  const targetDiameterInWorld = CHART_WIDTH_M * 0.8;
+  const targetInMarkerUnits = targetDiameterInWorld / MARKER_SIZE_M * markerSizeAttr;
+  
+  if (!baseComputedSize) {
+    baseComputedSize = targetInMarkerUnits / modelBaseMaxDim;
+    modelSize.value = baseComputedSize * MODEL_DEVICE_CALIBRATION.size;
+  }
+
+  const s = modelSize.value;
   layersModelEl.setAttribute("scale", `${s} ${s} ${s}`);
+  
+  debugLog("P1:model:scale", {
+    markerSizeAttr,
+    targetDiameterInWorld,
+    targetInMarkerUnits: targetInMarkerUnits.toFixed(3),
+    baseComputedSize: baseComputedSize.toFixed(3),
+    appliedScale: s.toFixed(3),
+  });
+  
   return true;
 };
 
