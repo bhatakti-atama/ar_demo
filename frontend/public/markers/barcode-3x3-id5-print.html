@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AR.js Barcode Marker ID 5</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 12mm;
+      }
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        background: #f4f4f4;
+      }
+      .sheet {
+        background: #fff;
+        padding: 20mm;
+        border: 1px solid #ddd;
+        text-align: center;
+      }
+      .marker-wrap {
+        display: inline-block;
+        background: #fff;
+        padding: 12mm; /* quiet zone */
+      }
+      .marker-wrap img {
+        width: 120mm;
+        height: 120mm;
+        image-rendering: pixelated;
+        display: block;
+      }
+      .caption {
+        margin-top: 8mm;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="sheet">
+      <div class="marker-wrap">
+        <img src="./barcode-3x3-id5.png" alt="AR.js barcode marker 3x3 ID 5" />
+      </div>
+      <p class="caption">AR.js Barcode Marker | matrixCodeType=3x3 | value=5</p>
+    </main>
+  </body>
+</html>

@@ -10,8 +10,9 @@ const MAX_DEBUG_LOG_LINES = 220;
 const STORAGE_DEVICE_KEY = "ar-charts-preferred-camera-device-id";
 const PERMISSIONS_QUERY_TIMEOUT_MS = 2000;
 
-const markerEl = document.getElementById("hiro-marker");
-const boxEl = document.getElementById("phase1-box");
+const markerEl = document.getElementById("barcode-marker");
+const solarModelEl = document.getElementById("solar-dummy-model");
+const layersModelEl = document.getElementById("layers_of_the_sun_model");
 const settingsDrawer = document.getElementById("settings-drawer");
 const settingsGear = document.getElementById("settings-gear");
 const drawerClose = document.getElementById("drawer-close");
@@ -31,6 +32,7 @@ const arScene = document.getElementById("ar-scene");
 let firstMarkerLock = true;
 let signalJitterId = 0;
 let toastHideTimer = 0;
+let layersModelFitDone = false;
 
 /** @type {string[]} */
 const logBuffer = [];
@@ -168,7 +170,7 @@ const onStartMission = async () => {
     debugLog("P1:hud:audioContext:skip", e instanceof Error ? e.message : e);
   }
   dismissSplash();
-  showToast("Sensors online. Point camera at Hiro target.", 4500);
+  showToast("Sensors online. Point camera at Barcode ID 5 marker.", 4500);
   await onNudgeOrManualCamera();
 };
 
@@ -177,6 +179,43 @@ const safeJson = (o) => {
     return JSON.parse(JSON.stringify(o));
   } catch {
     return String(o);
+  }
+};
+
+const normalizeChartData = (rows) => {
+  if (!Array.isArray(rows)) {
+    return [];
+  }
+  return rows
+    .filter((row) => row && typeof row === "object")
+    .map((row) => ({
+      label: String(row.label ?? "unknown"),
+      value: Number(row.value ?? 0),
+    }))
+    .filter((row) => Number.isFinite(row.value));
+};
+
+const loadChartDataStub = async () => {
+  try {
+    const chartDataUrl = new URL("../data/chartData.json", window.location.href).toString();
+    const res = await fetch(chartDataUrl, {
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+    const json = await res.json();
+    const rows = normalizeChartData(json);
+    const maxValue = rows.reduce((max, row) => Math.max(max, row.value), 0);
+    const previewScale = rows[0] && maxValue > 0 ? 0.18 + (rows[0].value / maxValue) * 0.2 : 0.24;
+    debugLog("P2:data:chart:stub", {
+      rows: rows.length,
+      first: rows[0] ?? null,
+      previewScale: Number(previewScale.toFixed(3)),
+      mode: "stub-only",
+    });
+  } catch (e) {
+    debugLog("P2:data:chart:stub:error", e instanceof Error ? e.message : String(e));
   }
 };
 
@@ -907,21 +946,79 @@ if (markerEl) {
   markerEl.addEventListener("markerFound", () => {
     debugLog("P1:marker:found", {
       timeMs: Math.round(performance.now() - BOOT_T0),
-      box: boxEl ? "present" : "none",
+      model: layersModelEl ? "layers_of_the_sun" : solarModelEl ? "solar-dummy" : "none",
     });
     setCrosshairLocked();
-    showToast("DATA LINK ESTABLISHED", 4200);
+    showToast("STABLE LINK // SOLAR TELEMETRY LOCKED", 4200);
     if (firstMarkerLock) {
       firstMarkerLock = false;
       runHeaderGlitch();
     }
+    tryFitLayersModelToMarker();
   });
   markerEl.addEventListener("markerLost", () => {
     debugLog("P1:marker:lost");
     setCrosshairScanning();
-    showToast("Target lost — reacquire Hiro.", 3200);
+    showToast("SIGNAL LOST // RESCANNING TARGET", 3200);
   });
 }
+
+const fitLayersModelToMarker = () => {
+  if (!layersModelEl) {
+    return false;
+  }
+  const THREERef = window.THREE;
+  if (!THREERef || !THREERef.Box3 || !layersModelEl.object3D) {
+    return false;
+  }
+
+  const obj = layersModelEl.object3D;
+  const box = new THREERef.Box3().setFromObject(obj);
+  const size = box.getSize(new THREERef.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z);
+
+  // Target fits within the 1x1 marker bounds (leave a little margin).
+  const target = 0.85;
+  if (!maxDim || !Number.isFinite(maxDim) || maxDim <= 0) {
+    return false;
+  }
+
+  const s = target / maxDim;
+  layersModelEl.setAttribute("scale", `${s} ${s} ${s}`);
+  return true;
+};
+
+const placeLayersModelInFrontOfMarker = () => {
+  // Move slightly towards the camera to sit "in front of" the printed marker.
+  // Tuneable: increase if it appears inside/behind the image.
+  layersModelEl?.setAttribute("position", "0 0 0.08");
+};
+
+const tryFitLayersModelToMarker = () => {
+  if (!layersModelEl || layersModelFitDone) {
+    return;
+  }
+  const ok = fitLayersModelToMarker();
+  if (!ok) {
+    return;
+  }
+  placeLayersModelInFrontOfMarker();
+  layersModelFitDone = true;
+  debugLog("P1:model:layers:fit", { ok: true });
+};
+
+if (layersModelEl) {
+  // If the model finishes loading after we already started tracking, ensure we still fit it.
+  layersModelEl.addEventListener("model-loaded", () => {
+    layersModelFitDone = false;
+    tryFitLayersModelToMarker();
+  });
+}
+
+// If the model loads before marker tracking, attempt a late fit as a fallback.
+setTimeout(() => {
+  tryFitLayersModelToMarker();
+}, 1500);
 
 if (splashStart) {
   splashStart.addEventListener("click", () => {
@@ -984,6 +1081,7 @@ const pollVideos = (maxMs) => {
 };
 
 pollVideos(30000);
+void loadChartDataStub();
 
 setTimeout(() => {
   for (const v of document.querySelectorAll("video")) {

@@ -75,7 +75,7 @@ AR views need a "Transparent UI" approach. The `video` injected by AR.js will be
 ---
 
 ## 7. Verification Checklist
-1.  [ ] **Live Server:** Does the project open in the browser?
+1.  [ ] **Lve Server:** Does the project open in the browser?
 2.  [ ] **Camera Prompt:** Does the browser ask "Allow camera access"?
 3.  [ ] **The Placeholder:** Do you see a white 3D box floating on the screen? (If yes, the 3D engine is working).
 4.  [ ] **Console Cleanliness:** Open DevTools (F12). There should be no "404 Not Found" errors for the JS libraries.
