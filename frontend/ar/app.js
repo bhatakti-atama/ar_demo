@@ -35,10 +35,10 @@ let firstMarkerLock = true;
 let signalJitterId = 0;
 let toastHideTimer = 0;
 let layersModelFitDone = false;
-const MODEL_OFFSET_X = -0.4;
-const MODEL_OFFSET_Y = -0.4;
-const MODEL_OFFSET_Z = 0.3;
-const MODEL_TARGET_SIZE = 4;
+const MODEL_OFFSET_X = -1.2;
+const MODEL_OFFSET_Y = -1.2;
+const MODEL_OFFSET_Z = 1.0;
+const MODEL_TARGET_SIZE = 3;
 
 /** @type {string[]} */
 const logBuffer = [];
