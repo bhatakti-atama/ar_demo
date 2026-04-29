@@ -713,6 +713,35 @@ label[for="camera-select"] {
   word-break: break-word;
 }
 
+.debug-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.debug-btn {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.65rem;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--glass-border);
+  border-radius: 3px;
+  color: var(--solar-gold);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.debug-btn:hover {
+  background: rgba(255, 193, 7, 0.15);
+  border-color: var(--solar-gold);
+}
+
+.debug-btn:active {
+  background: rgba(255, 193, 7, 0.25);
+}
+
 .settings-drawer label {
   display: block;
   margin-top: 0.5rem;

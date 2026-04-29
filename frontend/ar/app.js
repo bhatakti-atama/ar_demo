@@ -5,8 +5,11 @@
  */
 
 import {
+  appDebugLog,
   arScene,
   cameraSelect,
+  clearDebugLogBtn,
+  copyDebugLogBtn,
   crosshair,
   crosshairLabel,
   detectedMarkersEl,
@@ -684,5 +687,33 @@ setTimeout(() => {
   }
   logVideoList("2s-snapshot");
 }, 2000);
+
+// Debug log actions
+if (copyDebugLogBtn && appDebugLog) {
+  copyDebugLogBtn.addEventListener("click", async () => {
+    const text = appDebugLog.textContent || "";
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast("Log copied to clipboard", 2000);
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      showToast("Log copied to clipboard", 2000);
+    }
+  });
+}
+
+if (clearDebugLogBtn && appDebugLog) {
+  clearDebugLogBtn.addEventListener("click", () => {
+    appDebugLog.textContent = "";
+    showToast("Log cleared", 1500);
+  });
+}
 
 debugLog("P1:boot:app-js:end", { ms: Math.round(performance.now() - BOOT_T0) });

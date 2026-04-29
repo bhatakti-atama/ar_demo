@@ -63,3 +63,6 @@ export const signalBarInner = document.getElementById("signal-bar-inner");
 export const arViewport = document.getElementById("ar-viewport");
 export const arScene = document.getElementById("ar-scene");
 export const detectedMarkersEl = document.getElementById("detected-markers");
+export const copyDebugLogBtn = document.getElementById("copy-debug-log");
+export const clearDebugLogBtn = document.getElementById("clear-debug-log");
+export const appDebugLog = document.getElementById("app-debug-log");
