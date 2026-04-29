@@ -108,9 +108,12 @@ let STABILIZER_LERP_FACTOR = 0.18;
 let POSITION_DEADBAND = 0.002;
 let ROTATION_DEADBAND_DEG = 0.8;
 const IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-const MODEL_POSITION_RELATIVE_TO_TAG = { x: -1.35, y: -1.65, z: 2.3 };
+const MODEL_POSITION_RELATIVE_TO_TAG = { x: 0, y: 0, z: 0 };
 const MODEL_ROTATION = { pitch: -78, yaw: 0, roll: 3 };
-let MODEL_SIZE_RELATIVE_TO_TAG = 10;
+const MODEL_CENTER_RATIO_FROM_CHART = { x: 0.0, y: -0.06 };
+const MODEL_DEPTH_RELATIVE_TO_TAG = 2.3;
+const MODEL_DIAMETER_RATIO_OF_CHART_WIDTH = 0.56;
+let MODEL_SIZE_RELATIVE_TO_TAG = 0;
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
   ? { size: 1.25, pitch: -41, yaw: 2, roll: 2 }
   : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
@@ -134,6 +137,12 @@ const VISIBILITY_CONTEXT_BIAS = {
 
 const getMarkerSizeUnits = () =>
   Number(markerEl?.getAttribute("size")) > 0 ? Number(markerEl?.getAttribute("size")) : 1.0;
+
+const computeModelSizeRelativeToTag = (markerSize) => {
+  const safeMarker = markerSize > 0 ? markerSize : MARKER_SIZE_M;
+  const modelDiameterM = CHART_WIDTH_M * MODEL_DIAMETER_RATIO_OF_CHART_WIDTH;
+  return modelDiameterM / safeMarker;
+};
 const markerIdToBarcodeValue = new Map(
   MARKER_LAYOUT.map((spec) => [spec.elementId, spec.barcodeValue]),
 );
@@ -1347,6 +1356,7 @@ const fitLayersModelToMarker = () => {
   }
 
   const markerSize = getMarkerSizeUnits();
+  MODEL_SIZE_RELATIVE_TO_TAG = computeModelSizeRelativeToTag(markerSize);
   const target = markerSize * MODEL_SIZE_RELATIVE_TO_TAG * MODEL_DEVICE_CALIBRATION.size;
   const s = target / modelBaseMaxDim;
   layersModelEl.setAttribute("scale", `${s} ${s} ${s}`);
@@ -1359,10 +1369,17 @@ const placeLayersModelInFrontOfMarker = () => {
     return;
   }
   const markerSize = getMarkerSizeUnits();
+  const chartWidthInMarkerUnits = CHART_WIDTH_M / markerSize;
+  const chartHeightInMarkerUnits = CHART_HEIGHT_M / markerSize;
+  const baseX = MODEL_CENTER_RATIO_FROM_CHART.x * chartWidthInMarkerUnits;
+  const baseY = MODEL_CENTER_RATIO_FROM_CHART.y * chartHeightInMarkerUnits;
+  const baseZ = MODEL_DEPTH_RELATIVE_TO_TAG;
   layersModelEl.setAttribute(
     "position",
-    `${MODEL_POSITION_RELATIVE_TO_TAG.x * markerSize} ${MODEL_POSITION_RELATIVE_TO_TAG.y * markerSize} ${
-      MODEL_POSITION_RELATIVE_TO_TAG.z * markerSize
+    `${(baseX + MODEL_POSITION_RELATIVE_TO_TAG.x) * markerSize} ${
+      (baseY + MODEL_POSITION_RELATIVE_TO_TAG.y) * markerSize
+    } ${
+      (baseZ + MODEL_POSITION_RELATIVE_TO_TAG.z) * markerSize
     }`,
   );
   layersModelEl.setAttribute(
