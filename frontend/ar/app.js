@@ -95,6 +95,7 @@ const hudHeader = document.getElementById("hud-header");
 const signalBarInner = document.getElementById("signal-bar-inner");
 const arViewport = document.getElementById("ar-viewport");
 const arScene = document.getElementById("ar-scene");
+const detectedMarkersEl = document.getElementById("detected-markers");
 
 let firstMarkerLock = true;
 let signalJitterId = 0;
@@ -109,7 +110,7 @@ let ROTATION_DEADBAND_DEG = 0.8;
 const IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 const MODEL_POSITION_RELATIVE_TO_TAG = { x: -1.35, y: -1.65, z: 2.3 };
 const MODEL_ROTATION = { pitch: -78, yaw: 0, roll: 3 };
-let MODEL_SIZE_RELATIVE_TO_TAG = 3;
+let MODEL_SIZE_RELATIVE_TO_TAG = 10;
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
   ? { size: 1.25, pitch: -41, yaw: 2, roll: 2 }
   : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
@@ -133,6 +134,22 @@ const VISIBILITY_CONTEXT_BIAS = {
 
 const getMarkerSizeUnits = () =>
   Number(markerEl?.getAttribute("size")) > 0 ? Number(markerEl?.getAttribute("size")) : 1.0;
+const markerIdToBarcodeValue = new Map(
+  MARKER_LAYOUT.map((spec) => [spec.elementId, spec.barcodeValue]),
+);
+
+const updateDetectedMarkersHud = (visibleMarkerIds) => {
+  if (!detectedMarkersEl) {
+    return;
+  }
+  const detected = [...visibleMarkerIds]
+    .map((id) => markerIdToBarcodeValue.get(id) ?? id)
+    .sort((a, b) => Number(a) - Number(b));
+  detectedMarkersEl.textContent = detected.length
+    ? `DETECTED TAGS: ${detected.join(", ")}`
+    : "DETECTED TAGS: --";
+  detectedMarkersEl.classList.toggle("active", detected.length > 0);
+};
 
 const getCornerTune = (corner) => {
   if (corner === "top-left") {
@@ -1277,9 +1294,11 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
 
 if (markerEls.length) {
   const visibleMarkerIds = new Set();
+  updateDetectedMarkersHud(visibleMarkerIds);
   markerEls.forEach((marker) => {
     marker.addEventListener("markerFound", () => {
       visibleMarkerIds.add(marker.id);
+      updateDetectedMarkersHud(visibleMarkerIds);
       debugLog("P1:marker:found", {
         markerId: marker.id,
         visibleMarkers: visibleMarkerIds.size,
@@ -1296,6 +1315,7 @@ if (markerEls.length) {
     });
     marker.addEventListener("markerLost", () => {
       visibleMarkerIds.delete(marker.id);
+      updateDetectedMarkersHud(visibleMarkerIds);
       debugLog("P1:marker:lost", { markerId: marker.id, visibleMarkers: visibleMarkerIds.size });
       if (visibleMarkerIds.size === 0) {
         setCrosshairScanning();

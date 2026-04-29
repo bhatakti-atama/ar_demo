@@ -405,6 +405,27 @@ video#arjs-video {
   transform: translateX(-50%) translateY(0);
 }
 
+.hud-detected-markers {
+  position: fixed;
+  top: calc(max(12px, env(safe-area-inset-top)) + 70px);
+  left: 12px;
+  z-index: calc(var(--z-hud) + 8);
+  max-width: min(90vw, 28rem);
+  padding: 0.35rem 0.55rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  color: var(--hud-muted);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--glass-border);
+  border-radius: 2px;
+}
+
+.hud-detected-markers.active {
+  color: var(--alert-mint);
+  border-color: rgba(0, 255, 136, 0.45);
+  box-shadow: 0 0 14px rgba(0, 255, 136, 0.18);
+}
+
 /* D) Control bar (bottom ~15%) */
 .control-bar {
   position: fixed;
