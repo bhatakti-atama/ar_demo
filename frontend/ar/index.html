@@ -27,7 +27,7 @@
         vr-mode-ui="enabled: false"
         background="color: #000000; transparent: true"
         renderer="logarithmicDepthBuffer: true; precision: medium; antialias: true; alpha: true;"
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; maxDetectionRate: 60; sourceWidth: 1280; sourceHeight: 720;"
       >
         <a-marker id="barcode-marker" type="barcode" value="5" data-model="@layers_of_the_sun.glb">
           <a-entity id="solar-dummy-anchor" position="0 0 0">

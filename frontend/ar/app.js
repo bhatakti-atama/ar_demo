@@ -671,6 +671,13 @@ const getPreferredFocusMode = (capabilities) => {
   return "";
 };
 
+const clamp01 = (value) => {
+  if (!Number.isFinite(value)) {
+    return 0.5;
+  }
+  return Math.min(1, Math.max(0, value));
+};
+
 const applyFocusMode = async (track, mode) => {
   if (!track || !mode) {
     return false;
@@ -686,6 +693,53 @@ const applyFocusMode = async (track, mode) => {
     });
     return false;
   }
+};
+
+const triggerAutofocus = async (track, normPoint = null) => {
+  const capabilities = getTrackCapabilities(track);
+  const mode = getPreferredFocusMode(capabilities);
+  if (!mode) {
+    setFocusUiState(false, "Focus: unsupported on this camera.");
+    return false;
+  }
+
+  // Try touch-based focus first when supported, then fall back to mode-only autofocus.
+  if (
+    normPoint &&
+    Array.isArray(capabilities?.pointsOfInterest) &&
+    capabilities.pointsOfInterest.length > 0
+  ) {
+    try {
+      await track.applyConstraints({
+        advanced: [
+          {
+            focusMode: mode,
+            pointsOfInterest: [
+              {
+                x: clamp01(normPoint.x),
+                y: clamp01(normPoint.y),
+              },
+            ],
+          },
+        ],
+      });
+      debugLog("P1:cam:focus:poi:ok", { mode, point: normPoint });
+      setFocusUiState(true, `Focus tapped (${mode}).`);
+      showToast(`AUTOFOCUS TAP // ${mode.toUpperCase()}`, 1800);
+      return true;
+    } catch (e) {
+      debugLog("P1:cam:focus:poi:fail", e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  const ok = await applyFocusMode(track, mode);
+  if (ok) {
+    setFocusUiState(true, `Focus triggered (${mode}).`);
+    showToast(`AUTOFOCUS // ${mode.toUpperCase()}`, 2200);
+    return true;
+  }
+  setFocusUiState(true, `Focus mode ${mode} failed.`);
+  return false;
 };
 
 const setupFocusForTrack = async (track) => {
@@ -1143,21 +1197,32 @@ if (autofocusBtn) {
         setFocusUiState(false, "Focus: no active camera track.");
         return;
       }
-      const capabilities = getTrackCapabilities(track);
-      const mode = getPreferredFocusMode(capabilities);
-      if (!mode) {
-        setFocusUiState(false, "Focus: unsupported on this camera.");
-        return;
-      }
-      const ok = await applyFocusMode(track, mode);
-      if (ok) {
-        setFocusUiState(true, `Focus triggered (${mode}).`);
-        showToast(`AUTOFOCUS // ${mode.toUpperCase()}`, 2200);
-      } else {
-        setFocusUiState(true, `Focus mode ${mode} failed.`);
-      }
+      await triggerAutofocus(track);
     })();
   });
+}
+
+if (arViewport) {
+  arViewport.addEventListener(
+    "touchstart",
+    (event) => {
+      void (async () => {
+        const touch = event.touches?.[0];
+        if (!touch) {
+          return;
+        }
+        const rect = arViewport.getBoundingClientRect();
+        const x = clamp01((touch.clientX - rect.left) / rect.width);
+        const y = clamp01((touch.clientY - rect.top) / rect.height);
+        const track = getActiveVideoTrack();
+        if (!track) {
+          return;
+        }
+        await triggerAutofocus(track, { x, y });
+      })();
+    },
+    { passive: true },
+  );
 }
 
 /** Periodically re-scan for late AR.js video and bind loggers. */
