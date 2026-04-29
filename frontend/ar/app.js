@@ -35,6 +35,10 @@ let firstMarkerLock = true;
 let signalJitterId = 0;
 let toastHideTimer = 0;
 let layersModelFitDone = false;
+const MODEL_OFFSET_X = -0.22;
+const MODEL_OFFSET_Y = -0.16;
+const MODEL_OFFSET_Z = 0.09;
+const MODEL_TARGET_SIZE = 1.25;
 
 /** @type {string[]} */
 const logBuffer = [];
@@ -1101,7 +1105,7 @@ const fitLayersModelToMarker = () => {
   const maxDim = Math.max(size.x, size.y, size.z);
 
   // Target fits within the 1x1 marker bounds (leave a little margin).
-  const target = 0.85;
+  const target = MODEL_TARGET_SIZE;
   if (!maxDim || !Number.isFinite(maxDim) || maxDim <= 0) {
     return false;
   }
@@ -1114,7 +1118,10 @@ const fitLayersModelToMarker = () => {
 const placeLayersModelInFrontOfMarker = () => {
   // Move slightly towards the camera to sit "in front of" the printed marker.
   // Tuneable: increase if it appears inside/behind the image.
-  layersModelEl?.setAttribute("position", "0 0 0.08");
+  layersModelEl?.setAttribute(
+    "position",
+    `${MODEL_OFFSET_X} ${MODEL_OFFSET_Y} ${MODEL_OFFSET_Z}`,
+  );
 };
 
 const tryFitLayersModelToMarker = () => {
