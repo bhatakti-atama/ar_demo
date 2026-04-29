@@ -38,7 +38,6 @@
               position="-0.22 -0.16 0.09"
               scale="1 1 1"
               rotation="0 0 0"
-              animation="property: rotation; to: 0 360 0; loop: true; dur: 12000; easing: linear"
             ></a-gltf-model>
             <a-light
               id="solar-point-light"
@@ -166,6 +165,16 @@
           Auto-focus now
         </button>
         <div id="focus-note" class="zoom-note"></div>
+        <div class="tune-group" aria-label="Model rotation tuning">
+          <label for="pitch-slider" class="tune-label">Pitch <span id="pitch-value" class="tune-value">0deg</span></label>
+          <input id="pitch-slider" class="tune-slider" type="range" min="-180" max="180" step="1" value="0" />
+
+          <label for="yaw-slider" class="tune-label">Yaw <span id="yaw-value" class="tune-value">0deg</span></label>
+          <input id="yaw-slider" class="tune-slider" type="range" min="-180" max="180" step="1" value="0" />
+
+          <label for="roll-slider" class="tune-label">Roll <span id="roll-value" class="tune-value">0deg</span></label>
+          <input id="roll-slider" class="tune-slider" type="range" min="-180" max="180" step="1" value="0" />
+        </div>
         <details class="debug-wrap">
           <summary>Telemetry log (debug)</summary>
           <pre id="app-debug-log" class="app-debug-log" aria-live="polite"></pre>

@@ -617,6 +617,52 @@ label[for="camera-select"] {
   min-height: 1.2em;
 }
 
+.tune-group {
+  margin: 0.35rem 0 0.75rem;
+}
+
+.tune-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--hud-muted);
+  margin: 0.35rem 0 0.2rem;
+}
+
+.tune-value {
+  color: var(--solar-gold);
+  letter-spacing: 0.08em;
+}
+
+.tune-slider {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 1px;
+  border: 1px solid var(--glass-border);
+}
+
+.tune-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 1px;
+  background: var(--solar-gold);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.tune-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 1px;
+  background: var(--solar-gold);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 .debug-wrap {
   font-size: 0.7rem;
   color: var(--hud-muted);

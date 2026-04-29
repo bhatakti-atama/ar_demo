@@ -21,6 +21,12 @@ const zoomSlider = document.getElementById("zoom-slider");
 const zoomNote = document.getElementById("zoom-note");
 const autofocusBtn = document.getElementById("autofocus-now");
 const focusNote = document.getElementById("focus-note");
+const pitchSlider = document.getElementById("pitch-slider");
+const yawSlider = document.getElementById("yaw-slider");
+const rollSlider = document.getElementById("roll-slider");
+const pitchValue = document.getElementById("pitch-value");
+const yawValue = document.getElementById("yaw-value");
+const rollValue = document.getElementById("roll-value");
 const cameraSelect = document.getElementById("camera-select");
 const splashScreen = document.getElementById("splash-screen");
 const splashStart = document.getElementById("splash-start");
@@ -35,10 +41,9 @@ let firstMarkerLock = true;
 let signalJitterId = 0;
 let toastHideTimer = 0;
 let layersModelFitDone = false;
-const MODEL_OFFSET_X = -1.5;
-const MODEL_OFFSET_Y = -2.0;
-const MODEL_OFFSET_Z = 1.0;
-const MODEL_TARGET_SIZE = 10.0;
+const MODEL_POSITION_RELATIVE_TO_TAG = { x: -1.5, y: -2.0, z: 1.0 };
+const MODEL_ROTATION = { pitch: -72, yaw: 5, roll: 3 };
+const MODEL_SIZE_RELATIVE_TO_TAG = 3;
 
 /** @type {string[]} */
 const logBuffer = [];
@@ -1104,8 +1109,12 @@ const fitLayersModelToMarker = () => {
   const size = box.getSize(new THREERef.Vector3());
   const maxDim = Math.max(size.x, size.y, size.z);
 
-  // Target fits within the 1x1 marker bounds (leave a little margin).
-  const target = MODEL_TARGET_SIZE;
+  // Scale directly from marker size.
+  const markerSize =
+    Number(markerEl?.getAttribute("size")) > 0
+      ? Number(markerEl?.getAttribute("size"))
+      : 1.0;
+  const target = markerSize * MODEL_SIZE_RELATIVE_TO_TAG;
   if (!maxDim || !Number.isFinite(maxDim) || maxDim <= 0) {
     return false;
   }
@@ -1116,12 +1125,49 @@ const fitLayersModelToMarker = () => {
 };
 
 const placeLayersModelInFrontOfMarker = () => {
-  // Move slightly towards the camera to sit "in front of" the printed marker.
-  // Tuneable: increase if it appears inside/behind the image.
-  layersModelEl?.setAttribute(
+  // Tune translation and orientation from one place.
+  if (!layersModelEl) {
+    return;
+  }
+  const markerSize =
+    Number(markerEl?.getAttribute("size")) > 0
+      ? Number(markerEl?.getAttribute("size"))
+      : 1.0;
+  layersModelEl.setAttribute(
     "position",
-    `${MODEL_OFFSET_X} ${MODEL_OFFSET_Y} ${MODEL_OFFSET_Z}`,
+    `${MODEL_POSITION_RELATIVE_TO_TAG.x * markerSize} ${MODEL_POSITION_RELATIVE_TO_TAG.y * markerSize} ${
+      MODEL_POSITION_RELATIVE_TO_TAG.z * markerSize
+    }`,
   );
+  layersModelEl.setAttribute(
+    "rotation",
+    `${MODEL_ROTATION.pitch} ${MODEL_ROTATION.yaw} ${MODEL_ROTATION.roll}`,
+  );
+};
+
+const updateRotationReadout = () => {
+  if (pitchValue) {
+    pitchValue.textContent = `${Math.round(MODEL_ROTATION.pitch)}deg`;
+  }
+  if (yawValue) {
+    yawValue.textContent = `${Math.round(MODEL_ROTATION.yaw)}deg`;
+  }
+  if (rollValue) {
+    rollValue.textContent = `${Math.round(MODEL_ROTATION.roll)}deg`;
+  }
+};
+
+const syncRotationSlidersFromModel = () => {
+  if (pitchSlider) {
+    pitchSlider.value = String(MODEL_ROTATION.pitch);
+  }
+  if (yawSlider) {
+    yawSlider.value = String(MODEL_ROTATION.yaw);
+  }
+  if (rollSlider) {
+    rollSlider.value = String(MODEL_ROTATION.roll);
+  }
+  updateRotationReadout();
 };
 
 const tryFitLayersModelToMarker = () => {
@@ -1149,6 +1195,7 @@ if (layersModelEl) {
 setTimeout(() => {
   tryFitLayersModelToMarker();
 }, 1500);
+syncRotationSlidersFromModel();
 
 if (splashStart) {
   splashStart.addEventListener("click", () => {
@@ -1206,6 +1253,30 @@ if (autofocusBtn) {
       }
       await triggerAutofocus(track);
     })();
+  });
+}
+
+if (pitchSlider) {
+  pitchSlider.addEventListener("input", () => {
+    MODEL_ROTATION.pitch = Number(pitchSlider.value);
+    placeLayersModelInFrontOfMarker();
+    updateRotationReadout();
+  });
+}
+
+if (yawSlider) {
+  yawSlider.addEventListener("input", () => {
+    MODEL_ROTATION.yaw = Number(yawSlider.value);
+    placeLayersModelInFrontOfMarker();
+    updateRotationReadout();
+  });
+}
+
+if (rollSlider) {
+  rollSlider.addEventListener("input", () => {
+    MODEL_ROTATION.roll = Number(rollSlider.value);
+    placeLayersModelInFrontOfMarker();
+    updateRotationReadout();
   });
 }
 
