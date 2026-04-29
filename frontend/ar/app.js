@@ -22,10 +22,16 @@ const zoomNote = document.getElementById("zoom-note");
 const autofocusBtn = document.getElementById("autofocus-now");
 const focusNote = document.getElementById("focus-note");
 const sizeSlider = document.getElementById("size-slider");
+const offsetXSlider = document.getElementById("offset-x-slider");
+const offsetYSlider = document.getElementById("offset-y-slider");
+const offsetZSlider = document.getElementById("offset-z-slider");
 const pitchSlider = document.getElementById("pitch-slider");
 const yawSlider = document.getElementById("yaw-slider");
 const rollSlider = document.getElementById("roll-slider");
 const sizeValue = document.getElementById("size-value");
+const offsetXValue = document.getElementById("offset-x-value");
+const offsetYValue = document.getElementById("offset-y-value");
+const offsetZValue = document.getElementById("offset-z-value");
 const pitchValue = document.getElementById("pitch-value");
 const yawValue = document.getElementById("yaw-value");
 const rollValue = document.getElementById("roll-value");
@@ -43,13 +49,19 @@ let firstMarkerLock = true;
 let signalJitterId = 0;
 let toastHideTimer = 0;
 let layersModelFitDone = false;
+let modelBaseMaxDim = 0;
+let modelTransformRafId = 0;
+let modelScaleRefreshPending = false;
 const IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-const MODEL_POSITION_RELATIVE_TO_TAG = { x: -1.5, y: -2.0, z: 1.0 };
-const MODEL_ROTATION = { pitch: -72, yaw: 5, roll: 3 };
+const MODEL_POSITION_RELATIVE_TO_TAG = { x: -1.35, y: -1.65, z: 2.3 };
+const MODEL_ROTATION = { pitch: -78, yaw: 0, roll: 3 };
 let MODEL_SIZE_RELATIVE_TO_TAG = 3;
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
-  ? { size: 0.85, pitch: 0, yaw: 0, roll: 0 }
+  ? { size: 1.0, pitch: 0, yaw: 0, roll: 0 }
   : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
+
+const getMarkerSizeUnits = () =>
+  Number(markerEl?.getAttribute("size")) > 0 ? Number(markerEl?.getAttribute("size")) : 1.0;
 
 /** @type {string[]} */
 const logBuffer = [];
@@ -1147,22 +1159,21 @@ const fitLayersModelToMarker = () => {
     return false;
   }
 
-  const obj = layersModelEl.object3D;
-  const box = new THREERef.Box3().setFromObject(obj);
-  const size = box.getSize(new THREERef.Vector3());
-  const maxDim = Math.max(size.x, size.y, size.z);
-
-  // Scale directly from marker size.
-  const markerSize =
-    Number(markerEl?.getAttribute("size")) > 0
-      ? Number(markerEl?.getAttribute("size"))
-      : 1.0;
-  const target = markerSize * MODEL_SIZE_RELATIVE_TO_TAG * MODEL_DEVICE_CALIBRATION.size;
-  if (!maxDim || !Number.isFinite(maxDim) || maxDim <= 0) {
+  if (!modelBaseMaxDim) {
+    const mesh = layersModelEl.getObject3D("mesh") || layersModelEl.object3D;
+    const worldBox = new THREERef.Box3().setFromObject(mesh);
+    const worldSize = worldBox.getSize(new THREERef.Vector3());
+    const worldMaxDim = Math.max(worldSize.x, worldSize.y, worldSize.z);
+    const currentScale = Number(layersModelEl.object3D.scale?.x) || 1;
+    modelBaseMaxDim = worldMaxDim / currentScale;
+  }
+  if (!modelBaseMaxDim || !Number.isFinite(modelBaseMaxDim) || modelBaseMaxDim <= 0) {
     return false;
   }
 
-  const s = target / maxDim;
+  const markerSize = getMarkerSizeUnits();
+  const target = markerSize * MODEL_SIZE_RELATIVE_TO_TAG * MODEL_DEVICE_CALIBRATION.size;
+  const s = target / modelBaseMaxDim;
   layersModelEl.setAttribute("scale", `${s} ${s} ${s}`);
   return true;
 };
@@ -1172,10 +1183,7 @@ const placeLayersModelInFrontOfMarker = () => {
   if (!layersModelEl) {
     return;
   }
-  const markerSize =
-    Number(markerEl?.getAttribute("size")) > 0
-      ? Number(markerEl?.getAttribute("size"))
-      : 1.0;
+  const markerSize = getMarkerSizeUnits();
   layersModelEl.setAttribute(
     "position",
     `${MODEL_POSITION_RELATIVE_TO_TAG.x * markerSize} ${MODEL_POSITION_RELATIVE_TO_TAG.y * markerSize} ${
@@ -1190,9 +1198,38 @@ const placeLayersModelInFrontOfMarker = () => {
   );
 };
 
+const applyModelTransformNow = () => {
+  if (modelScaleRefreshPending) {
+    fitLayersModelToMarker();
+    modelScaleRefreshPending = false;
+  }
+  placeLayersModelInFrontOfMarker();
+  updateRotationReadout();
+};
+
+const scheduleModelTransform = ({ recomputeScale = false } = {}) => {
+  modelScaleRefreshPending = modelScaleRefreshPending || recomputeScale;
+  if (modelTransformRafId) {
+    return;
+  }
+  modelTransformRafId = requestAnimationFrame(() => {
+    modelTransformRafId = 0;
+    applyModelTransformNow();
+  });
+};
+
 const updateRotationReadout = () => {
   if (sizeValue) {
     sizeValue.textContent = `${MODEL_SIZE_RELATIVE_TO_TAG.toFixed(2)}x`;
+  }
+  if (offsetXValue) {
+    offsetXValue.textContent = MODEL_POSITION_RELATIVE_TO_TAG.x.toFixed(2);
+  }
+  if (offsetYValue) {
+    offsetYValue.textContent = MODEL_POSITION_RELATIVE_TO_TAG.y.toFixed(2);
+  }
+  if (offsetZValue) {
+    offsetZValue.textContent = MODEL_POSITION_RELATIVE_TO_TAG.z.toFixed(2);
   }
   if (pitchValue) {
     pitchValue.textContent = `${Math.round(MODEL_ROTATION.pitch)}deg`;
@@ -1208,6 +1245,15 @@ const updateRotationReadout = () => {
 const syncRotationSlidersFromModel = () => {
   if (sizeSlider) {
     sizeSlider.value = String(MODEL_SIZE_RELATIVE_TO_TAG);
+  }
+  if (offsetXSlider) {
+    offsetXSlider.value = String(MODEL_POSITION_RELATIVE_TO_TAG.x);
+  }
+  if (offsetYSlider) {
+    offsetYSlider.value = String(MODEL_POSITION_RELATIVE_TO_TAG.y);
+  }
+  if (offsetZSlider) {
+    offsetZSlider.value = String(MODEL_POSITION_RELATIVE_TO_TAG.z);
   }
   if (pitchSlider) {
     pitchSlider.value = String(MODEL_ROTATION.pitch);
@@ -1237,8 +1283,9 @@ const tryFitLayersModelToMarker = () => {
 if (layersModelEl) {
   // If the model finishes loading after we already started tracking, ensure we still fit it.
   layersModelEl.addEventListener("model-loaded", () => {
+    modelBaseMaxDim = 0;
     layersModelFitDone = false;
-    tryFitLayersModelToMarker();
+    scheduleModelTransform({ recomputeScale: true });
   });
 }
 
@@ -1310,33 +1357,49 @@ if (autofocusBtn) {
 if (pitchSlider) {
   pitchSlider.addEventListener("input", () => {
     MODEL_ROTATION.pitch = Number(pitchSlider.value);
-    placeLayersModelInFrontOfMarker();
-    updateRotationReadout();
+    scheduleModelTransform();
   });
 }
 
 if (yawSlider) {
   yawSlider.addEventListener("input", () => {
     MODEL_ROTATION.yaw = Number(yawSlider.value);
-    placeLayersModelInFrontOfMarker();
-    updateRotationReadout();
+    scheduleModelTransform();
   });
 }
 
 if (rollSlider) {
   rollSlider.addEventListener("input", () => {
     MODEL_ROTATION.roll = Number(rollSlider.value);
-    placeLayersModelInFrontOfMarker();
-    updateRotationReadout();
+    scheduleModelTransform();
   });
 }
 
 if (sizeSlider) {
   sizeSlider.addEventListener("input", () => {
     MODEL_SIZE_RELATIVE_TO_TAG = Number(sizeSlider.value);
-    fitLayersModelToMarker();
-    placeLayersModelInFrontOfMarker();
-    updateRotationReadout();
+    scheduleModelTransform({ recomputeScale: true });
+  });
+}
+
+if (offsetXSlider) {
+  offsetXSlider.addEventListener("input", () => {
+    MODEL_POSITION_RELATIVE_TO_TAG.x = Number(offsetXSlider.value);
+    scheduleModelTransform();
+  });
+}
+
+if (offsetYSlider) {
+  offsetYSlider.addEventListener("input", () => {
+    MODEL_POSITION_RELATIVE_TO_TAG.y = Number(offsetYSlider.value);
+    scheduleModelTransform();
+  });
+}
+
+if (offsetZSlider) {
+  offsetZSlider.addEventListener("input", () => {
+    MODEL_POSITION_RELATIVE_TO_TAG.z = Number(offsetZSlider.value);
+    scheduleModelTransform();
   });
 }
 
