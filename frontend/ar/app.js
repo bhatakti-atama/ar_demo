@@ -19,6 +19,8 @@ const drawerClose = document.getElementById("drawer-close");
 const refreshCamerasBtn = document.getElementById("refresh-cameras");
 const zoomSlider = document.getElementById("zoom-slider");
 const zoomNote = document.getElementById("zoom-note");
+const autofocusBtn = document.getElementById("autofocus-now");
+const focusNote = document.getElementById("focus-note");
 const cameraSelect = document.getElementById("camera-select");
 const splashScreen = document.getElementById("splash-screen");
 const splashStart = document.getElementById("splash-start");
@@ -641,6 +643,71 @@ const getTrackCapabilities = (track) => {
   return track.getCapabilities();
 };
 
+const getActiveVideoTrack = () => {
+  const video = findArVideo();
+  return video?.srcObject?.getVideoTracks?.()[0] ?? null;
+};
+
+const setFocusUiState = (enabled, message) => {
+  if (autofocusBtn) {
+    autofocusBtn.disabled = !enabled;
+  }
+  if (focusNote) {
+    focusNote.textContent = message;
+  }
+};
+
+const getPreferredFocusMode = (capabilities) => {
+  const focusModes = Array.isArray(capabilities?.focusMode) ? capabilities.focusMode : [];
+  if (focusModes.includes("single-shot")) {
+    return "single-shot";
+  }
+  if (focusModes.includes("continuous")) {
+    return "continuous";
+  }
+  if (focusModes.includes("auto")) {
+    return "auto";
+  }
+  return "";
+};
+
+const applyFocusMode = async (track, mode) => {
+  if (!track || !mode) {
+    return false;
+  }
+  try {
+    await track.applyConstraints({ advanced: [{ focusMode: mode }] });
+    debugLog("P1:cam:focus:apply:ok", { mode });
+    return true;
+  } catch (e) {
+    debugLog("P1:cam:focus:apply:fail", {
+      mode,
+      err: e instanceof Error ? e.message : String(e),
+    });
+    return false;
+  }
+};
+
+const setupFocusForTrack = async (track) => {
+  if (!autofocusBtn || !focusNote) {
+    return;
+  }
+  const capabilities = getTrackCapabilities(track);
+  const focusModes = Array.isArray(capabilities?.focusMode) ? capabilities.focusMode : [];
+  debugLog("P1:cam:focus:capabilities", safeJson({ focusModes }) ?? {});
+
+  if (focusModes.length === 0) {
+    setFocusUiState(false, "Focus: not supported on this camera/browser.");
+    return;
+  }
+
+  const preferredMode = getPreferredFocusMode(capabilities);
+  if (preferredMode) {
+    await applyFocusMode(track, preferredMode);
+  }
+  setFocusUiState(true, `Focus ready (${focusModes.join(", ")}).`);
+};
+
 const setupZoomForTrack = (track) => {
   detachZoomHandler();
   if (!zoomSlider || !zoomNote) {
@@ -782,6 +849,7 @@ const applyStreamToTargetVideo = async (stream) => {
     const settings = track.getSettings?.() ?? {};
     await populateCameraSelect(settings.deviceId ?? "");
     setupZoomForTrack(track);
+    await setupFocusForTrack(track);
   }
   showToast("Manual stream attached to preview (check drawer if AR conflicts).", 4000);
   debugLog("P1:cam:applyStream:done", { toId: video.id });
@@ -832,6 +900,7 @@ const onNudgeOrManualCamera = async () => {
     logTrackDetail(track);
     await populateCameraSelect(track.getSettings?.().deviceId ?? "");
     setupZoomForTrack(track);
+    await setupFocusForTrack(track);
     showToast("Video track live — use optical zoom in footer.", 4000);
     debugLog("P1:cam:nudge:ar-track-present");
     return;
@@ -1055,11 +1124,37 @@ if (cameraSelect) {
         if (tr) {
           logTrackDetail(tr);
           setupZoomForTrack(tr);
+          await setupFocusForTrack(tr);
         }
         await v.play();
         debugLog("P1:cam:switch:ok", { device: id.slice(0, 8) });
       } catch (e) {
         debugLog("P1:cam:switch:fail", e instanceof Error ? e.message : e);
+      }
+    })();
+  });
+}
+
+if (autofocusBtn) {
+  autofocusBtn.addEventListener("click", () => {
+    void (async () => {
+      const track = getActiveVideoTrack();
+      if (!track) {
+        setFocusUiState(false, "Focus: no active camera track.");
+        return;
+      }
+      const capabilities = getTrackCapabilities(track);
+      const mode = getPreferredFocusMode(capabilities);
+      if (!mode) {
+        setFocusUiState(false, "Focus: unsupported on this camera.");
+        return;
+      }
+      const ok = await applyFocusMode(track, mode);
+      if (ok) {
+        setFocusUiState(true, `Focus triggered (${mode}).`);
+        showToast(`AUTOFOCUS // ${mode.toUpperCase()}`, 2200);
+      } else {
+        setFocusUiState(true, `Focus mode ${mode} failed.`);
       }
     })();
   });
@@ -1093,6 +1188,7 @@ setTimeout(() => {
     if (t) {
       logTrackDetail(t);
       void populateCameraSelect(t.getSettings?.().deviceId ?? "");
+      void setupFocusForTrack(t);
     }
   }
   logVideoList("2s-snapshot");
