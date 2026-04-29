@@ -113,7 +113,11 @@ let MODEL_SIZE_RELATIVE_TO_TAG = 3;
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
   ? { size: 1.25, pitch: -41, yaw: 2, roll: 2 }
   : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
-const MULTI_MARKER_HALF_SPAN = 0.7;
+const MARKER_SIZE_M = 0.065;
+const CHART_WIDTH_M = 0.6;
+const CHART_HEIGHT_M = 0.45;
+const MARKER_CENTER_HALF_SPAN_X_M = (CHART_WIDTH_M - MARKER_SIZE_M) / 2;
+const MARKER_CENTER_HALF_SPAN_Y_M = (CHART_HEIGHT_M - MARKER_SIZE_M) / 2;
 const CORNER_CENTER_TUNE = {
   "top-left": { x: 0, y: 0, z: 0 },
   "top-right": { x: 0, y: 0, z: 0 },
@@ -156,14 +160,14 @@ const getContextBiasByVisibleCount = (count) => {
   return VISIBILITY_CONTEXT_BIAS.one;
 };
 
-const getCornerOffset = (THREERef, corner, halfSpan) => {
-  let base = new THREERef.Vector3(halfSpan, -halfSpan, 0);
+const getCornerOffset = (THREERef, corner) => {
+  let base = new THREERef.Vector3(MARKER_CENTER_HALF_SPAN_X_M, -MARKER_CENTER_HALF_SPAN_Y_M, 0);
   if (corner === "top-left") {
-    base = new THREERef.Vector3(-halfSpan, halfSpan, 0);
+    base = new THREERef.Vector3(-MARKER_CENTER_HALF_SPAN_X_M, MARKER_CENTER_HALF_SPAN_Y_M, 0);
   } else if (corner === "top-right") {
-    base = new THREERef.Vector3(halfSpan, halfSpan, 0);
+    base = new THREERef.Vector3(MARKER_CENTER_HALF_SPAN_X_M, MARKER_CENTER_HALF_SPAN_Y_M, 0);
   } else if (corner === "bottom-left") {
-    base = new THREERef.Vector3(-halfSpan, -halfSpan, 0);
+    base = new THREERef.Vector3(-MARKER_CENTER_HALF_SPAN_X_M, -MARKER_CENTER_HALF_SPAN_Y_M, 0);
   }
   const tune = getCornerTune(corner);
   return base.add(new THREERef.Vector3(tune.x, tune.y, tune.z));
@@ -1200,11 +1204,10 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
         return;
       }
       this.THREERef = THREERef;
-      const h = MULTI_MARKER_HALF_SPAN;
       this.markerConfig = MARKER_LAYOUT.map((spec) => ({
         spec,
         el: document.getElementById(spec.elementId),
-        offset: getCornerOffset(THREERef, spec.corner, h),
+        offset: getCornerOffset(THREERef, spec.corner),
       })).filter((x) => x.el);
       this.avgPos = new THREERef.Vector3();
       this.tmpPos = new THREERef.Vector3();

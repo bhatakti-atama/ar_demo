@@ -29,10 +29,10 @@
         renderer="logarithmicDepthBuffer: true; precision: medium; antialias: true; alpha: true;"
         arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; maxDetectionRate: 60; sourceWidth: 1920; sourceHeight: 1080;"
       >
-        <a-marker id="marker-tl" class="tracker-marker" type="barcode" value="1" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
-        <a-marker id="marker-tr" class="tracker-marker" type="barcode" value="6" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
-        <a-marker id="marker-bl" class="tracker-marker" type="barcode" value="12" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
-        <a-marker id="marker-br" class="tracker-marker" type="barcode" value="18" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
+        <a-marker id="marker-tl" class="tracker-marker" type="barcode" value="1" size="0.065" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
+        <a-marker id="marker-tr" class="tracker-marker" type="barcode" value="6" size="0.065" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
+        <a-marker id="marker-bl" class="tracker-marker" type="barcode" value="12" size="0.065" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
+        <a-marker id="marker-br" class="tracker-marker" type="barcode" value="18" size="0.065" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
 
         <a-entity id="stable-model-root" multi-marker-stabilizer="lerpFactor: 0.18">
           <a-entity id="solar-dummy-anchor" position="0 0 0">
@@ -167,40 +167,10 @@
         </button>
         <div id="zoom-note" class="zoom-note"></div>
         <div id="focus-note" class="zoom-note"></div>
-        <div class="tune-group" aria-label="Model rotation tuning">
-          <label for="stabilizer-lerp-slider" class="tune-label">Stabilizer Lerp <span id="stabilizer-lerp-value" class="tune-value">0.18</span></label>
-          <input id="stabilizer-lerp-slider" class="tune-slider" type="range" min="0.05" max="0.45" step="0.01" value="0.18" />
-
-          <label for="position-deadband-slider" class="tune-label">Pos Deadband <span id="position-deadband-value" class="tune-value">0.002</span></label>
-          <input id="position-deadband-slider" class="tune-slider" type="range" min="0" max="0.03" step="0.001" value="0.002" />
-
-          <label for="rotation-deadband-slider" class="tune-label">Rot Deadband <span id="rotation-deadband-value" class="tune-value">0.80deg</span></label>
-          <input id="rotation-deadband-slider" class="tune-slider" type="range" min="0" max="8" step="0.1" value="0.8" />
-
-          <label for="bias-one-x-slider" class="tune-label">1 Marker Bias X <span id="bias-one-x-value" class="tune-value">0.00</span></label>
-          <input id="bias-one-x-slider" class="tune-slider" type="range" min="-2" max="2" step="0.01" value="0" />
-          <label for="bias-one-y-slider" class="tune-label">1 Marker Bias Y <span id="bias-one-y-value" class="tune-value">0.00</span></label>
-          <input id="bias-one-y-slider" class="tune-slider" type="range" min="-2" max="2" step="0.01" value="0" />
-          <label for="bias-one-z-slider" class="tune-label">1 Marker Bias Z <span id="bias-one-z-value" class="tune-value">0.00</span></label>
-          <input id="bias-one-z-slider" class="tune-slider" type="range" min="-2" max="2" step="0.01" value="0" />
-
-          <label for="bias-two-x-slider" class="tune-label">2 Marker Bias X <span id="bias-two-x-value" class="tune-value">0.00</span></label>
-          <input id="bias-two-x-slider" class="tune-slider" type="range" min="-2" max="2" step="0.01" value="0" />
-          <label for="bias-two-y-slider" class="tune-label">2 Marker Bias Y <span id="bias-two-y-value" class="tune-value">0.00</span></label>
-          <input id="bias-two-y-slider" class="tune-slider" type="range" min="-2" max="2" step="0.01" value="0" />
-          <label for="bias-two-z-slider" class="tune-label">2 Marker Bias Z <span id="bias-two-z-value" class="tune-value">0.00</span></label>
-          <input id="bias-two-z-slider" class="tune-slider" type="range" min="-2" max="2" step="0.01" value="0" />
-
-          <label for="bias-three-x-slider" class="tune-label">3 Marker Bias X <span id="bias-three-x-value" class="tune-value">0.00</span></label>
-          <input id="bias-three-x-slider" class="tune-slider" type="range" min="-2" max="2" step="0.01" value="0" />
-          <label for="bias-three-y-slider" class="tune-label">3 Marker Bias Y <span id="bias-three-y-value" class="tune-value">0.00</span></label>
-          <input id="bias-three-y-slider" class="tune-slider" type="range" min="-2" max="2" step="0.01" value="0" />
-          <label for="bias-three-z-slider" class="tune-label">3 Marker Bias Z <span id="bias-three-z-value" class="tune-value">0.00</span></label>
-          <input id="bias-three-z-slider" class="tune-slider" type="range" min="-2" max="2" step="0.01" value="0" />
-
-          <label for="size-slider" class="tune-label">Size <span id="size-value" class="tune-value">1.00x</span></label>
-          <input id="size-slider" class="tune-slider" type="range" min="0.1" max="6" step="0.05" value="1" />
-
+        <p class="drawer-hint">
+          Fixed board calibration active: marker 6.5cm, chart 60x45cm.
+        </p>
+        <div class="tune-group" aria-label="Model transform tuning">
           <label for="offset-x-slider" class="tune-label">Offset X <span id="offset-x-value" class="tune-value">0.00</span></label>
           <input id="offset-x-slider" class="tune-slider" type="range" min="-5" max="5" step="0.05" value="0" />
 
