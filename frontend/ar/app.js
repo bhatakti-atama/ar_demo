@@ -10,7 +10,33 @@ const MAX_DEBUG_LOG_LINES = 220;
 const STORAGE_DEVICE_KEY = "ar-charts-preferred-camera-device-id";
 const PERMISSIONS_QUERY_TIMEOUT_MS = 2000;
 
-const markerEls = [...document.querySelectorAll(".tracker-marker")];
+const MARKER_LAYOUT = [
+  {
+    corner: "top-left",
+    elementId: "marker-tl",
+    barcodeValue: "1",
+    markerFile: "barcode-3x3-id1-top-left.png",
+  },
+  {
+    corner: "top-right",
+    elementId: "marker-tr",
+    barcodeValue: "6",
+    markerFile: "barcode-3x3-id6-top-right.png",
+  },
+  {
+    corner: "bottom-left",
+    elementId: "marker-bl",
+    barcodeValue: "12",
+    markerFile: "barcode-3x3-id12-bottom-left.png",
+  },
+  {
+    corner: "bottom-right",
+    elementId: "marker-br",
+    barcodeValue: "18",
+    markerFile: "barcode-3x3-id18-bottom-right.png",
+  },
+];
+const markerEls = MARKER_LAYOUT.map((x) => document.getElementById(x.elementId)).filter(Boolean);
 const markerEl = markerEls[0] ?? null;
 const solarModelEl = document.getElementById("solar-dummy-model");
 const layersModelEl = document.getElementById("layers_of_the_sun_model");
@@ -21,6 +47,19 @@ const refreshCamerasBtn = document.getElementById("refresh-cameras");
 const zoomSlider = document.getElementById("zoom-slider");
 const zoomNote = document.getElementById("zoom-note");
 const focusNote = document.getElementById("focus-note");
+const stableModelRootEl = document.getElementById("stable-model-root");
+const stabilizerLerpSlider = document.getElementById("stabilizer-lerp-slider");
+const positionDeadbandSlider = document.getElementById("position-deadband-slider");
+const rotationDeadbandSlider = document.getElementById("rotation-deadband-slider");
+const biasOneXSlider = document.getElementById("bias-one-x-slider");
+const biasOneYSlider = document.getElementById("bias-one-y-slider");
+const biasOneZSlider = document.getElementById("bias-one-z-slider");
+const biasTwoXSlider = document.getElementById("bias-two-x-slider");
+const biasTwoYSlider = document.getElementById("bias-two-y-slider");
+const biasTwoZSlider = document.getElementById("bias-two-z-slider");
+const biasThreeXSlider = document.getElementById("bias-three-x-slider");
+const biasThreeYSlider = document.getElementById("bias-three-y-slider");
+const biasThreeZSlider = document.getElementById("bias-three-z-slider");
 const sizeSlider = document.getElementById("size-slider");
 const offsetXSlider = document.getElementById("offset-x-slider");
 const offsetYSlider = document.getElementById("offset-y-slider");
@@ -29,6 +68,18 @@ const pitchSlider = document.getElementById("pitch-slider");
 const yawSlider = document.getElementById("yaw-slider");
 const rollSlider = document.getElementById("roll-slider");
 const sizeValue = document.getElementById("size-value");
+const stabilizerLerpValue = document.getElementById("stabilizer-lerp-value");
+const positionDeadbandValue = document.getElementById("position-deadband-value");
+const rotationDeadbandValue = document.getElementById("rotation-deadband-value");
+const biasOneXValue = document.getElementById("bias-one-x-value");
+const biasOneYValue = document.getElementById("bias-one-y-value");
+const biasOneZValue = document.getElementById("bias-one-z-value");
+const biasTwoXValue = document.getElementById("bias-two-x-value");
+const biasTwoYValue = document.getElementById("bias-two-y-value");
+const biasTwoZValue = document.getElementById("bias-two-z-value");
+const biasThreeXValue = document.getElementById("bias-three-x-value");
+const biasThreeYValue = document.getElementById("bias-three-y-value");
+const biasThreeZValue = document.getElementById("bias-three-z-value");
 const offsetXValue = document.getElementById("offset-x-value");
 const offsetYValue = document.getElementById("offset-y-value");
 const offsetZValue = document.getElementById("offset-z-value");
@@ -52,6 +103,9 @@ let layersModelFitDone = false;
 let modelBaseMaxDim = 0;
 let modelTransformRafId = 0;
 let modelScaleRefreshPending = false;
+let STABILIZER_LERP_FACTOR = 0.18;
+let POSITION_DEADBAND = 0.002;
+let ROTATION_DEADBAND_DEG = 0.8;
 const IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
 const MODEL_POSITION_RELATIVE_TO_TAG = { x: -1.35, y: -1.65, z: 2.3 };
 const MODEL_ROTATION = { pitch: -78, yaw: 0, roll: 3 };
@@ -60,9 +114,60 @@ const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
   ? { size: 1.25, pitch: -41, yaw: 2, roll: 2 }
   : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
 const MULTI_MARKER_HALF_SPAN = 0.7;
+const CORNER_CENTER_TUNE = {
+  "top-left": { x: 0, y: 0, z: 0 },
+  "top-right": { x: 0, y: 0, z: 0 },
+  "bottom-left": { x: 0, y: 0, z: 0 },
+  "bottom-right": { x: 0, y: 0, z: 0 },
+};
+const VISIBILITY_CONTEXT_BIAS = {
+  one: { x: 0, y: 0, z: 0 },
+  two: { x: 0, y: 0, z: 0 },
+  three: { x: 0, y: 0, z: 0 },
+  four: { x: 0, y: 0, z: 0 },
+};
 
 const getMarkerSizeUnits = () =>
   Number(markerEl?.getAttribute("size")) > 0 ? Number(markerEl?.getAttribute("size")) : 1.0;
+
+const getCornerTune = (corner) => {
+  if (corner === "top-left") {
+    return CORNER_CENTER_TUNE["top-left"];
+  }
+  if (corner === "top-right") {
+    return CORNER_CENTER_TUNE["top-right"];
+  }
+  if (corner === "bottom-left") {
+    return CORNER_CENTER_TUNE["bottom-left"];
+  }
+  return CORNER_CENTER_TUNE["bottom-right"];
+};
+
+const getContextBiasByVisibleCount = (count) => {
+  if (count >= 4) {
+    return VISIBILITY_CONTEXT_BIAS.four;
+  }
+  if (count === 3) {
+    return VISIBILITY_CONTEXT_BIAS.three;
+  }
+  if (count === 2) {
+    return VISIBILITY_CONTEXT_BIAS.two;
+  }
+  return VISIBILITY_CONTEXT_BIAS.one;
+};
+
+const getCornerOffset = (THREERef, corner, halfSpan) => {
+  let base = new THREERef.Vector3(halfSpan, -halfSpan, 0);
+  if (corner === "top-left") {
+    base = new THREERef.Vector3(-halfSpan, halfSpan, 0);
+  } else if (corner === "top-right") {
+    base = new THREERef.Vector3(halfSpan, halfSpan, 0);
+  } else if (corner === "bottom-left") {
+    base = new THREERef.Vector3(-halfSpan, -halfSpan, 0);
+  }
+  const tune = getCornerTune(corner);
+  return base.add(new THREERef.Vector3(tune.x, tune.y, tune.z));
+};
 
 /** @type {string[]} */
 const logBuffer = [];
@@ -1032,6 +1137,22 @@ const wireLifecycle = () => {
 // --- 11) Run ---
 
 logBootEnvironment();
+for (const spec of MARKER_LAYOUT) {
+  const marker = document.getElementById(spec.elementId);
+  if (!marker) {
+    debugLog("P1:marker:config:missing", spec);
+    continue;
+  }
+  const configuredValue = String(marker.getAttribute("value") ?? "");
+  if (configuredValue !== spec.barcodeValue) {
+    debugLog("P1:marker:config:mismatch", {
+      elementId: spec.elementId,
+      expectedValue: spec.barcodeValue,
+      actualValue: configuredValue,
+      expectedFile: spec.markerFile,
+    });
+  }
+}
 debugLog("P1:model:device-calibration", {
   isMobile: IS_MOBILE_DEVICE,
   calibration: MODEL_DEVICE_CALIBRATION,
@@ -1071,7 +1192,7 @@ if (arScene) {
 if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
   window.AFRAME.registerComponent("multi-marker-stabilizer", {
     schema: {
-      lerpFactor: { type: "number", default: 0.18 },
+      lerpFactor: { type: "number", default: STABILIZER_LERP_FACTOR },
     },
     init() {
       const THREERef = window.THREE;
@@ -1080,12 +1201,11 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       }
       this.THREERef = THREERef;
       const h = MULTI_MARKER_HALF_SPAN;
-      this.markerConfig = [
-        { el: document.getElementById("marker-tl"), offset: new THREERef.Vector3(-h, h, 0) },
-        { el: document.getElementById("marker-tr"), offset: new THREERef.Vector3(h, h, 0) },
-        { el: document.getElementById("marker-bl"), offset: new THREERef.Vector3(-h, -h, 0) },
-        { el: document.getElementById("marker-br"), offset: new THREERef.Vector3(h, -h, 0) },
-      ].filter((x) => x.el);
+      this.markerConfig = MARKER_LAYOUT.map((spec) => ({
+        spec,
+        el: document.getElementById(spec.elementId),
+        offset: getCornerOffset(THREERef, spec.corner, h),
+      })).filter((x) => x.el);
       this.avgPos = new THREERef.Vector3();
       this.tmpPos = new THREERef.Vector3();
       this.tmpOffset = new THREERef.Vector3();
@@ -1117,6 +1237,9 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
           this.avgQuat.copy(this.tmpQuat);
           this.hasInitQuat = true;
         } else {
+          if (this.avgQuat.dot(this.tmpQuat) < 0) {
+            this.tmpQuat.set(-this.tmpQuat.x, -this.tmpQuat.y, -this.tmpQuat.z, -this.tmpQuat.w);
+          }
           const alpha = 1 / (count + 1);
           this.avgQuat.slerp(this.tmpQuat, alpha);
         }
@@ -1129,8 +1252,20 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       }
 
       this.avgPos.divideScalar(count);
+      const contextBias = getContextBiasByVisibleCount(count);
+      if (contextBias) {
+        this.tmpOffset
+          .set(contextBias.x, contextBias.y, contextBias.z)
+          .applyQuaternion(this.avgQuat);
+        this.avgPos.add(this.tmpOffset);
+      }
       const lerpFactor = this.data.lerpFactor;
       this.el.object3D.visible = true;
+      const posDelta = this.el.object3D.position.distanceTo(this.avgPos);
+      const rotDeltaDeg = (this.el.object3D.quaternion.angleTo(this.avgQuat) * 180) / Math.PI;
+      if (posDelta < POSITION_DEADBAND && rotDeltaDeg < ROTATION_DEADBAND_DEG) {
+        return;
+      }
       this.el.object3D.position.lerp(this.avgPos, lerpFactor);
       this.el.object3D.quaternion.slerp(this.avgQuat, lerpFactor);
     },
@@ -1236,6 +1371,42 @@ const scheduleModelTransform = ({ recomputeScale = false } = {}) => {
 };
 
 const updateRotationReadout = () => {
+  if (stabilizerLerpValue) {
+    stabilizerLerpValue.textContent = STABILIZER_LERP_FACTOR.toFixed(2);
+  }
+  if (positionDeadbandValue) {
+    positionDeadbandValue.textContent = POSITION_DEADBAND.toFixed(3);
+  }
+  if (rotationDeadbandValue) {
+    rotationDeadbandValue.textContent = `${ROTATION_DEADBAND_DEG.toFixed(2)}deg`;
+  }
+  if (biasOneXValue) {
+    biasOneXValue.textContent = VISIBILITY_CONTEXT_BIAS.one.x.toFixed(2);
+  }
+  if (biasOneYValue) {
+    biasOneYValue.textContent = VISIBILITY_CONTEXT_BIAS.one.y.toFixed(2);
+  }
+  if (biasOneZValue) {
+    biasOneZValue.textContent = VISIBILITY_CONTEXT_BIAS.one.z.toFixed(2);
+  }
+  if (biasTwoXValue) {
+    biasTwoXValue.textContent = VISIBILITY_CONTEXT_BIAS.two.x.toFixed(2);
+  }
+  if (biasTwoYValue) {
+    biasTwoYValue.textContent = VISIBILITY_CONTEXT_BIAS.two.y.toFixed(2);
+  }
+  if (biasTwoZValue) {
+    biasTwoZValue.textContent = VISIBILITY_CONTEXT_BIAS.two.z.toFixed(2);
+  }
+  if (biasThreeXValue) {
+    biasThreeXValue.textContent = VISIBILITY_CONTEXT_BIAS.three.x.toFixed(2);
+  }
+  if (biasThreeYValue) {
+    biasThreeYValue.textContent = VISIBILITY_CONTEXT_BIAS.three.y.toFixed(2);
+  }
+  if (biasThreeZValue) {
+    biasThreeZValue.textContent = VISIBILITY_CONTEXT_BIAS.three.z.toFixed(2);
+  }
   if (sizeValue) {
     sizeValue.textContent = `${MODEL_SIZE_RELATIVE_TO_TAG.toFixed(2)}x`;
   }
@@ -1260,6 +1431,42 @@ const updateRotationReadout = () => {
 };
 
 const syncRotationSlidersFromModel = () => {
+  if (stabilizerLerpSlider) {
+    stabilizerLerpSlider.value = String(STABILIZER_LERP_FACTOR);
+  }
+  if (positionDeadbandSlider) {
+    positionDeadbandSlider.value = String(POSITION_DEADBAND);
+  }
+  if (rotationDeadbandSlider) {
+    rotationDeadbandSlider.value = String(ROTATION_DEADBAND_DEG);
+  }
+  if (biasOneXSlider) {
+    biasOneXSlider.value = String(VISIBILITY_CONTEXT_BIAS.one.x);
+  }
+  if (biasOneYSlider) {
+    biasOneYSlider.value = String(VISIBILITY_CONTEXT_BIAS.one.y);
+  }
+  if (biasOneZSlider) {
+    biasOneZSlider.value = String(VISIBILITY_CONTEXT_BIAS.one.z);
+  }
+  if (biasTwoXSlider) {
+    biasTwoXSlider.value = String(VISIBILITY_CONTEXT_BIAS.two.x);
+  }
+  if (biasTwoYSlider) {
+    biasTwoYSlider.value = String(VISIBILITY_CONTEXT_BIAS.two.y);
+  }
+  if (biasTwoZSlider) {
+    biasTwoZSlider.value = String(VISIBILITY_CONTEXT_BIAS.two.z);
+  }
+  if (biasThreeXSlider) {
+    biasThreeXSlider.value = String(VISIBILITY_CONTEXT_BIAS.three.x);
+  }
+  if (biasThreeYSlider) {
+    biasThreeYSlider.value = String(VISIBILITY_CONTEXT_BIAS.three.y);
+  }
+  if (biasThreeZSlider) {
+    biasThreeZSlider.value = String(VISIBILITY_CONTEXT_BIAS.three.z);
+  }
   if (sizeSlider) {
     sizeSlider.value = String(MODEL_SIZE_RELATIVE_TO_TAG);
   }
@@ -1357,6 +1564,63 @@ if (cameraSelect) {
     })();
   });
 }
+
+const applyStabilizerLerpToRoot = () => {
+  if (!stableModelRootEl) {
+    return;
+  }
+  stableModelRootEl.setAttribute("multi-marker-stabilizer", `lerpFactor: ${STABILIZER_LERP_FACTOR.toFixed(2)}`);
+};
+
+const bindBiasSlider = (sliderEl, targetBias, axis) => {
+  if (!sliderEl) {
+    return;
+  }
+  sliderEl.addEventListener("input", () => {
+    const value = Number(sliderEl.value);
+    if (axis === "x") {
+      targetBias.x = value;
+    } else if (axis === "y") {
+      targetBias.y = value;
+    } else if (axis === "z") {
+      targetBias.z = value;
+    }
+    updateRotationReadout();
+  });
+};
+
+if (stabilizerLerpSlider) {
+  stabilizerLerpSlider.addEventListener("input", () => {
+    STABILIZER_LERP_FACTOR = Number(stabilizerLerpSlider.value);
+    applyStabilizerLerpToRoot();
+    updateRotationReadout();
+  });
+}
+
+if (positionDeadbandSlider) {
+  positionDeadbandSlider.addEventListener("input", () => {
+    POSITION_DEADBAND = Number(positionDeadbandSlider.value);
+    updateRotationReadout();
+  });
+}
+
+if (rotationDeadbandSlider) {
+  rotationDeadbandSlider.addEventListener("input", () => {
+    ROTATION_DEADBAND_DEG = Number(rotationDeadbandSlider.value);
+    updateRotationReadout();
+  });
+}
+
+bindBiasSlider(biasOneXSlider, VISIBILITY_CONTEXT_BIAS.one, "x");
+bindBiasSlider(biasOneYSlider, VISIBILITY_CONTEXT_BIAS.one, "y");
+bindBiasSlider(biasOneZSlider, VISIBILITY_CONTEXT_BIAS.one, "z");
+bindBiasSlider(biasTwoXSlider, VISIBILITY_CONTEXT_BIAS.two, "x");
+bindBiasSlider(biasTwoYSlider, VISIBILITY_CONTEXT_BIAS.two, "y");
+bindBiasSlider(biasTwoZSlider, VISIBILITY_CONTEXT_BIAS.two, "z");
+bindBiasSlider(biasThreeXSlider, VISIBILITY_CONTEXT_BIAS.three, "x");
+bindBiasSlider(biasThreeYSlider, VISIBILITY_CONTEXT_BIAS.three, "y");
+bindBiasSlider(biasThreeZSlider, VISIBILITY_CONTEXT_BIAS.three, "z");
+applyStabilizerLerpToRoot();
 
 if (pitchSlider) {
   pitchSlider.addEventListener("input", () => {
