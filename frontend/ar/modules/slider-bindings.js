@@ -26,9 +26,9 @@ import { VISIBILITY_CONTEXT_BIAS } from "./marker-config.js";
 
 /** @type {{ stabilizerLerp: number, positionDeadband: number, rotationDeadbandDeg: number }} */
 export const stabilizerState = {
-  stabilizerLerp: 0.18,
-  positionDeadband: 0.002,
-  rotationDeadbandDeg: 0.8,
+  stabilizerLerp: 0.12,
+  positionDeadband: 0.015,
+  rotationDeadbandDeg: 2.0,
 };
 
 /** @type {{ x: number, y: number, z: number }} */
@@ -38,7 +38,7 @@ export const modelPosition = { x: 0, y: 0, z: 0 };
 export const modelRotation = { pitch: -78, yaw: 0, roll: 3 };
 
 /** @type {{ value: number }} */
-export const modelSize = { value: 10.0 };
+export const modelSize = { value: 0 };
 
 const fmt2 = (v) => v.toFixed(2);
 const fmt3 = (v) => v.toFixed(3);

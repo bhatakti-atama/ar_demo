@@ -27,7 +27,6 @@ import {
 import {
   MARKER_LAYOUT,
   PERMISSIONS_QUERY_TIMEOUT_MS,
-  getContextBiasByVisibleCount,
   getCornerOffset,
   markerIdToBarcodeValue,
 } from "./modules/marker-config.js";
@@ -459,11 +458,10 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       }
       this.offsetsComputed = true;
       debugLog("P1:stabilizer:offsets", {
-        chartDimensions: { width: 0.6, height: 0.45, markerSize: 0.065 },
-        halfSpan: { x: (0.6 - 0.065) / 2, y: (0.45 - 0.065) / 2 },
+        halfSpan: { x: 0.2675, y: 0.1925 },
         offsets: this.markerConfig.map((m) => ({
           corner: m.spec.corner,
-          offset: { x: m.offset.x.toFixed(4), y: m.offset.y.toFixed(4), z: m.offset.z.toFixed(4) },
+          offset: `(${m.offset.x.toFixed(4)}, ${m.offset.y.toFixed(4)}, ${m.offset.z.toFixed(4)})`,
         })),
       });
     },
@@ -471,57 +469,49 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       if (!this.avgPos) return;
       if (!this.offsetsComputed) this.computeOffsets();
 
-      let count = 0;
-      this.avgPos.set(0, 0, 0);
-      this.hasInitQuat = false;
-      const visibleCorners = [];
-
+      const visibleMarkers = [];
       for (const marker of this.markerConfig) {
         const markerObj = marker.el?.object3D;
         if (!markerObj || !markerObj.visible || !marker.offset) continue;
-
-        markerObj.getWorldPosition(this.tmpPos);
-        markerObj.getWorldQuaternion(this.tmpQuat);
-
-        this.tmpOffset.copy(marker.offset).multiplyScalar(-1).applyQuaternion(this.tmpQuat);
-        this.chartCenter.copy(this.tmpPos).add(this.tmpOffset);
-        this.avgPos.add(this.chartCenter);
-        visibleCorners.push(marker.spec.corner);
-
-        if (count === 0 && this.debugCounter % 30 === 0) {
-          debugLog("P1:stabilizer:marker", {
-            corner: marker.spec.corner,
-            markerPos: { x: this.tmpPos.x.toFixed(3), y: this.tmpPos.y.toFixed(3), z: this.tmpPos.z.toFixed(3) },
-            offset: { x: marker.offset.x.toFixed(3), y: marker.offset.y.toFixed(3), z: marker.offset.z.toFixed(3) },
-            negOffset: { x: this.tmpOffset.x.toFixed(3), y: this.tmpOffset.y.toFixed(3), z: this.tmpOffset.z.toFixed(3) },
-            chartCenter: { x: this.chartCenter.x.toFixed(3), y: this.chartCenter.y.toFixed(3), z: this.chartCenter.z.toFixed(3) },
-          });
-        }
-
-        if (!this.hasInitQuat) {
-          this.avgQuat.copy(this.tmpQuat);
-          this.hasInitQuat = true;
-        } else {
-          if (this.avgQuat.dot(this.tmpQuat) < 0) {
-            this.tmpQuat.set(-this.tmpQuat.x, -this.tmpQuat.y, -this.tmpQuat.z, -this.tmpQuat.w);
-          }
-          const alpha = 1 / (count + 1);
-          this.avgQuat.slerp(this.tmpQuat, alpha);
-        }
-        count += 1;
+        visibleMarkers.push(marker);
       }
 
-      if (count === 0) {
+      if (visibleMarkers.length === 0) {
         this.el.object3D.visible = false;
         return;
       }
 
-      this.avgPos.divideScalar(count);
-      const contextBias = getContextBiasByVisibleCount(count);
-      if (contextBias && (contextBias.x !== 0 || contextBias.y !== 0 || contextBias.z !== 0)) {
-        this.tmpOffset.set(contextBias.x, contextBias.y, contextBias.z).applyQuaternion(this.avgQuat);
-        this.avgPos.add(this.tmpOffset);
+      this.avgQuat.set(0, 0, 0, 0);
+      let quatCount = 0;
+      for (const marker of visibleMarkers) {
+        marker.el.object3D.getWorldQuaternion(this.tmpQuat);
+        if (quatCount === 0) {
+          this.avgQuat.copy(this.tmpQuat);
+        } else {
+          if (this.avgQuat.dot(this.tmpQuat) < 0) {
+            this.tmpQuat.set(-this.tmpQuat.x, -this.tmpQuat.y, -this.tmpQuat.z, -this.tmpQuat.w);
+          }
+          this.avgQuat.x += this.tmpQuat.x;
+          this.avgQuat.y += this.tmpQuat.y;
+          this.avgQuat.z += this.tmpQuat.z;
+          this.avgQuat.w += this.tmpQuat.w;
+        }
+        quatCount++;
       }
+      this.avgQuat.normalize();
+
+      this.avgPos.set(0, 0, 0);
+      const visibleCorners = [];
+      for (const marker of visibleMarkers) {
+        marker.el.object3D.getWorldPosition(this.tmpPos);
+        this.tmpOffset.copy(marker.offset).multiplyScalar(-1).applyQuaternion(this.avgQuat);
+        this.chartCenter.copy(this.tmpPos).add(this.tmpOffset);
+        this.avgPos.add(this.chartCenter);
+        visibleCorners.push(marker.spec.corner);
+      }
+      this.avgPos.divideScalar(visibleMarkers.length);
+
+      this.debugCounter++;
 
       const lerpFactor = this.data.lerpFactor;
       this.el.object3D.visible = true;
@@ -530,24 +520,17 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       const rotDeltaDeg = (this.el.object3D.quaternion.angleTo(this.avgQuat) * 180) / Math.PI;
 
       if (posDelta < stabilizerState.positionDeadband && rotDeltaDeg < stabilizerState.rotationDeadbandDeg) {
-        this.debugCounter++;
         return;
       }
 
       this.el.object3D.position.lerp(this.avgPos, lerpFactor);
       this.el.object3D.quaternion.slerp(this.avgQuat, lerpFactor);
 
-      this.debugCounter++;
-      if (this.debugCounter % 60 === 0) {
+      if (this.debugCounter % 90 === 0) {
         debugLog("P1:stabilizer:tick", {
-          count,
+          count: visibleMarkers.length,
           corners: visibleCorners,
-          avgPos: { x: this.avgPos.x.toFixed(3), y: this.avgPos.y.toFixed(3), z: this.avgPos.z.toFixed(3) },
-          elPos: {
-            x: this.el.object3D.position.x.toFixed(3),
-            y: this.el.object3D.position.y.toFixed(3),
-            z: this.el.object3D.position.z.toFixed(3),
-          },
+          avgPos: `(${this.avgPos.x.toFixed(3)}, ${this.avgPos.y.toFixed(3)}, ${this.avgPos.z.toFixed(3)})`,
         });
       }
     },
