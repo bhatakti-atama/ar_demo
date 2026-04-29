@@ -10,7 +10,8 @@ const MAX_DEBUG_LOG_LINES = 220;
 const STORAGE_DEVICE_KEY = "ar-charts-preferred-camera-device-id";
 const PERMISSIONS_QUERY_TIMEOUT_MS = 2000;
 
-const markerEl = document.getElementById("barcode-marker");
+const markerEls = [...document.querySelectorAll(".tracker-marker")];
+const markerEl = markerEls[0] ?? null;
 const solarModelEl = document.getElementById("solar-dummy-model");
 const layersModelEl = document.getElementById("layers_of_the_sun_model");
 const settingsDrawer = document.getElementById("settings-drawer");
@@ -58,6 +59,7 @@ let MODEL_SIZE_RELATIVE_TO_TAG = 3;
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
   ? { size: 1.25, pitch: -41, yaw: 2, roll: 2 }
   : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
+const MULTI_MARKER_HALF_SPAN = 0.7;
 
 const getMarkerSizeUnits = () =>
   Number(markerEl?.getAttribute("size")) > 0 ? Number(markerEl?.getAttribute("size")) : 1.0;
@@ -1066,24 +1068,102 @@ if (arScene) {
   debugLog("P1:scene:missing", "No #ar-scene");
 }
 
-if (markerEl) {
-  markerEl.addEventListener("markerFound", () => {
-    debugLog("P1:marker:found", {
-      timeMs: Math.round(performance.now() - BOOT_T0),
-      model: layersModelEl ? "layers_of_the_sun" : solarModelEl ? "solar-dummy" : "none",
-    });
-    setCrosshairLocked();
-    showToast("STABLE LINK // SOLAR TELEMETRY LOCKED", 4200);
-    if (firstMarkerLock) {
-      firstMarkerLock = false;
-      runHeaderGlitch();
-    }
-    tryFitLayersModelToMarker();
+if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
+  window.AFRAME.registerComponent("multi-marker-stabilizer", {
+    schema: {
+      lerpFactor: { type: "number", default: 0.18 },
+    },
+    init() {
+      const THREERef = window.THREE;
+      if (!THREERef) {
+        return;
+      }
+      this.THREERef = THREERef;
+      const h = MULTI_MARKER_HALF_SPAN;
+      this.markerConfig = [
+        { el: document.getElementById("marker-tl"), offset: new THREERef.Vector3(-h, h, 0) },
+        { el: document.getElementById("marker-tr"), offset: new THREERef.Vector3(h, h, 0) },
+        { el: document.getElementById("marker-bl"), offset: new THREERef.Vector3(-h, -h, 0) },
+        { el: document.getElementById("marker-br"), offset: new THREERef.Vector3(h, -h, 0) },
+      ].filter((x) => x.el);
+      this.avgPos = new THREERef.Vector3();
+      this.tmpPos = new THREERef.Vector3();
+      this.tmpOffset = new THREERef.Vector3();
+      this.avgQuat = new THREERef.Quaternion();
+      this.tmpQuat = new THREERef.Quaternion();
+      this.hasInitQuat = false;
+      this.el.object3D.visible = false;
+    },
+    tick() {
+      if (!this.avgPos) {
+        return;
+      }
+      let count = 0;
+      this.avgPos.set(0, 0, 0);
+      this.hasInitQuat = false;
+
+      for (const marker of this.markerConfig) {
+        const markerObj = marker.el?.object3D;
+        if (!markerObj || !markerObj.visible) {
+          continue;
+        }
+        markerObj.getWorldPosition(this.tmpPos);
+        markerObj.getWorldQuaternion(this.tmpQuat);
+
+        this.tmpOffset.copy(marker.offset).multiplyScalar(-1).applyQuaternion(this.tmpQuat);
+        this.avgPos.add(this.tmpPos.add(this.tmpOffset));
+
+        if (!this.hasInitQuat) {
+          this.avgQuat.copy(this.tmpQuat);
+          this.hasInitQuat = true;
+        } else {
+          const alpha = 1 / (count + 1);
+          this.avgQuat.slerp(this.tmpQuat, alpha);
+        }
+        count += 1;
+      }
+
+      if (count === 0) {
+        this.el.object3D.visible = false;
+        return;
+      }
+
+      this.avgPos.divideScalar(count);
+      const lerpFactor = this.data.lerpFactor;
+      this.el.object3D.visible = true;
+      this.el.object3D.position.lerp(this.avgPos, lerpFactor);
+      this.el.object3D.quaternion.slerp(this.avgQuat, lerpFactor);
+    },
   });
-  markerEl.addEventListener("markerLost", () => {
-    debugLog("P1:marker:lost");
-    setCrosshairScanning();
-    showToast("SIGNAL LOST // RESCANNING TARGET", 3200);
+}
+
+if (markerEls.length) {
+  const visibleMarkerIds = new Set();
+  markerEls.forEach((marker) => {
+    marker.addEventListener("markerFound", () => {
+      visibleMarkerIds.add(marker.id);
+      debugLog("P1:marker:found", {
+        markerId: marker.id,
+        visibleMarkers: visibleMarkerIds.size,
+        timeMs: Math.round(performance.now() - BOOT_T0),
+        model: layersModelEl ? "layers_of_the_sun" : solarModelEl ? "solar-dummy" : "none",
+      });
+      setCrosshairLocked();
+      showToast("STABLE LINK // SOLAR TELEMETRY LOCKED", 2000);
+      if (firstMarkerLock) {
+        firstMarkerLock = false;
+        runHeaderGlitch();
+      }
+      tryFitLayersModelToMarker();
+    });
+    marker.addEventListener("markerLost", () => {
+      visibleMarkerIds.delete(marker.id);
+      debugLog("P1:marker:lost", { markerId: marker.id, visibleMarkers: visibleMarkerIds.size });
+      if (visibleMarkerIds.size === 0) {
+        setCrosshairScanning();
+        showToast("SIGNAL LOST // RESCANNING TARGET", 2000);
+      }
+    });
   });
 }
 
