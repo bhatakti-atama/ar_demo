@@ -17,8 +17,8 @@ const COORD_SCALE = 1 / MARKER_SIZE_M;
 const MODEL_CENTER_OFFSET_M = { x: 0.0, y: -0.5, z: 2.0 };
 const MODEL_SCALE_FACTOR = 4;
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
-  ? { pitch: -11, yaw: -68, roll: 0 }
-  : { pitch: -11, yaw: -68, roll: 0 };
+  ? { pitch: -11, yaw: -91, roll: 90 }
+  : { pitch: -11, yaw: -91, roll: 90 };
 
 let modelBaseMaxDim = 0;
 let modelFitDone = false;
@@ -86,8 +86,6 @@ const fitModelScale = () => {
   
   if (!baseComputedSize) {
     baseComputedSize = targetDiameterMeters / modelBaseMaxDim;
-    modelSize.value = baseComputedSize * MODEL_SCALE_FACTOR;
-    syncSlidersFromState();
   }
 
   const s = modelSize.value;
