@@ -7,6 +7,8 @@
       content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
     />
     <title>HELIOS-V1 — Solar scan</title>
+    <!-- Preload the 3D model early -->
+    <link rel="preload" href="/sun-xsection.glb" as="fetch" crossorigin="anonymous" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -27,19 +29,24 @@
         vr-mode-ui="enabled: false"
         background="color: #000000; transparent: true"
         renderer="logarithmicDepthBuffer: true; precision: medium; antialias: true; alpha: true;"
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; maxDetectionRate: 60; sourceWidth: 1280; sourceHeight: 720; displayWidth: 1280; displayHeight: 720;"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; maxDetectionRate: 60; sourceWidth: 1280; sourceHeight: 960; displayWidth: 1280; displayHeight: 960;"
       >
-        <a-marker id="marker-tl" class="tracker-marker" type="barcode" value="1" size="0.065" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
-        <a-marker id="marker-tr" class="tracker-marker" type="barcode" value="6" size="0.065" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
-        <a-marker id="marker-bl" class="tracker-marker" type="barcode" value="12" size="0.065" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
-        <a-marker id="marker-br" class="tracker-marker" type="barcode" value="18" size="0.065" smooth="true" smooth-count="15" smooth-tolerance="0.05" smooth-threshold="7"></a-marker>
+        <!-- Preload assets -->
+        <a-assets timeout="30000">
+          <a-asset-item id="sun-model" src="/sun-xsection.glb"></a-asset-item>
+        </a-assets>
 
-        <a-entity id="stable-model-root" multi-marker-stabilizer="lerpFactor: 0.18">
+        <a-marker id="marker-tl" class="tracker-marker" type="barcode" value="1" size="0.065" smooth="true" smooth-count="20" smooth-tolerance="0.01" smooth-threshold="5"></a-marker>
+        <a-marker id="marker-tr" class="tracker-marker" type="barcode" value="6" size="0.065" smooth="true" smooth-count="20" smooth-tolerance="0.01" smooth-threshold="5"></a-marker>
+        <a-marker id="marker-bl" class="tracker-marker" type="barcode" value="12" size="0.065" smooth="true" smooth-count="20" smooth-tolerance="0.01" smooth-threshold="5"></a-marker>
+        <a-marker id="marker-br" class="tracker-marker" type="barcode" value="18" size="0.065" smooth="true" smooth-count="20" smooth-tolerance="0.01" smooth-threshold="5"></a-marker>
+
+        <a-entity id="stable-model-root" multi-marker-stabilizer="lerpFactor: 0.12">
           <a-entity id="solar-dummy-anchor" position="0 0 0">
-            <!-- @sun-xsection.glb -->
+            <!-- @sun-xsection.glb (preloaded) -->
             <a-gltf-model
               id="layers_of_the_sun_model"
-              src="/sun-xsection.glb"
+              src="#sun-model"
               position="-0.22 -0.16 0.09"
               scale="1 1 1"
               rotation="0 0 0"
@@ -61,7 +68,7 @@
             ></a-light>
           </a-entity>
         </a-entity>
-        <a-entity id="ar-default-camera" camera></a-entity>
+        <a-entity id="ar-default-camera" camera="near: 0.01; far: 1000;"></a-entity>
       </a-scene>
     </div>
 
@@ -81,7 +88,11 @@
           <p class="splash-eyebrow">ORBITAL TELEMETRY UNIT</p>
           <h1 id="splash-title" class="splash-title">Solar System Scan</h1>
           <p class="splash-sub">Initialize sensors and align to Barcode ID 5 target.</p>
-          <button type="button" id="splash-start" class="btn-mission">
+          <div id="model-loading-status" class="model-loading-status">
+            <span class="loading-spinner"></span>
+            <span id="loading-text">Loading 3D model...</span>
+          </div>
+          <button type="button" id="splash-start" class="btn-mission" disabled>
             START SCAN
           </button>
         </div>
@@ -200,6 +211,10 @@
 
           <label for="roll-slider" class="tune-label">Roll <span id="roll-value" class="tune-value">0deg</span></label>
           <input id="roll-slider" class="tune-slider" type="range" min="-180" max="180" step="1" value="0" />
+
+          <button type="button" id="reset-model-btn" class="btn-reset">
+            Reset Model
+          </button>
         </div>
         <details class="debug-wrap" open>
           <summary>Telemetry log (debug)</summary>

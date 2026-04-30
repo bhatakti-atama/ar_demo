@@ -26,9 +26,9 @@ import { VISIBILITY_CONTEXT_BIAS } from "./marker-config.js";
 
 /** @type {{ stabilizerLerp: number, positionDeadband: number, rotationDeadbandDeg: number }} */
 export const stabilizerState = {
-  stabilizerLerp: 0.08,
-  positionDeadband: 1.5,
-  rotationDeadbandDeg: 8.0,
+  stabilizerLerp: 0.12,
+  positionDeadband: 0.8,
+  rotationDeadbandDeg: 5.0,
 };
 
 /** @type {{ x: number, y: number, z: number }} */
@@ -210,6 +210,25 @@ export const syncSlidersFromState = () => {
       binding.display.textContent = binding.format(val);
     }
   }
+};
+
+/** Default values for model transform */
+const MODEL_DEFAULTS = {
+  size: 4,
+  position: { x: 0, y: 0, z: 0 },
+  rotation: { pitch: 0, yaw: 0, roll: 0 },
+};
+
+/** Reset model position, rotation, and size to defaults */
+export const resetModelToDefaults = () => {
+  modelSize.value = MODEL_DEFAULTS.size;
+  modelPosition.x = MODEL_DEFAULTS.position.x;
+  modelPosition.y = MODEL_DEFAULTS.position.y;
+  modelPosition.z = MODEL_DEFAULTS.position.z;
+  modelRotation.pitch = MODEL_DEFAULTS.rotation.pitch;
+  modelRotation.yaw = MODEL_DEFAULTS.rotation.yaw;
+  modelRotation.roll = MODEL_DEFAULTS.rotation.roll;
+  syncSlidersFromState();
 };
 
 /**

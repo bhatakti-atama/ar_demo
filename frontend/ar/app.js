@@ -36,6 +36,7 @@ import {
 import { createDebugLog, isLoggingEnabled, isRemoteLoggingEnabled, setLoggingEnabled, setRemoteLoggingEnabled } from "./modules/debug-utils.js";
 import {
   initSliderBindings,
+  resetModelToDefaults,
   stabilizerState,
   syncSlidersFromState,
 } from "./modules/slider-bindings.js";
@@ -63,6 +64,7 @@ import {
   scheduleModelTransform,
   tryInitialModelFit,
 } from "./modules/model-transform.js";
+import { initTouchGestures, setupTouchGestures, syncTouchTargetsFromModel } from "./modules/touch-gestures.js";
 
 const BOOT_T0 = performance.now();
 const LOG_NS = "phase1";
@@ -81,6 +83,7 @@ const debugLog = createDebugLog({
 // Initialize modules with debugLog
 initVideoManager(debugLog);
 initModelTransform(debugLog);
+initTouchGestures(debugLog);
 
 // --- HUD helpers ---
 
@@ -430,7 +433,7 @@ const wireLifecycle = () => {
 
 // --- Multi-marker stabilizer component ---
 
-const MARKER_HYSTERESIS_FRAMES = 15;
+const MARKER_HYSTERESIS_FRAMES = 25;
 
 if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
   window.AFRAME.registerComponent("multi-marker-stabilizer", {
@@ -730,12 +733,25 @@ setCrosshairScanning();
 
 // Scene events
 if (arScene) {
+  const sceneLoadStart = performance.now();
+  
+  const assets = arScene.querySelector("a-assets");
+  if (assets) {
+    assets.addEventListener("loaded", () => {
+      const assetsLoadTime = Math.round(performance.now() - sceneLoadStart);
+      debugLog("P1:assets:loaded", { loadTimeMs: assetsLoadTime });
+    });
+  }
+  
   arScene.addEventListener("loaded", () => {
-    debugLog("P1:scene:loaded", { id: arScene.id });
+    const sceneLoadTime = Math.round(performance.now() - sceneLoadStart);
+    debugLog("P1:scene:loaded", { id: arScene.id, loadTimeMs: sceneLoadTime });
     logSceneIntrospection(arScene);
     logCanvasOnce(/** @type {import('aframe').Scene} */ (arScene));
     // Single reparent attempt (MutationObserver handles the rest)
     reparentArjsVideoIntoViewport();
+    // Setup touch gestures for model manipulation
+    setupTouchGestures();
   });
   arScene.addEventListener("renderstart", () => {
     debugLog("P1:scene:renderstart");
@@ -780,9 +796,36 @@ if (markerEls.length) {
   });
 }
 
+// Model loading UI elements
+const modelLoadingStatus = document.getElementById("model-loading-status");
+const loadingText = document.getElementById("loading-text");
+const splashStartBtn = document.getElementById("splash-start");
+
 // Model loaded event
+const modelLoadStart = performance.now();
+debugLog("P1:model:load-start", { timestamp: modelLoadStart });
+
 if (layersModelEl) {
-  layersModelEl.addEventListener("model-loaded", onModelLoaded);
+  layersModelEl.addEventListener("model-loaded", () => {
+    const loadTime = Math.round(performance.now() - modelLoadStart);
+    debugLog("P1:model:loaded", { loadTimeMs: loadTime });
+    
+    onModelLoaded();
+    
+    if (modelLoadingStatus) {
+      modelLoadingStatus.classList.add("hidden");
+    }
+    if (splashStartBtn) {
+      splashStartBtn.disabled = false;
+    }
+  });
+  
+  layersModelEl.addEventListener("model-error", (e) => {
+    debugLog("P1:model:error", { error: e.detail?.message || "Unknown error" });
+    if (loadingText) {
+      loadingText.textContent = "Failed to load model";
+    }
+  });
 }
 
 // Late fit fallback
@@ -807,6 +850,18 @@ if (refreshCamerasBtn) {
     const id = /** @type {MediaStream|null} */ (v?.srcObject)?.getVideoTracks?.()[0]?.getSettings?.().deviceId ?? "";
     await populateCameraSelect(id);
     logVideoList("after-refresh");
+  });
+}
+
+// Reset model button
+const resetModelBtn = document.getElementById("reset-model-btn");
+if (resetModelBtn) {
+  resetModelBtn.addEventListener("click", () => {
+    resetModelToDefaults();
+    syncTouchTargetsFromModel();
+    scheduleModelTransform({ recomputeScale: true });
+    showToast("Model reset to defaults", 1500);
+    debugLog("P1:model:reset", "Model transform reset to defaults");
   });
 }
 
