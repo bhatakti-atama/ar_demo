@@ -29,8 +29,11 @@ const SMOOTHING_FACTOR = 0.1;
 let targetYaw = 0;
 let targetPitch = 0;
 let targetScale = 4;
+let displayYaw = 0;
+let displayPitch = 0;
 let animationFrameId = null;
 let rotationCube = null;
+const CUBE_SMOOTHING = 0.25;
 
 /**
  * Initialize touch gestures with debug logger
@@ -56,10 +59,12 @@ export const syncTouchTargetsFromModel = () => {
   targetYaw = modelRotation.yaw;
   targetPitch = modelRotation.pitch;
   targetScale = modelSize.value;
+  displayYaw = targetYaw;
+  displayPitch = targetPitch;
   if (rotationCube) {
     const inner = rotationCube.querySelector('.rotation-cube-inner');
     if (inner) {
-      inner.style.transform = `rotateX(${-targetPitch}deg) rotateY(${targetYaw}deg)`;
+      inner.style.transform = `rotateX(${-displayPitch}deg) rotateY(${displayYaw}deg)`;
     }
   }
 };
@@ -116,17 +121,36 @@ const onCubeTouchStart = (e) => {
 const lerp = (current, target, factor) => current + (target - current) * factor;
 
 /**
+ * Update cube visual with current display values
+ */
+const updateCubeVisualSmooth = () => {
+  if (!rotationCube) return;
+  const inner = rotationCube.querySelector('.rotation-cube-inner');
+  if (inner) {
+    inner.style.transform = `rotateX(${-displayPitch}deg) rotateY(${displayYaw}deg)`;
+  }
+};
+
+/**
  * Smooth animation loop
  */
 const smoothUpdate = () => {
   const yawDiff = Math.abs(modelRotation.yaw - targetYaw);
   const pitchDiff = Math.abs(modelRotation.pitch - targetPitch);
   const scaleDiff = Math.abs(modelSize.value - targetScale);
+  const cubeYawDiff = Math.abs(displayYaw - targetYaw);
+  const cubePitchDiff = Math.abs(displayPitch - targetPitch);
   
-  if (yawDiff > 0.01 || pitchDiff > 0.01 || scaleDiff > 0.001) {
+  const needsUpdate = yawDiff > 0.01 || pitchDiff > 0.01 || scaleDiff > 0.001 || cubeYawDiff > 0.1 || cubePitchDiff > 0.1;
+  
+  if (needsUpdate) {
     modelRotation.yaw = lerp(modelRotation.yaw, targetYaw, SMOOTHING_FACTOR);
     modelRotation.pitch = lerp(modelRotation.pitch, targetPitch, SMOOTHING_FACTOR);
     modelSize.value = lerp(modelSize.value, targetScale, SMOOTHING_FACTOR);
+    
+    displayYaw = lerp(displayYaw, targetYaw, CUBE_SMOOTHING);
+    displayPitch = lerp(displayPitch, targetPitch, CUBE_SMOOTHING);
+    updateCubeVisualSmooth();
     
     scheduleModelTransform({ recomputeScale: scaleDiff > 0.001 });
     animationFrameId = requestAnimationFrame(smoothUpdate);
@@ -134,6 +158,9 @@ const smoothUpdate = () => {
     modelRotation.yaw = targetYaw;
     modelRotation.pitch = targetPitch;
     modelSize.value = targetScale;
+    displayYaw = targetYaw;
+    displayPitch = targetPitch;
+    updateCubeVisualSmooth();
     syncSlidersFromState();
     animationFrameId = null;
   }
@@ -190,19 +217,7 @@ const onCubeTouchMove = (e) => {
     lastTouchX = touch.clientX;
     lastTouchY = touch.clientY;
     
-    updateCubeVisual();
     startSmoothUpdate();
-  }
-};
-
-/**
- * Update the cube visual rotation to match model
- */
-const updateCubeVisual = () => {
-  if (!rotationCube) return;
-  const inner = rotationCube.querySelector('.rotation-cube-inner');
-  if (inner) {
-    inner.style.transform = `rotateX(${-targetPitch}deg) rotateY(${targetYaw}deg)`;
   }
 };
 
@@ -278,7 +293,7 @@ const createRotationCube = () => {
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transition: transform 0.05s ease-out;
+      transition: transform 0.08s cubic-bezier(0.25, 0.1, 0.25, 1);
     }
     .cube-face {
       position: absolute;
@@ -341,7 +356,9 @@ export const setupTouchGestures = () => {
   // Initialize cube visual
   targetYaw = modelRotation.yaw;
   targetPitch = modelRotation.pitch;
-  updateCubeVisual();
+  displayYaw = targetYaw;
+  displayPitch = targetPitch;
+  updateCubeVisualSmooth();
   
   debugLog("P1:touch:setup", "Touch gestures with rotation cube initialized");
 };
