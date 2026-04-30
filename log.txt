@@ -1,0 +1,890 @@
+--- AR Telemetry Log Started at 2026-04-30T09:31:16.340Z ---
+2026-04-30T09:31:25.302Z | 09:09:57.241 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 22576ms from boot
+2026-04-30T09:31:25.302Z | 09:09:59.237 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 24572ms from boot
+2026-04-30T09:31:25.302Z | 09:10:01.238 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 26573ms from boot
+2026-04-30T09:31:25.302Z | 09:10:03.236 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 28571ms from boot
+2026-04-30T09:31:25.302Z | 09:10:05.235 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 30570ms from boot
+2026-04-30T09:31:25.302Z | 09:10:07.236 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 32571ms from boot
+2026-04-30T09:31:25.302Z | 09:10:09.232 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 34567ms from boot
+2026-04-30T09:31:25.302Z | 09:10:11.232 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 36567ms from boot
+2026-04-30T09:31:25.302Z | 09:10:13.234 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 38569ms from boot
+2026-04-30T09:31:25.302Z | 09:10:15.235 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 40570ms from boot
+2026-04-30T09:31:25.302Z | 09:10:17.234 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 42569ms from boot
+2026-04-30T09:31:25.302Z | 09:10:19.237 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 44572ms from boot
+2026-04-30T09:31:25.302Z | 09:10:21.235 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 46569ms from boot
+2026-04-30T09:31:25.302Z | 09:10:23.237 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 48572ms from boot
+2026-04-30T09:31:25.302Z | 09:10:25.237 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 50571ms from boot
+2026-04-30T09:31:25.302Z | 09:10:27.233 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 52568ms from boot
+2026-04-30T09:31:25.302Z | 09:10:29.238 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 54573ms from boot
+2026-04-30T09:31:25.302Z | 09:10:31.238 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 56572ms from boot
+2026-04-30T09:31:25.302Z | 09:10:33.239 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 58574ms from boot
+2026-04-30T09:31:25.302Z | 09:10:35.238 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 60573ms from boot
+2026-04-30T09:31:25.302Z | 09:10:37.238 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 62572ms from boot
+2026-04-30T09:31:25.302Z | 09:10:39.235 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 64570ms from boot
+2026-04-30T09:31:25.302Z | 09:10:41.233 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 66568ms from boot
+2026-04-30T09:31:25.302Z | 09:10:43.233 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 68568ms from boot
+2026-04-30T09:31:25.302Z | 09:10:45.235 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 70570ms from boot
+2026-04-30T09:31:25.302Z | 09:31:23.664 | phase1 | P1:life:visibility | {"state":"visible"} | 1308998ms from boot
+2026-04-30T09:31:25.302Z | 09:31:23.936 | phase1 | P1:video:event | pause | {"readyState":4,"videoW":1080,"videoH":1920,"trackState":"live","trackLabel":"camera 0, facing back"} | 1309271ms from boot
+2026-04-30T09:31:25.302Z | 09:31:23.996 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 1309331ms from boot
+2026-04-30T09:31:25.302Z | 09:31:24.215 | phase1 | P1:stabilizer:large-jump | {"frame":273,"posDelta":"2.2466","rotDelta":"11.85","corners":["bottom-right*"],"avgPos":"(-0.566, -4.860, -22.080)"} | 1309550ms from boot
+2026-04-30T09:31:25.302Z | 09:31:24.376 | phase1 | P1:stabilizer:large-jump | {"frame":274,"posDelta":"2.0668","rotDelta":"10.90","corners":["bottom-right*"],"avgPos":"(-0.566, -4.860, -22.080)"} | 1309711ms from boot
+2026-04-30T09:31:38.325Z | 09:31:29.163 | phase1 | P1:cam:enumerate | {"n":2,"hasLabels":2} | 2113ms from boot
+2026-04-30T09:31:38.325Z | 09:31:29.196 | phase1 | P1:cam:focus:apply:ok | {"mode":"single-shot"} | 2146ms from boot
+2026-04-30T09:31:38.325Z | 09:31:29.265 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 2215ms from boot
+2026-04-30T09:31:38.325Z | 09:31:29.895 | phase1 | P1:marker:found | {"markerId":"marker-bl","visibleMarkers":1,"timeMs":2845,"model":"layers_of_the_sun"} | 2845ms from boot
+2026-04-30T09:31:38.325Z | 09:31:29.896 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 2846ms from boot
+2026-04-30T09:31:38.325Z | 09:31:29.897 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-left","visible":true,"frame":0} | 2847ms from boot
+2026-04-30T09:31:38.325Z | 09:31:29.898 | phase1 | P1:stabilizer:markers-changed | {"from":[],"to":["bottom-left"],"frame":1} | 2848ms from boot
+2026-04-30T09:31:38.325Z | 09:31:29.898 | phase1 | P1:stabilizer:large-jump | {"frame":1,"posDelta":"18.3693","rotDelta":"138.23","corners":["bottom-left"],"avgPos":"(4.458, -2.096, -17.696)"} | 2848ms from boot
+2026-04-30T09:31:38.325Z | 09:31:29.938 | phase1 | P1:stabilizer:large-jump | {"frame":2,"posDelta":"16.8933","rotDelta":"129.61","corners":["bottom-left"],"avgPos":"(4.307, -2.408, -17.687)"} | 2888ms from boot
+2026-04-30T09:31:38.325Z | 09:31:29.971 | phase1 | P1:stabilizer:large-jump | {"frame":3,"posDelta":"15.7269","rotDelta":"119.76","corners":["bottom-left"],"avgPos":"(4.175, -2.554, -17.890)"} | 2921ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.006 | phase1 | P1:stabilizer:large-jump | {"frame":4,"posDelta":"14.4864","rotDelta":"110.51","corners":["bottom-left"],"avgPos":"(4.169, -2.570, -17.907)"} | 2956ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.064 | phase1 | P1:stabilizer:large-jump | {"frame":5,"posDelta":"13.3348","rotDelta":"101.88","corners":["bottom-left"],"avgPos":"(4.167, -2.577, -17.914)"} | 3014ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.105 | phase1 | P1:stabilizer:large-jump | {"frame":6,"posDelta":"12.2754","rotDelta":"93.95","corners":["bottom-left"],"avgPos":"(4.166, -2.584, -17.921)"} | 3055ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.155 | phase1 | P1:stabilizer:large-jump | {"frame":7,"posDelta":"11.2952","rotDelta":"86.49","corners":["bottom-left"],"avgPos":"(4.166, -2.586, -17.923)"} | 3105ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.189 | phase1 | P1:stabilizer:large-jump | {"frame":8,"posDelta":"9.2774","rotDelta":"77.01","corners":["bottom-left"],"avgPos":"(2.255, -2.619, -17.043)"} | 3138ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.205 | phase1 | P1:stabilizer:large-jump | {"frame":9,"posDelta":"8.5257","rotDelta":"69.89","corners":["bottom-left"],"avgPos":"(2.267, -2.570, -17.040)"} | 3155ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.225 | phase1 | P1:stabilizer:large-jump | {"frame":10,"posDelta":"7.8429","rotDelta":"63.96","corners":["bottom-left"],"avgPos":"(2.277, -2.553, -17.042)"} | 3175ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.259 | phase1 | P1:stabilizer:large-jump | {"frame":11,"posDelta":"7.2152","rotDelta":"58.57","corners":["bottom-left"],"avgPos":"(2.284, -2.538, -17.044)"} | 3209ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.285 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 3235ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.289 | phase1 | P1:stabilizer:large-jump | {"frame":12,"posDelta":"6.6379","rotDelta":"53.35","corners":["bottom-left"],"avgPos":"(2.300, -2.511, -17.047)"} | 3239ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.321 | phase1 | P1:stabilizer:large-jump | {"frame":13,"posDelta":"6.1069","rotDelta":"48.98","corners":["bottom-left"],"avgPos":"(2.303, -2.505, -17.048)"} | 3271ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.355 | phase1 | P1:stabilizer:large-jump | {"frame":14,"posDelta":"5.6185","rotDelta":"44.90","corners":["bottom-left"],"avgPos":"(2.307, -2.496, -17.049)"} | 3305ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.374 | phase1 | P1:stabilizer:update | {"frame":15,"markers":1,"cached":0,"posDelta":"5.1691","rotDelta":"41.20","avgPos30":"10.5850","maxPos30":"18.3693","avgRot30":"82.55","maxRot30":"138.23","lerp":0.08} | 3324ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.375 | phase1 | P1:stabilizer:large-jump | {"frame":15,"posDelta":"5.1691","rotDelta":"41.20","corners":["bottom-left"],"avgPos":"(2.310, -2.491, -17.050)"} | 3325ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.407 | phase1 | P1:stabilizer:large-jump | {"frame":16,"posDelta":"4.7556","rotDelta":"37.87","corners":["bottom-left"],"avgPos":"(2.311, -2.489, -17.050)"} | 3357ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.430 | phase1 | P1:marker:lost | {"markerId":"marker-bl","visibleMarkers":0} | 3380ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.431 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-left","usingCachedFor":15,"frame":16} | 3381ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.431 | phase1 | P1:stabilizer:large-jump | {"frame":17,"posDelta":"4.3751","rotDelta":"34.84","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3381ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.457 | phase1 | P1:stabilizer:large-jump | {"frame":18,"posDelta":"4.0251","rotDelta":"32.06","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3407ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.489 | phase1 | P1:stabilizer:large-jump | {"frame":19,"posDelta":"3.7031","rotDelta":"29.49","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3439ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.513 | phase1 | P1:stabilizer:large-jump | {"frame":20,"posDelta":"3.4069","rotDelta":"27.13","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3463ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.541 | phase1 | P1:stabilizer:large-jump | {"frame":21,"posDelta":"3.1343","rotDelta":"24.96","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3491ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.561 | phase1 | P1:stabilizer:large-jump | {"frame":22,"posDelta":"2.8836","rotDelta":"22.96","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3511ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.589 | phase1 | P1:stabilizer:large-jump | {"frame":23,"posDelta":"2.6529","rotDelta":"21.13","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3539ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.626 | phase1 | P1:stabilizer:large-jump | {"frame":24,"posDelta":"2.4407","rotDelta":"19.44","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3576ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.657 | phase1 | P1:stabilizer:large-jump | {"frame":25,"posDelta":"2.2454","rotDelta":"17.88","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3607ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.690 | phase1 | P1:stabilizer:large-jump | {"frame":26,"posDelta":"2.0658","rotDelta":"16.45","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3640ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.723 | phase1 | P1:stabilizer:large-jump | {"frame":27,"posDelta":"1.9005","rotDelta":"15.14","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3673ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.756 | phase1 | P1:stabilizer:large-jump | {"frame":28,"posDelta":"1.7485","rotDelta":"13.92","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3706ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.790 | phase1 | P1:stabilizer:large-jump | {"frame":29,"posDelta":"1.6086","rotDelta":"12.81","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3740ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.824 | phase1 | P1:stabilizer:update | {"frame":30,"markers":1,"cached":1,"posDelta":"1.4799","rotDelta":"11.79","avgPos30":"6.7067","maxPos30":"18.3693","avgRot30":"52.54","maxRot30":"138.23","lerp":0.08} | 3774ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.824 | phase1 | P1:stabilizer:large-jump | {"frame":30,"posDelta":"1.4799","rotDelta":"11.79","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3774ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.862 | phase1 | P1:stabilizer:large-jump | {"frame":31,"posDelta":"1.3615","rotDelta":"10.84","corners":["bottom-left*"],"avgPos":"(2.311, -2.489, -17.050)"} | 3812ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.897 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-left","visible":false,"cachedFrames":15,"frame":31} | 3847ms from boot
+2026-04-30T09:31:38.325Z | 09:31:30.897 | phase1 | P1:stabilizer:hidden | {"reason":"no markers visible","frame":31} | 3847ms from boot
+2026-04-30T09:31:38.325Z | 09:31:31.225 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":1,"timeMs":4175,"model":"layers_of_the_sun"} | 4175ms from boot
+2026-04-30T09:31:38.325Z | 09:31:31.226 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 4176ms from boot
+2026-04-30T09:31:38.325Z | 09:31:31.228 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":true,"frame":31} | 4179ms from boot
+2026-04-30T09:31:38.325Z | 09:31:31.229 | phase1 | P1:stabilizer:markers-changed | {"from":["bottom-left"],"to":["bottom-right"],"frame":32} | 4179ms from boot
+2026-04-30T09:31:38.325Z | 09:31:31.229 | phase1 | P1:stabilizer:large-jump | {"frame":32,"posDelta":"3.0780","rotDelta":"9.75","corners":["bottom-right"],"avgPos":"(-0.565, -3.142, -14.883)"} | 4179ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.052 | phase1 | P1:env:document | {"readyState":"interactive","visibility":"visible","childElementCount":4} | 2ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.053 | phase1 | P1:env:location | {"href":"https://192.168.29.169:5173/ar/","origin":"https://192.168.29.169:5173","protocol":"https:","host":"192.168.29.169:5173"} | 3ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.053 | phase1 | P1:env:security | {"isSecureContext":true,"hasSecureContext":true} | 3ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.053 | phase1 | P1:env:navigator | {"userAgent":"Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Mobile Safari/537.36","language":"en","languages":["en","hi"],"platform":"Linux armv81","maxTouchPoints":5,"hardwareConcurrency":8,"deviceMemory":8} | 3ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.053 | phase1 | P1:env:media | {"hasMediaDevices":true,"hasGetUserMedia":true} | 3ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.054 | phase1 | P1:env:network | {"effectiveType":"4g","downlink":1.7} | 4ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.060 | phase1 | P1:env:visualViewport:initial | {"width":411.4285583496094,"height":838.4761962890625,"offsetTop":0,"scale":1} | 10ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.066 | phase1 | P1:env:heap | {"usedJSHeapSize":27600000,"totalJSHeapSize":33100000,"jsHeapSizeLimit":1130000000} | 16ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.066 | phase1 | P1:model:device-calibration | {"isMobile":true,"calibration":{"size":15,"pitch":0,"yaw":0,"roll":0}} | 16ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.067 | phase1 | P1:env:script-count | {"count":4} | 17ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.068 | phase1 | P1:env:scripts:detail | [{"i":0,"src":"https://192.168.29.169:5173/@vite/client","async":false,"defer":false,"type":"module"},{"i":1,"src":"https://cdn.jsdelivr.net/npm/aframe@1.7.0/dist/aframe.min.js","async":false,"defer":false,"type":"text/javascript"},{"i":2,"src":"https://cdn.jsdelivr.net/npm/@ar-js-org/ar.js@3.4.8/aframe/build/aframe-ar.js","async":false,"defer":false,"type":"text/javascript"},{"i":3,"src":"https://192.168.29.169:5173/ar/app.js","async":false,"defer":false,"type":"module"}] | 18ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.069 | phase1 | P1:lib:globals | {"hasAFRAME":true,"hasTHREE":true} | 19ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.069 | phase1 | P1:lib:aframe | {"version":"1.7.0","keyNames":22} | 19ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.069 | phase1 | P1:lib:three | {"revision":"173"} | 19ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.070 | phase1 | P1:dom:observer | MutationObserver on body for <video> injection | 20ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.073 | phase1 | P1:hud:signalJitter | started | 23ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.076 | phase1 | P1:boot:app-js:end | {"ms":26} | 26ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.079 | phase1 | P1:life:pageshow | {"persisted":false} | 29ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.081 | phase1 | P1:life:visualViewport:resize | {"w":411.4285583496094,"h":838.4761962890625,"scale":1} | 31ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.082 | phase1 | P1:life:resize | {"innerW":411,"innerH":782,"dpr":2.625} | 32ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.110 | phase1 | P1:perm:camera:state | granted | {"onchange":"listener not used"} | 60ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.206 | phase1 | P1:life:visualViewport:resize | {"w":411.4285583496094,"h":782.4761962890625,"scale":1} | 156ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.244 | phase1 | P1:scene:loaded | {"id":"ar-scene"} | 194ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.245 | phase1 | P1:scene:attribs | {"arjs":{"trackingMethod":"best","sourceType":"webcam","debugUIEnabled":false,"detectionMode":"mono_and_matrix","matrixCodeType":"3x3","maxDetectionRate":60,"sourceWidth":1920,"sourceHeight":1080,"areaLearningButton":true,"performanceProfile":"default","labelingMode":"","videoTexture":false,"debug":false,"patternRatio":-1,"cameraParametersUrl":"","sourceUrl":"","deviceId":"","displayWidth":-1,"displayHeight":-1,"canvasWidth":-1,"canvasHeight":-1,"errorPopup":""},"embedded":true,"hasRenderer":true,"systemKeys":["camera","geometry","gltf-model","light","material","obb-collider","renderer","shadow","tracked-controls","webxr","arjs"]} | 195ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.246 | phase1 | P1:scene:gl | {"width":1078,"height":2052,"clientWidth":411,"clientHeight":806,"localName":"canvas","alpha":0} | 196ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.254 | phase1 | P1:scene:renderstart | 204ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.260 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 210ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.263 | phase1 | P1:life:visualViewport:resize | {"w":411.4285583496094,"h":806.4761962890625,"scale":1} | 213ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.264 | phase1 | P1:scene:canvas:measure | {"w":1078,"h":2115,"clientW":411,"clientH":806,"dpr":2.625} | 214ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.266 | phase1 | P1:stabilizer:offsets | {"scaleFactor":"15.38","halfSpanScaled":{"x":"4.12","y":"2.96"},"offsets":[{"corner":"top-left","offset":"(-4.12, 2.96, 0.00)"},{"corner":"top-right","offset":"(4.12, 2.96, 0.00)"},{"corner":"bottom-left","offset":"(-4.12, -2.96, 0.00)"},{"corner":"bottom-right","offset":"(4.12, -2.96, 0.00)"}]} | 216ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.284 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 234ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.422 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 372ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.702 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 652ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.749 | phase1 | P1:scene:canvas:measure | {"w":1078,"h":2115,"clientW":411,"clientH":806,"dpr":2.625} | 699ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.847 | phase1 | P1:dom:mutation | video nodes added | {"count":1,"detail":[{"i":0,"id":"arjs-video","className":"","readyState":0,"videoWidth":0,"videoHeight":0,"paused":true,"muted":false,"hasSrcObject":true,"parent":"BODY"}]} | 796ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.849 | phase1 | P1:fix:reparent-ar-video | {"from":"BODY","to":"ar-viewport (first child, under a-scene)","id":"arjs-video"} | 799ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.850 | phase1 | P1:dom:mutation | video nodes added | {"count":1,"detail":[{"i":0,"id":"arjs-video","className":"","readyState":0,"videoWidth":0,"videoHeight":0,"paused":false,"muted":false,"hasSrcObject":true,"parent":"DIV"}]} | 800ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.880 | phase1 | P1:video:event | waiting | {"readyState":0,"videoW":1080,"videoH":1920,"trackState":"live","trackLabel":"camera 0, facing back"} | 830ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.881 | phase1 | P1:video:event | loadstart | {"readyState":0,"videoW":1080,"videoH":1920,"trackState":"live","trackLabel":"camera 0, facing back"} | 830ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.898 | phase1 | P1:video:event | loadedmetadata | {"readyState":4,"videoW":1080,"videoH":1920,"trackState":"live","trackLabel":"camera 0, facing back"} | 848ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.899 | phase1 | P1:video:event | loadeddata | {"readyState":4,"videoW":1080,"videoH":1920,"trackState":"live","trackLabel":"camera 0, facing back"} | 849ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.900 | phase1 | P1:video:event | canplay | {"readyState":4,"videoW":1080,"videoH":1920,"trackState":"live","trackLabel":"camera 0, facing back"} | 849ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.900 | phase1 | P1:video:event | playing | {"readyState":4,"videoW":1080,"videoH":1920,"trackState":"live","trackLabel":"camera 0, facing back"} | 850ms from boot
+2026-04-30T09:31:38.332Z | 09:31:27.901 | phase1 | P1:video:event | canplaythrough | {"readyState":4,"videoW":1080,"videoH":1920,"trackState":"live","trackLabel":"camera 0, facing back"} | 851ms from boot
+2026-04-30T09:31:38.332Z | 09:31:28.249 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 1199ms from boot
+2026-04-30T09:31:38.332Z | 09:31:28.582 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 1532ms from boot
+2026-04-30T09:31:38.332Z | 09:31:29.088 | phase1 | P1:track:detail | {"id":"9d860b25-f5c6-4f9f-a20e-83685b6810ff","kind":"video","label":"camera 0, facing back","readyState":"live","settings":{"aspectRatio":0.5625,"colorTemperature":0,"deviceId":"e6acffa54b1694d74d1315998d1076e8e33067dd8a74b20deca15009bd23981e","exposureCompensation":0,"exposureMode":"continuous","exposureTime":100.00088,"facingMode":"environment","focusDistance":0,"focusMode":"continuous","frameRate":60,"groupId":"48d0d221814a5c1f8d01b9ba3a307499af01a3d4a67a48cf84ca75674803bc22","height":1920,"iso":100,"resizeMode":"none","torch":false,"whiteBalanceMode":"continuous","width":1080,"zoom":1},"capabilities":{"aspectRatio":{"max":4080,"min":0.0003255208333333333},"colorTemperature":{"max":7000,"min":2850,"step":50},"deviceId":"e6acffa54b1694d74d1315998d1076e8e33067dd8a74b20deca15009bd23981e","exposureCompensation":{"max":4,"min":-4,"step":0.1666666716337204},"exposureMode":["continuous","manual"],"exposureTime":{"max":83103.43667,"min":0.26503,"step":0.1},"facingMode":["environment"],"focusDistance":{"max":5.21999979019165,"min":0.10500000417232513,"step":0.009999999776482582},"focusMode":["manual","single-shot","continuous"],"frameRate":{"max":60,"min":0},"groupId":"48d0d221814a5c1f8d01b9ba3a307499af01a3d4a67a48cf84ca75674803bc22","height":{"max":3072,"min":1},"iso":{"max":11906,"min":47,"step":1},"resizeMode":["none","crop-and-scale"],"torch":true,"whiteBalanceMode":["continuous","manual"],"width":{"max":4080,"min":1},"zoom":{"max":8,"min":1,"step":0.1}}} | 2037ms from boot
+2026-04-30T09:31:38.332Z | 09:31:29.091 | phase1 | P1:cam:zoom:capabilities | {"aspectRatio":{"max":4080,"min":0.0003255208333333333},"colorTemperature":{"max":7000,"min":2850,"step":50},"deviceId":"e6acffa54b1694d74d1315998d1076e8e33067dd8a74b20deca15009bd23981e","exposureCompensation":{"max":4,"min":-4,"step":0.1666666716337204},"exposureMode":["continuous","manual"],"exposureTime":{"max":83103.43667,"min":0.26503,"step":0.1},"facingMode":["environment"],"focusDistance":{"max":5.21999979019165,"min":0.10500000417232513,"step":0.009999999776482582},"focusMode":["manual","single-shot","continuous"],"frameRate":{"max":60,"min":0},"groupId":"48d0d221814a5c1f8d01b9ba3a307499af01a3d4a67a48cf84ca75674803bc22","height":{"max":3072,"min":1},"iso":{"max":11906,"min":47,"step":1},"resizeMode":["none","crop-and-scale"],"torch":true,"whiteBalanceMode":["continuous","manual"],"width":{"max":4080,"min":1},"zoom":{"max":8,"min":1,"step":0.1}} | 2041ms from boot
+2026-04-30T09:31:38.332Z | 09:31:29.093 | phase1 | P1:cam:focus:capabilities | {"focusModes":["manual","single-shot","continuous"]} | 2043ms from boot
+2026-04-30T09:31:38.332Z | 09:31:29.096 | phase1 | P1:video:list | 2s-snapshot | {"count":1,"detail":[{"i":0,"id":"arjs-video","className":"","readyState":4,"videoWidth":1080,"videoHeight":1920,"paused":false,"muted":false,"hasSrcObject":true,"parent":"DIV"}]} | 2046ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.264 | phase1 | P1:stabilizer:large-jump | {"frame":33,"posDelta":"3.0377","rotDelta":"8.79","corners":["bottom-right"],"avgPos":"(-0.757, -3.092, -14.745)"} | 4214ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.303 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 4253ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.307 | phase1 | P1:stabilizer:large-jump | {"frame":34,"posDelta":"3.0552","rotDelta":"6.15","corners":["bottom-right"],"avgPos":"(-1.103, -2.914, -14.842)"} | 4257ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.339 | phase1 | P1:stabilizer:large-jump | {"frame":35,"posDelta":"3.3208","rotDelta":"6.33","corners":["bottom-right"],"avgPos":"(-1.607, -2.727, -14.656)"} | 4289ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.380 | phase1 | P1:stabilizer:large-jump | {"frame":36,"posDelta":"3.0773","rotDelta":"6.53","corners":["bottom-right"],"avgPos":"(-1.635, -2.727, -14.675)"} | 4330ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.442 | phase1 | P1:stabilizer:large-jump | {"frame":37,"posDelta":"3.6410","rotDelta":"3.01","corners":["bottom-right"],"avgPos":"(-2.538, -2.222, -15.141)"} | 4392ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.507 | phase1 | P1:stabilizer:large-jump | {"frame":38,"posDelta":"3.2923","rotDelta":"3.02","corners":["bottom-right"],"avgPos":"(-2.458, -2.192, -14.972)"} | 4457ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.554 | phase1 | P1:stabilizer:large-jump | {"frame":39,"posDelta":"2.9906","rotDelta":"3.66","corners":["bottom-right"],"avgPos":"(-2.400, -2.175, -14.865)"} | 4504ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.581 | phase1 | P1:stabilizer:large-jump | {"frame":40,"posDelta":"2.7388","rotDelta":"3.74","corners":["bottom-right"],"avgPos":"(-2.380, -2.168, -14.829)"} | 4531ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.625 | phase1 | P1:stabilizer:large-jump | {"frame":41,"posDelta":"2.5151","rotDelta":"3.58","corners":["bottom-right"],"avgPos":"(-2.373, -2.166, -14.815)"} | 4575ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.658 | phase1 | P1:stabilizer:large-jump | {"frame":42,"posDelta":"2.3109","rotDelta":"3.39","corners":["bottom-right"],"avgPos":"(-2.368, -2.165, -14.806)"} | 4608ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.690 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":0} | 4640ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.691 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":42} | 4641ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.691 | phase1 | P1:stabilizer:large-jump | {"frame":43,"posDelta":"2.1260","rotDelta":"3.12","corners":["bottom-right*"],"avgPos":"(-2.368, -2.165, -14.806)"} | 4641ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.725 | phase1 | P1:stabilizer:large-jump | {"frame":44,"posDelta":"1.9559","rotDelta":"2.87","corners":["bottom-right*"],"avgPos":"(-2.368, -2.165, -14.806)"} | 4675ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.754 | phase1 | P1:stabilizer:update | {"frame":45,"markers":1,"cached":1,"posDelta":"1.7995","rotDelta":"2.64","avgPos30":"2.7575","maxPos30":"4.7556","avgRot30":"13.84","maxRot30":"37.87","lerp":0.08} | 4704ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.755 | phase1 | P1:stabilizer:large-jump | {"frame":45,"posDelta":"1.7995","rotDelta":"2.64","corners":["bottom-right*"],"avgPos":"(-2.368, -2.165, -14.806)"} | 4705ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.794 | phase1 | P1:stabilizer:large-jump | {"frame":46,"posDelta":"1.6555","rotDelta":"2.43","corners":["bottom-right*"],"avgPos":"(-2.368, -2.165, -14.806)"} | 4744ms from boot
+2026-04-30T09:31:38.333Z | 09:31:31.827 | phase1 | P1:stabilizer:large-jump | {"frame":47,"posDelta":"1.5231","rotDelta":"2.24","corners":["bottom-right*"],"avgPos":"(-2.368, -2.165, -14.806)"} | 4777ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.276 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":1,"timeMs":5226,"model":"layers_of_the_sun"} | 5226ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.276 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 5226ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.277 | phase1 | P1:stabilizer:large-jump | {"frame":56,"posDelta":"4.7053","rotDelta":"8.35","corners":["bottom-right"],"avgPos":"(-2.639, -3.933, -19.186)"} | 5227ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.405 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 5355ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.441 | phase1 | P1:stabilizer:large-jump | {"frame":57,"posDelta":"4.3289","rotDelta":"7.68","corners":["bottom-right"],"avgPos":"(-2.639, -3.933, -19.186)"} | 5391ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.587 | phase1 | P1:hud:audioContext | {"state":"running"} | 5537ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.589 | phase1 | P1:hud:splash | dismissed | 5539ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.591 | phase1 | P1:cam:nudge:count | {"videos":1} | 5541ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.593 | phase1 | P1:video:list | post-nudge | {"count":1,"detail":[{"i":0,"id":"arjs-video","className":"","readyState":4,"videoWidth":1080,"videoHeight":1920,"paused":false,"muted":true,"hasSrcObject":true,"parent":"DIV"}]} | 5543ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.595 | phase1 | P1:track:detail | {"id":"9d860b25-f5c6-4f9f-a20e-83685b6810ff","kind":"video","label":"camera 0, facing back","readyState":"live","settings":{"aspectRatio":0.5625,"colorTemperature":0,"deviceId":"e6acffa54b1694d74d1315998d1076e8e33067dd8a74b20deca15009bd23981e","exposureCompensation":0,"exposureMode":"continuous","exposureTime":100.00088,"facingMode":"environment","focusDistance":0,"focusMode":"continuous","frameRate":60,"groupId":"48d0d221814a5c1f8d01b9ba3a307499af01a3d4a67a48cf84ca75674803bc22","height":1920,"iso":100,"resizeMode":"none","torch":false,"whiteBalanceMode":"continuous","width":1080,"zoom":1},"capabilities":{"aspectRatio":{"max":4080,"min":0.0003255208333333333},"colorTemperature":{"max":7000,"min":2850,"step":50},"deviceId":"e6acffa54b1694d74d1315998d1076e8e33067dd8a74b20deca15009bd23981e","exposureCompensation":{"max":4,"min":-4,"step":0.1666666716337204},"exposureMode":["continuous","manual"],"exposureTime":{"max":83103.43667,"min":0.26503,"step":0.1},"facingMode":["environment"],"focusDistance":{"max":5.21999979019165,"min":0.10500000417232513,"step":0.009999999776482582},"focusMode":["manual","single-shot","continuous"],"frameRate":{"max":60,"min":0},"groupId":"48d0d221814a5c1f8d01b9ba3a307499af01a3d4a67a48cf84ca75674803bc22","height":{"max":3072,"min":1},"iso":{"max":11906,"min":47,"step":1},"resizeMode":["none","crop-and-scale"],"torch":true,"whiteBalanceMode":["continuous","manual"],"width":{"max":4080,"min":1},"zoom":{"max":8,"min":1,"step":0.1}}} | 5545ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.626 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":2,"timeMs":5576,"model":"layers_of_the_sun"} | 5576ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.627 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 5577ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.633 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":true,"frame":57} | 5583ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.633 | phase1 | P1:stabilizer:markers-changed | {"from":["bottom-right"],"to":["top-right","bottom-right"],"frame":58} | 5583ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.634 | phase1 | P1:stabilizer:large-jump | {"frame":58,"posDelta":"5.7808","rotDelta":"30.91","corners":["top-right","bottom-right"],"avgPos":"(-2.186, 1.801, -19.398)"} | 5584ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.712 | phase1 | P1:cam:nudge:play:ok | {"id":"arjs-video","paused":false} | 5662ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.713 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":1} | 5663ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.713 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":58} | 5663ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.713 | phase1 | P1:stabilizer:large-jump | {"frame":59,"posDelta":"4.8546","rotDelta":"32.90","corners":["top-right","bottom-right*"],"avgPos":"(-1.626, 1.320, -19.332)"} | 5663ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.743 | phase1 | P1:stabilizer:update | {"frame":60,"markers":2,"cached":1,"posDelta":"4.4754","rotDelta":"30.50","avgPos30":"2.6278","maxPos30":"5.7808","avgRot30":"6.96","maxRot30":"32.90","lerp":0.08} | 5693ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.745 | phase1 | P1:stabilizer:marker-detail | {"frame":60,"markers":[{"corner":"top-right","pos":"(-0.271, 4.910, -19.653)","jitter":"0.0154","cached":false},{"corner":"bottom-right","pos":"(-2.979, -2.264, -19.032)","jitter":"0.0182","cached":true}],"spread":"0.0028"} | 5694ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.746 | phase1 | P1:stabilizer:large-jump | {"frame":60,"posDelta":"4.4754","rotDelta":"30.50","corners":["top-right","bottom-right*"],"avgPos":"(-1.625, 1.323, -19.342)"} | 5696ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.825 | phase1 | P1:stabilizer:large-jump | {"frame":61,"posDelta":"4.1190","rotDelta":"28.10","corners":["top-right","bottom-right*"],"avgPos":"(-1.625, 1.324, -19.344)"} | 5775ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.875 | phase1 | P1:stabilizer:large-jump | {"frame":62,"posDelta":"3.7912","rotDelta":"25.89","corners":["top-right","bottom-right*"],"avgPos":"(-1.624, 1.324, -19.346)"} | 5825ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.932 | phase1 | P1:cam:enumerate | {"n":2,"hasLabels":2} | 5882ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.933 | phase1 | P1:cam:zoom:capabilities | {"aspectRatio":{"max":4080,"min":0.0003255208333333333},"colorTemperature":{"max":7000,"min":2850,"step":50},"deviceId":"e6acffa54b1694d74d1315998d1076e8e33067dd8a74b20deca15009bd23981e","exposureCompensation":{"max":4,"min":-4,"step":0.1666666716337204},"exposureMode":["continuous","manual"],"exposureTime":{"max":83103.43667,"min":0.26503,"step":0.1},"facingMode":["environment"],"focusDistance":{"max":5.21999979019165,"min":0.10500000417232513,"step":0.009999999776482582},"focusMode":["manual","single-shot","continuous"],"frameRate":{"max":60,"min":0},"groupId":"48d0d221814a5c1f8d01b9ba3a307499af01a3d4a67a48cf84ca75674803bc22","height":{"max":3072,"min":1},"iso":{"max":11906,"min":47,"step":1},"resizeMode":["none","crop-and-scale"],"torch":true,"whiteBalanceMode":["continuous","manual"],"width":{"max":4080,"min":1},"zoom":{"max":8,"min":1,"step":0.1}} | 5883ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.933 | phase1 | P1:cam:focus:capabilities | {"focusModes":["manual","single-shot","continuous"]} | 5883ms from boot
+2026-04-30T09:31:38.333Z | 09:31:32.940 | phase1 | P1:stabilizer:large-jump | {"frame":63,"posDelta":"3.4884","rotDelta":"23.83","corners":["top-right","bottom-right*"],"avgPos":"(-1.624, 1.324, -19.346)"} | 5890ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.046 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 5996ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.048 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":63} | 5998ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.049 | phase1 | P1:stabilizer:large-jump | {"frame":64,"posDelta":"3.2094","rotDelta":"21.93","corners":["top-right*","bottom-right*"],"avgPos":"(-1.624, 1.324, -19.346)"} | 5999ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.149 | phase1 | P1:stabilizer:large-jump | {"frame":65,"posDelta":"2.9526","rotDelta":"20.17","corners":["top-right*","bottom-right*"],"avgPos":"(-1.624, 1.324, -19.346)"} | 6099ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.192 | phase1 | P1:stabilizer:large-jump | {"frame":66,"posDelta":"2.7164","rotDelta":"18.56","corners":["top-right*","bottom-right*"],"avgPos":"(-1.624, 1.324, -19.346)"} | 6142ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.275 | phase1 | P1:cam:focus:apply:ok | {"mode":"single-shot"} | 6225ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.277 | phase1 | P1:cam:nudge:ar-track-present | 6227ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.287 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":6235,"model":"layers_of_the_sun"} | 6237ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.288 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 6238ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.288 | phase1 | P1:stabilizer:large-jump | {"frame":67,"posDelta":"2.4709","rotDelta":"18.38","corners":["top-right","bottom-right*"],"avgPos":"(-1.388, 0.709, -19.793)"} | 6238ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.358 | phase1 | P1:stabilizer:large-jump | {"frame":68,"posDelta":"2.2733","rotDelta":"16.91","corners":["top-right","bottom-right*"],"avgPos":"(-1.388, 0.709, -19.793)"} | 6308ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.408 | phase1 | P1:stabilizer:large-jump | {"frame":69,"posDelta":"2.0914","rotDelta":"15.56","corners":["top-right","bottom-right*"],"avgPos":"(-1.388, 0.709, -19.793)"} | 6358ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.456 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 6406ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.464 | phase1 | P1:stabilizer:large-jump | {"frame":70,"posDelta":"1.9241","rotDelta":"14.31","corners":["top-right","bottom-right*"],"avgPos":"(-1.388, 0.709, -19.793)"} | 6414ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.510 | phase1 | P1:stabilizer:large-jump | {"frame":71,"posDelta":"1.7702","rotDelta":"13.17","corners":["top-right","bottom-right*"],"avgPos":"(-1.388, 0.709, -19.793)"} | 6459ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.544 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 6494ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.545 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":71} | 6495ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.546 | phase1 | P1:stabilizer:large-jump | {"frame":72,"posDelta":"1.6285","rotDelta":"12.11","corners":["top-right*","bottom-right*"],"avgPos":"(-1.388, 0.709, -19.793)"} | 6496ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.611 | phase1 | P1:stabilizer:large-jump | {"frame":73,"posDelta":"1.4983","rotDelta":"11.14","corners":["top-right*","bottom-right*"],"avgPos":"(-1.388, 0.709, -19.793)"} | 6561ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.673 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":false,"cachedFrames":15,"frame":73} | 6623ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.673 | phase1 | P1:stabilizer:markers-changed | {"from":["top-right","bottom-right"],"to":["top-right*"],"frame":74} | 6623ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.674 | phase1 | P1:stabilizer:large-jump | {"frame":74,"posDelta":"3.3448","rotDelta":"42.53","corners":["top-right*"],"avgPos":"(0.396, 2.052, -20.535)"} | 6624ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.722 | phase1 | P1:stabilizer:update | {"frame":75,"markers":1,"cached":1,"posDelta":"3.0772","rotDelta":"39.12","avgPos30":"2.6296","maxPos30":"5.7808","avgRot30":"15.11","maxRot30":"42.53","lerp":0.08} | 6672ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.723 | phase1 | P1:stabilizer:large-jump | {"frame":75,"posDelta":"3.0772","rotDelta":"39.12","corners":["top-right*"],"avgPos":"(0.396, 2.052, -20.535)"} | 6673ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.774 | phase1 | P1:stabilizer:large-jump | {"frame":76,"posDelta":"2.8310","rotDelta":"35.99","corners":["top-right*"],"avgPos":"(0.396, 2.052, -20.535)"} | 6724ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.845 | phase1 | P1:stabilizer:large-jump | {"frame":77,"posDelta":"2.6045","rotDelta":"33.11","corners":["top-right*"],"avgPos":"(0.396, 2.052, -20.535)"} | 6795ms from boot
+2026-04-30T09:31:38.333Z | 09:31:33.887 | phase1 | P1:stabilizer:large-jump | {"frame":78,"posDelta":"2.3962","rotDelta":"30.46","corners":["top-right*"],"avgPos":"(0.396, 2.052, -20.535)"} | 6837ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.028 | phase1 | P1:stabilizer:large-jump | {"frame":79,"posDelta":"2.2045","rotDelta":"28.03","corners":["top-right*"],"avgPos":"(0.396, 2.052, -20.535)"} | 6978ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.077 | phase1 | P1:stabilizer:large-jump | {"frame":80,"posDelta":"2.0281","rotDelta":"25.79","corners":["top-right*"],"avgPos":"(0.396, 2.052, -20.535)"} | 7027ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.113 | phase1 | P1:stabilizer:large-jump | {"frame":81,"posDelta":"1.8659","rotDelta":"23.72","corners":["top-right*"],"avgPos":"(0.396, 2.052, -20.535)"} | 7063ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.157 | phase1 | P1:stabilizer:large-jump | {"frame":82,"posDelta":"1.7166","rotDelta":"21.82","corners":["top-right*"],"avgPos":"(0.396, 2.052, -20.535)"} | 7107ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.207 | phase1 | P1:stabilizer:large-jump | {"frame":83,"posDelta":"1.5793","rotDelta":"20.08","corners":["top-right*"],"avgPos":"(0.396, 2.052, -20.535)"} | 7157ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.276 | phase1 | P1:stabilizer:large-jump | {"frame":84,"posDelta":"1.4529","rotDelta":"18.47","corners":["top-right*"],"avgPos":"(0.396, 2.052, -20.535)"} | 7225ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.315 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":7265,"model":"layers_of_the_sun"} | 7265ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.316 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 7266ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.317 | phase1 | P1:stabilizer:large-jump | {"frame":85,"posDelta":"5.4909","rotDelta":"66.79","corners":["top-right"],"avgPos":"(0.307, 6.671, -20.328)"} | 7267ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.381 | phase1 | P1:stabilizer:large-jump | {"frame":86,"posDelta":"5.0516","rotDelta":"61.45","corners":["top-right"],"avgPos":"(0.307, 6.671, -20.328)"} | 7331ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.423 | phase1 | P1:stabilizer:large-jump | {"frame":87,"posDelta":"4.6475","rotDelta":"56.53","corners":["top-right"],"avgPos":"(0.307, 6.671, -20.328)"} | 7373ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.471 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 7421ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.478 | phase1 | P1:stabilizer:large-jump | {"frame":88,"posDelta":"2.9927","rotDelta":"21.51","corners":["top-right"],"avgPos":"(0.196, 5.352, -20.493)"} | 7428ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.564 | phase1 | P1:stabilizer:large-jump | {"frame":89,"posDelta":"1.3860","rotDelta":"11.52","corners":["top-right"],"avgPos":"(0.154, 3.784, -20.710)"} | 7514ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.629 | phase1 | P1:stabilizer:update | {"frame":90,"markers":1,"cached":0,"posDelta":"0.6169","rotDelta":"25.19","avgPos30":"2.6407","maxPos30":"5.4909","avgRot30":"26.74","maxRot30":"66.79","lerp":0.08} | 7579ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.630 | phase1 | P1:stabilizer:large-jump | {"frame":90,"posDelta":"0.6169","rotDelta":"25.19","corners":["top-right"],"avgPos":"(0.080, 3.066, -20.489)"} | 7580ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.676 | phase1 | P1:stabilizer:large-jump | {"frame":91,"posDelta":"0.4068","rotDelta":"27.37","corners":["top-right"],"avgPos":"(0.053, 2.873, -20.393)"} | 7626ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.727 | phase1 | P1:stabilizer:large-jump | {"frame":92,"posDelta":"0.3309","rotDelta":"26.60","corners":["top-right"],"avgPos":"(0.044, 2.809, -20.358)"} | 7676ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.774 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":2,"timeMs":7724,"model":"layers_of_the_sun"} | 7724ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.775 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 7725ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.775 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":true,"frame":92} | 7725ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.775 | phase1 | P1:stabilizer:markers-changed | {"from":["top-right*"],"to":["top-right","bottom-right"],"frame":93} | 7725ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.776 | phase1 | P1:stabilizer:large-jump | {"frame":93,"posDelta":"2.8282","rotDelta":"7.66","corners":["top-right","bottom-right"],"avgPos":"(-0.366, 0.335, -18.726)"} | 7726ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.812 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":1} | 7762ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.813 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":93} | 7763ms from boot
+2026-04-30T09:31:38.333Z | 09:31:34.813 | phase1 | P1:stabilizer:large-jump | {"frame":94,"posDelta":"2.6020","rotDelta":"7.04","corners":["top-right*","bottom-right"],"avgPos":"(-0.366, 0.335, -18.726)"} | 7763ms from boot
+2026-04-30T09:31:39.078Z | 09:31:34.881 | phase1 | P1:stabilizer:large-jump | {"frame":95,"posDelta":"2.3938","rotDelta":"6.48","corners":["top-right*","bottom-right"],"avgPos":"(-0.366, 0.335, -18.726)"} | 7831ms from boot
+2026-04-30T09:31:39.078Z | 09:31:34.944 | phase1 | P1:stabilizer:large-jump | {"frame":96,"posDelta":"2.2023","rotDelta":"5.96","corners":["top-right*","bottom-right"],"avgPos":"(-0.366, 0.335, -18.726)"} | 7894ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.026 | phase1 | P1:stabilizer:large-jump | {"frame":97,"posDelta":"2.0261","rotDelta":"5.49","corners":["top-right*","bottom-right"],"avgPos":"(-0.366, 0.335, -18.726)"} | 7976ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.065 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":0} | 8015ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.065 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":97} | 8015ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.066 | phase1 | P1:stabilizer:large-jump | {"frame":98,"posDelta":"1.8640","rotDelta":"5.05","corners":["top-right*","bottom-right*"],"avgPos":"(-0.366, 0.335, -18.726)"} | 8015ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.096 | phase1 | P1:stabilizer:large-jump | {"frame":99,"posDelta":"1.7149","rotDelta":"4.64","corners":["top-right*","bottom-right*"],"avgPos":"(-0.366, 0.335, -18.726)"} | 8046ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.145 | phase1 | P1:stabilizer:large-jump | {"frame":100,"posDelta":"1.5777","rotDelta":"4.27","corners":["top-right*","bottom-right*"],"avgPos":"(-0.366, 0.335, -18.726)"} | 8094ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.458 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":false,"cachedFrames":15,"frame":108} | 8408ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.458 | phase1 | P1:stabilizer:markers-changed | {"from":["top-right","bottom-right"],"to":["bottom-right*"],"frame":109} | 8408ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.458 | phase1 | P1:stabilizer:large-jump | {"frame":109,"posDelta":"7.2236","rotDelta":"36.65","corners":["bottom-right*"],"avgPos":"(-0.723, -5.306, -17.366)"} | 8408ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.498 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 8448ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.506 | phase1 | P1:stabilizer:large-jump | {"frame":110,"posDelta":"6.6457","rotDelta":"33.72","corners":["bottom-right*"],"avgPos":"(-0.723, -5.306, -17.366)"} | 8456ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.542 | phase1 | P1:stabilizer:large-jump | {"frame":111,"posDelta":"6.1141","rotDelta":"31.02","corners":["bottom-right*"],"avgPos":"(-0.723, -5.306, -17.366)"} | 8492ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.574 | phase1 | P1:stabilizer:large-jump | {"frame":112,"posDelta":"5.6250","rotDelta":"28.54","corners":["bottom-right*"],"avgPos":"(-0.723, -5.306, -17.366)"} | 8524ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.605 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":false,"cachedFrames":15,"frame":112} | 8555ms from boot
+2026-04-30T09:31:39.078Z | 09:31:35.606 | phase1 | P1:stabilizer:hidden | {"reason":"no markers visible","frame":112} | 8556ms from boot
+2026-04-30T09:31:39.078Z | 09:31:36.523 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 9473ms from boot
+2026-04-30T09:31:39.078Z | 09:31:36.940 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":9890,"model":"layers_of_the_sun"} | 9890ms from boot
+2026-04-30T09:31:39.078Z | 09:31:36.940 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 9890ms from boot
+2026-04-30T09:31:39.078Z | 09:31:36.941 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":true,"frame":112} | 9891ms from boot
+2026-04-30T09:31:39.078Z | 09:31:36.941 | phase1 | P1:stabilizer:markers-changed | {"from":["bottom-right*"],"to":["top-right"],"frame":113} | 9891ms from boot
+2026-04-30T09:31:39.078Z | 09:31:36.941 | phase1 | P1:stabilizer:large-jump | {"frame":113,"posDelta":"3.5630","rotDelta":"37.54","corners":["top-right"],"avgPos":"(0.039, 2.791, -20.456)"} | 9891ms from boot
+2026-04-30T09:31:39.078Z | 09:31:36.956 | phase1 | P1:stabilizer:large-jump | {"frame":114,"posDelta":"3.2777","rotDelta":"34.54","corners":["top-right"],"avgPos":"(0.039, 2.791, -20.456)"} | 9906ms from boot
+2026-04-30T09:31:39.078Z | 09:31:36.980 | phase1 | P1:stabilizer:large-jump | {"frame":115,"posDelta":"3.0154","rotDelta":"31.78","corners":["top-right"],"avgPos":"(0.039, 2.791, -20.456)"} | 9929ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.009 | phase1 | P1:stabilizer:large-jump | {"frame":116,"posDelta":"2.8687","rotDelta":"29.32","corners":["top-right"],"avgPos":"(0.092, 2.815, -20.598)"} | 9959ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.041 | phase1 | P1:stabilizer:large-jump | {"frame":117,"posDelta":"2.6499","rotDelta":"27.00","corners":["top-right"],"avgPos":"(0.104, 2.816, -20.614)"} | 9991ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.065 | phase1 | P1:stabilizer:large-jump | {"frame":118,"posDelta":"2.4506","rotDelta":"24.89","corners":["top-right"],"avgPos":"(0.121, 2.818, -20.633)"} | 10015ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.090 | phase1 | P1:stabilizer:large-jump | {"frame":119,"posDelta":"2.2623","rotDelta":"22.93","corners":["top-right"],"avgPos":"(0.132, 2.818, -20.645)"} | 10040ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.123 | phase1 | P1:stabilizer:update | {"frame":120,"markers":1,"cached":0,"posDelta":"2.0841","rotDelta":"21.11","avgPos30":"2.5780","maxPos30":"7.2236","avgRot30":"16.37","maxRot30":"37.54","lerp":0.08} | 10073ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.124 | phase1 | P1:stabilizer:large-jump | {"frame":120,"posDelta":"2.0841","rotDelta":"21.11","corners":["top-right"],"avgPos":"(0.136, 2.818, -20.649)"} | 10074ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.157 | phase1 | P1:stabilizer:large-jump | {"frame":121,"posDelta":"1.9214","rotDelta":"19.44","corners":["top-right"],"avgPos":"(0.142, 2.819, -20.655)"} | 10107ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.190 | phase1 | P1:stabilizer:large-jump | {"frame":122,"posDelta":"1.7703","rotDelta":"17.90","corners":["top-right"],"avgPos":"(0.146, 2.819, -20.658)"} | 10140ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.222 | phase1 | P1:stabilizer:large-jump | {"frame":123,"posDelta":"1.6303","rotDelta":"16.47","corners":["top-right"],"avgPos":"(0.148, 2.819, -20.661)"} | 10172ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.265 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 10215ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.266 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":123} | 10216ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.266 | phase1 | P1:stabilizer:large-jump | {"frame":124,"posDelta":"1.4999","rotDelta":"15.15","corners":["top-right*"],"avgPos":"(0.148, 2.819, -20.661)"} | 10216ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.305 | phase1 | P1:stabilizer:large-jump | {"frame":125,"posDelta":"1.3799","rotDelta":"13.94","corners":["top-right*"],"avgPos":"(0.148, 2.819, -20.661)"} | 10255ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.329 | phase1 | P1:stabilizer:large-jump | {"frame":126,"posDelta":"1.2695","rotDelta":"12.83","corners":["top-right*"],"avgPos":"(0.148, 2.819, -20.661)"} | 10279ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.362 | phase1 | P1:stabilizer:large-jump | {"frame":127,"posDelta":"1.1680","rotDelta":"11.80","corners":["top-right*"],"avgPos":"(0.148, 2.819, -20.661)"} | 10311ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.410 | phase1 | P1:stabilizer:large-jump | {"frame":128,"posDelta":"1.0745","rotDelta":"10.86","corners":["top-right*"],"avgPos":"(0.148, 2.819, -20.661)"} | 10360ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.442 | phase1 | P1:stabilizer:large-jump | {"frame":129,"posDelta":"0.9886","rotDelta":"9.99","corners":["top-right*"],"avgPos":"(0.148, 2.819, -20.661)"} | 10392ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.475 | phase1 | P1:stabilizer:large-jump | {"frame":130,"posDelta":"0.9095","rotDelta":"9.19","corners":["top-right*"],"avgPos":"(0.148, 2.819, -20.661)"} | 10425ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.516 | phase1 | P1:stabilizer:large-jump | {"frame":131,"posDelta":"0.8367","rotDelta":"8.45","corners":["top-right*"],"avgPos":"(0.148, 2.819, -20.661)"} | 10466ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.549 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 10499ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.639 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":10589,"model":"layers_of_the_sun"} | 10589ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.640 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 10590ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.640 | phase1 | P1:stabilizer:update | {"frame":135,"markers":1,"cached":0,"posDelta":"4.3079","rotDelta":"74.05","avgPos30":"2.4400","maxPos30":"7.2236","avgRot30":"20.47","maxRot30":"74.05","lerp":0.08} | 10590ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.641 | phase1 | P1:stabilizer:large-jump | {"frame":135,"posDelta":"4.3079","rotDelta":"74.05","corners":["top-right"],"avgPos":"(-0.350, 6.422, -19.729)"} | 10591ms from boot
+2026-04-30T09:31:39.078Z | 09:31:37.660 | phase1 | P1:stabilizer:large-jump | {"frame":136,"posDelta":"3.9633","rotDelta":"68.13","corners":["top-right"],"avgPos":"(-0.350, 6.422, -19.729)"} | 10609ms from boot
+2026-04-30T09:31:41.122Z | 09:31:37.695 | phase1 | P1:stabilizer:large-jump | {"frame":137,"posDelta":"3.6462","rotDelta":"62.68","corners":["top-right"],"avgPos":"(-0.350, 6.422, -19.729)"} | 10644ms from boot
+2026-04-30T09:31:41.122Z | 09:31:37.728 | phase1 | P1:stabilizer:large-jump | {"frame":138,"posDelta":"3.3545","rotDelta":"57.66","corners":["top-right"],"avgPos":"(-0.350, 6.422, -19.729)"} | 10678ms from boot
+2026-04-30T09:31:41.122Z | 09:31:37.782 | phase1 | P1:stabilizer:large-jump | {"frame":139,"posDelta":"3.0861","rotDelta":"53.05","corners":["top-right"],"avgPos":"(-0.350, 6.422, -19.729)"} | 10732ms from boot
+2026-04-30T09:31:41.122Z | 09:31:37.828 | phase1 | P1:stabilizer:large-jump | {"frame":140,"posDelta":"2.9294","rotDelta":"49.85","corners":["top-right"],"avgPos":"(-0.241, 6.519, -19.716)"} | 10778ms from boot
+2026-04-30T09:31:41.122Z | 09:31:37.874 | phase1 | P1:stabilizer:large-jump | {"frame":141,"posDelta":"2.7475","rotDelta":"46.41","corners":["top-right"],"avgPos":"(-0.214, 6.571, -19.702)"} | 10824ms from boot
+2026-04-30T09:31:41.122Z | 09:31:37.911 | phase1 | P1:stabilizer:large-jump | {"frame":142,"posDelta":"2.5475","rotDelta":"42.90","corners":["top-right"],"avgPos":"(-0.203, 6.591, -19.697)"} | 10861ms from boot
+2026-04-30T09:31:41.122Z | 09:31:37.945 | phase1 | P1:stabilizer:large-jump | {"frame":143,"posDelta":"2.3609","rotDelta":"39.65","corners":["top-right"],"avgPos":"(-0.194, 6.608, -19.692)"} | 10895ms from boot
+2026-04-30T09:31:41.122Z | 09:31:37.977 | phase1 | P1:stabilizer:large-jump | {"frame":144,"posDelta":"2.1786","rotDelta":"36.55","corners":["top-right"],"avgPos":"(-0.191, 6.614, -19.690)"} | 10927ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.006 | phase1 | P1:stabilizer:large-jump | {"frame":145,"posDelta":"2.0085","rotDelta":"33.67","corners":["top-right"],"avgPos":"(-0.189, 6.618, -19.689)"} | 10956ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.042 | phase1 | P1:stabilizer:large-jump | {"frame":146,"posDelta":"1.8493","rotDelta":"30.99","corners":["top-right"],"avgPos":"(-0.188, 6.620, -19.688)"} | 10992ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.075 | phase1 | P1:stabilizer:large-jump | {"frame":147,"posDelta":"1.7035","rotDelta":"28.53","corners":["top-right"],"avgPos":"(-0.187, 6.622, -19.688)"} | 11025ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.109 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 11059ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.111 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":147} | 11060ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.111 | phase1 | P1:stabilizer:large-jump | {"frame":148,"posDelta":"1.5672","rotDelta":"26.25","corners":["top-right*"],"avgPos":"(-0.187, 6.622, -19.688)"} | 11061ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.147 | phase1 | P1:stabilizer:large-jump | {"frame":149,"posDelta":"1.4418","rotDelta":"24.15","corners":["top-right*"],"avgPos":"(-0.187, 6.622, -19.688)"} | 11097ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.178 | phase1 | P1:stabilizer:update | {"frame":150,"markers":1,"cached":1,"posDelta":"1.3265","rotDelta":"22.22","avgPos30":"1.9259","maxPos30":"4.3079","avgRot30":"28.87","maxRot30":"74.05","lerp":0.08} | 11128ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.179 | phase1 | P1:stabilizer:large-jump | {"frame":150,"posDelta":"1.3265","rotDelta":"22.22","corners":["top-right*"],"avgPos":"(-0.187, 6.622, -19.688)"} | 11129ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.213 | phase1 | P1:stabilizer:large-jump | {"frame":151,"posDelta":"1.2204","rotDelta":"20.44","corners":["top-right*"],"avgPos":"(-0.187, 6.622, -19.688)"} | 11163ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.261 | phase1 | P1:stabilizer:large-jump | {"frame":152,"posDelta":"1.1227","rotDelta":"18.80","corners":["top-right*"],"avgPos":"(-0.187, 6.622, -19.688)"} | 11211ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.296 | phase1 | P1:stabilizer:large-jump | {"frame":153,"posDelta":"1.0329","rotDelta":"17.30","corners":["top-right*"],"avgPos":"(-0.187, 6.622, -19.688)"} | 11246ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.327 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":11277,"model":"layers_of_the_sun"} | 11277ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.328 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 11278ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.328 | phase1 | P1:stabilizer:large-jump | {"frame":154,"posDelta":"1.2660","rotDelta":"13.81","corners":["top-right"],"avgPos":"(0.127, 6.696, -20.512)"} | 11278ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.360 | phase1 | P1:stabilizer:large-jump | {"frame":155,"posDelta":"0.9167","rotDelta":"11.91","corners":["top-right"],"avgPos":"(-0.052, 6.574, -20.285)"} | 11310ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.444 | phase1 | P1:stabilizer:large-jump | {"frame":157,"posDelta":"0.7596","rotDelta":"11.18","corners":["top-right"],"avgPos":"(0.101, 5.722, -20.618)"} | 11393ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.493 | phase1 | P1:stabilizer:large-jump | {"frame":158,"posDelta":"0.9614","rotDelta":"17.70","corners":["top-right"],"avgPos":"(0.102, 5.359, -20.776)"} | 11443ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.543 | phase1 | P1:stabilizer:large-jump | {"frame":159,"posDelta":"1.0395","rotDelta":"20.09","corners":["top-right"],"avgPos":"(0.099, 5.166, -20.840)"} | 11493ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.580 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 11530ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.589 | phase1 | P1:stabilizer:large-jump | {"frame":160,"posDelta":"1.0389","rotDelta":"20.43","corners":["top-right"],"avgPos":"(0.096, 5.065, -20.867)"} | 11539ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.634 | phase1 | P1:stabilizer:large-jump | {"frame":161,"posDelta":"0.9875","rotDelta":"19.53","corners":["top-right"],"avgPos":"(0.095, 5.027, -20.876)"} | 11584ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.707 | phase1 | P1:stabilizer:large-jump | {"frame":162,"posDelta":"0.8676","rotDelta":"15.34","corners":["top-right"],"avgPos":"(0.059, 5.103, -20.893)"} | 11657ms from boot
+2026-04-30T09:31:41.122Z | 09:31:38.763 | phase1 | P1:stabilizer:large-jump | {"frame":163,"posDelta":"0.5942","rotDelta":"8.74","corners":["top-right"],"avgPos":"(-0.009, 5.401, -20.829)"} | 11713ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.224 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 12174ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.226 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":177} | 12176ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.257 | phase1 | P1:stabilizer:deadband-active | {"posDelta":"0.3869","rotDelta":"2.22","skipped":37,"frame":180} | 12206ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.611 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 12561ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.621 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":12571,"model":"layers_of_the_sun"} | 12571ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.622 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 12572ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.623 | phase1 | P1:stabilizer:large-jump | {"frame":193,"posDelta":"0.9250","rotDelta":"16.99","corners":["top-right"],"avgPos":"(-0.317, 6.452, -20.268)"} | 12572ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.657 | phase1 | P1:stabilizer:large-jump | {"frame":194,"posDelta":"0.8510","rotDelta":"15.63","corners":["top-right"],"avgPos":"(-0.317, 6.452, -20.268)"} | 12607ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.707 | phase1 | P1:stabilizer:update | {"frame":195,"markers":1,"cached":0,"posDelta":"0.7830","rotDelta":"14.38","avgPos30":"0.4294","maxPos30":"0.9250","avgRot30":"3.40","maxRot30":"16.99","lerp":0.08} | 12657ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.708 | phase1 | P1:stabilizer:large-jump | {"frame":195,"posDelta":"0.7830","rotDelta":"14.38","corners":["top-right"],"avgPos":"(-0.317, 6.452, -20.268)"} | 12658ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.747 | phase1 | P1:stabilizer:large-jump | {"frame":196,"posDelta":"0.7203","rotDelta":"13.23","corners":["top-right"],"avgPos":"(-0.317, 6.452, -20.268)"} | 12697ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.811 | phase1 | P1:stabilizer:large-jump | {"frame":197,"posDelta":"0.6627","rotDelta":"12.17","corners":["top-right"],"avgPos":"(-0.317, 6.452, -20.268)"} | 12761ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.861 | phase1 | P1:stabilizer:large-jump | {"frame":198,"posDelta":"0.6097","rotDelta":"11.20","corners":["top-right"],"avgPos":"(-0.317, 6.452, -20.268)"} | 12810ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.906 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 12856ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.907 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":1,"timeMs":12857,"model":"layers_of_the_sun"} | 12857ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.907 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 12857ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.907 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":198} | 12857ms from boot
+2026-04-30T09:31:41.122Z | 09:31:39.907 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":true,"frame":198} | 12857ms from boot
+2026-04-30T09:31:43.524Z | 09:31:39.908 | phase1 | P1:stabilizer:markers-changed | {"from":["top-right"],"to":["top-right*","bottom-right"],"frame":199} | 12858ms from boot
+2026-04-30T09:31:43.524Z | 09:31:39.908 | phase1 | P1:stabilizer:large-jump | {"frame":199,"posDelta":"5.8688","rotDelta":"4.98","corners":["top-right*","bottom-right"],"avgPos":"(-0.864, 0.267, -18.876)"} | 12858ms from boot
+2026-04-30T09:31:43.524Z | 09:31:39.944 | phase1 | P1:stabilizer:large-jump | {"frame":200,"posDelta":"5.3993","rotDelta":"4.58","corners":["top-right*","bottom-right"],"avgPos":"(-0.864, 0.267, -18.876)"} | 12894ms from boot
+2026-04-30T09:31:43.524Z | 09:31:39.991 | phase1 | P1:stabilizer:large-jump | {"frame":201,"posDelta":"4.9124","rotDelta":"4.32","corners":["top-right*","bottom-right"],"avgPos":"(-0.895, 0.329, -18.874)"} | 12941ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.041 | phase1 | P1:stabilizer:large-jump | {"frame":202,"posDelta":"4.5198","rotDelta":"4.02","corners":["top-right*","bottom-right"],"avgPos":"(-0.896, 0.329, -18.871)"} | 12991ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.096 | phase1 | P1:stabilizer:large-jump | {"frame":203,"posDelta":"4.1590","rotDelta":"3.73","corners":["top-right*","bottom-right"],"avgPos":"(-0.896, 0.329, -18.869)"} | 13046ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.141 | phase1 | P1:stabilizer:large-jump | {"frame":204,"posDelta":"3.8268","rotDelta":"3.46","corners":["top-right*","bottom-right"],"avgPos":"(-0.896, 0.329, -18.868)"} | 13091ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.182 | phase1 | P1:stabilizer:large-jump | {"frame":205,"posDelta":"3.5208","rotDelta":"3.19","corners":["top-right*","bottom-right"],"avgPos":"(-0.896, 0.329, -18.868)"} | 13132ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.245 | phase1 | P1:stabilizer:large-jump | {"frame":206,"posDelta":"3.2392","rotDelta":"2.94","corners":["top-right*","bottom-right"],"avgPos":"(-0.897, 0.329, -18.867)"} | 13195ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.295 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":0} | 13245ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.296 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":206} | 13246ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.296 | phase1 | P1:stabilizer:large-jump | {"frame":207,"posDelta":"2.9801","rotDelta":"2.70","corners":["top-right*","bottom-right*"],"avgPos":"(-0.897, 0.329, -18.867)"} | 13246ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.346 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":1,"timeMs":13296,"model":"layers_of_the_sun"} | 13296ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.348 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 13298ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.349 | phase1 | P1:stabilizer:large-jump | {"frame":208,"posDelta":"2.7387","rotDelta":"2.51","corners":["top-right*","bottom-right"],"avgPos":"(-0.865, 0.328, -18.866)"} | 13299ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.390 | phase1 | P1:stabilizer:large-jump | {"frame":209,"posDelta":"2.5196","rotDelta":"2.31","corners":["top-right*","bottom-right"],"avgPos":"(-0.865, 0.328, -18.866)"} | 13340ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.429 | phase1 | P1:stabilizer:update | {"frame":210,"markers":2,"cached":1,"posDelta":"2.3180","rotDelta":"2.12","avgPos30":"1.8399","maxPos30":"5.8688","avgRot30":"5.04","maxRot30":"16.99","lerp":0.08} | 13379ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.430 | phase1 | P1:stabilizer:marker-detail | {"frame":210,"markers":[{"corner":"top-right","pos":"(-0.524, 6.040, -20.327)","jitter":"0.0000","cached":true},{"corner":"bottom-right","pos":"(-1.206, -5.383, -17.405)","jitter":"0.0000","cached":false}],"spread":"0.0000"} | 13379ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.430 | phase1 | P1:stabilizer:large-jump | {"frame":210,"posDelta":"2.3180","rotDelta":"2.12","corners":["top-right*","bottom-right"],"avgPos":"(-0.865, 0.328, -18.866)"} | 13380ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.474 | phase1 | P1:stabilizer:large-jump | {"frame":211,"posDelta":"2.1326","rotDelta":"1.95","corners":["top-right*","bottom-right"],"avgPos":"(-0.865, 0.328, -18.866)"} | 13424ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.514 | phase1 | P1:stabilizer:large-jump | {"frame":212,"posDelta":"1.9620","rotDelta":"1.80","corners":["top-right*","bottom-right"],"avgPos":"(-0.865, 0.328, -18.866)"} | 13464ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.558 | phase1 | P1:stabilizer:large-jump | {"frame":213,"posDelta":"1.8050","rotDelta":"1.65","corners":["top-right*","bottom-right"],"avgPos":"(-0.865, 0.328, -18.866)"} | 13508ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.597 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":0} | 13547ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.598 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":false,"cachedFrames":15,"frame":213} | 13548ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.599 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":213} | 13548ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.599 | phase1 | P1:stabilizer:markers-changed | {"from":["top-right*","bottom-right"],"to":["bottom-right*"],"frame":214} | 13549ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.599 | phase1 | P1:stabilizer:large-jump | {"frame":214,"posDelta":"7.5751","rotDelta":"7.72","corners":["bottom-right*"],"avgPos":"(-1.050, -5.261, -16.911)"} | 13549ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.637 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 13587ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.647 | phase1 | P1:stabilizer:large-jump | {"frame":215,"posDelta":"6.9691","rotDelta":"7.10","corners":["bottom-right*"],"avgPos":"(-1.050, -5.261, -16.911)"} | 13597ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.690 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":1,"timeMs":13640,"model":"layers_of_the_sun"} | 13640ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.691 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 13641ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.692 | phase1 | P1:stabilizer:large-jump | {"frame":216,"posDelta":"6.4649","rotDelta":"6.36","corners":["bottom-right"],"avgPos":"(-0.937, -5.325, -16.920)"} | 13642ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.752 | phase1 | P1:stabilizer:large-jump | {"frame":217,"posDelta":"5.9477","rotDelta":"5.85","corners":["bottom-right"],"avgPos":"(-0.937, -5.325, -16.920)"} | 13702ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.825 | phase1 | P1:stabilizer:large-jump | {"frame":218,"posDelta":"5.3446","rotDelta":"6.63","corners":["bottom-right"],"avgPos":"(-0.807, -5.294, -17.257)"} | 13775ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.860 | phase1 | P1:stabilizer:large-jump | {"frame":219,"posDelta":"4.9212","rotDelta":"4.89","corners":["bottom-right"],"avgPos":"(-0.945, -5.243, -17.074)"} | 13810ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.900 | phase1 | P1:stabilizer:large-jump | {"frame":220,"posDelta":"4.5151","rotDelta":"4.35","corners":["bottom-right"],"avgPos":"(-0.973, -5.248, -17.140)"} | 13850ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.930 | phase1 | P1:stabilizer:large-jump | {"frame":221,"posDelta":"4.1494","rotDelta":"3.99","corners":["bottom-right"],"avgPos":"(-0.983, -5.251, -17.166)"} | 13880ms from boot
+2026-04-30T09:31:43.524Z | 09:31:40.974 | phase1 | P1:stabilizer:large-jump | {"frame":222,"posDelta":"3.8147","rotDelta":"3.68","corners":["bottom-right"],"avgPos":"(-0.990, -5.252, -17.182)"} | 13924ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.015 | phase1 | P1:stabilizer:large-jump | {"frame":223,"posDelta":"3.5078","rotDelta":"3.40","corners":["bottom-right"],"avgPos":"(-0.994, -5.253, -17.193)"} | 13964ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.060 | phase1 | P1:stabilizer:large-jump | {"frame":224,"posDelta":"3.2257","rotDelta":"3.14","corners":["bottom-right"],"avgPos":"(-0.998, -5.254, -17.202)"} | 14010ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.116 | phase1 | P1:stabilizer:update | {"frame":225,"markers":1,"cached":0,"posDelta":"1.0007","rotDelta":"47.58","avgPos30":"3.7110","maxPos30":"7.5751","avgRot30":"6.25","maxRot30":"47.58","lerp":0.08} | 14066ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.116 | phase1 | P1:stabilizer:large-jump | {"frame":225,"posDelta":"1.0007","rotDelta":"47.58","corners":["bottom-right"],"avgPos":"(-1.171, -3.103, -17.346)"} | 14066ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.164 | phase1 | P1:stabilizer:large-jump | {"frame":226,"posDelta":"0.4958","rotDelta":"66.73","corners":["bottom-right"],"avgPos":"(-1.131, -2.049, -17.778)"} | 14114ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.212 | phase1 | P1:stabilizer:large-jump | {"frame":227,"posDelta":"0.8673","rotDelta":"73.14","corners":["bottom-right"],"avgPos":"(-1.089, -1.618, -18.189)"} | 14162ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.258 | phase1 | P1:stabilizer:large-jump | {"frame":228,"posDelta":"1.0564","rotDelta":"73.31","corners":["bottom-right"],"avgPos":"(-1.059, -1.432, -18.430)"} | 14208ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.314 | phase1 | P1:stabilizer:large-jump | {"frame":229,"posDelta":"1.0721","rotDelta":"69.72","corners":["bottom-right"],"avgPos":"(-1.047, -1.369, -18.526)"} | 14264ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.374 | phase1 | P1:stabilizer:large-jump | {"frame":230,"posDelta":"1.0926","rotDelta":"66.52","corners":["bottom-right"],"avgPos":"(-1.033, -1.306, -18.629)"} | 14324ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.427 | phase1 | P1:stabilizer:large-jump | {"frame":231,"posDelta":"1.0414","rotDelta":"62.01","corners":["bottom-right"],"avgPos":"(-1.028, -1.286, -18.665)"} | 14376ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.479 | phase1 | P1:stabilizer:large-jump | {"frame":232,"posDelta":"0.9806","rotDelta":"57.55","corners":["bottom-right"],"avgPos":"(-1.025, -1.274, -18.687)"} | 14429ms from boot
+2026-04-30T09:31:43.524Z | 09:31:41.526 | phase1 | P1:stabilizer:large-jump | {"frame":233,"posDelta":"0.9097","rotDelta":"53.12","corners":["bottom-right"],"avgPos":"(-1.023, -1.270, -18.694)"} | 14476ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.562 | phase1 | P1:stabilizer:large-jump | {"frame":234,"posDelta":"0.8398","rotDelta":"48.93","corners":["bottom-right"],"avgPos":"(-1.023, -1.268, -18.697)"} | 14512ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.617 | phase1 | P1:stabilizer:large-jump | {"frame":235,"posDelta":"0.7751","rotDelta":"45.07","corners":["bottom-right"],"avgPos":"(-1.023, -1.267, -18.700)"} | 14567ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.672 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 14622ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.681 | phase1 | P1:stabilizer:large-jump | {"frame":236,"posDelta":"0.7144","rotDelta":"41.49","corners":["bottom-right"],"avgPos":"(-1.023, -1.266, -18.701)"} | 14631ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.728 | phase1 | P1:stabilizer:large-jump | {"frame":237,"posDelta":"0.6581","rotDelta":"38.19","corners":["bottom-right"],"avgPos":"(-1.022, -1.266, -18.702)"} | 14678ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.781 | phase1 | P1:stabilizer:large-jump | {"frame":238,"posDelta":"0.6057","rotDelta":"35.14","corners":["bottom-right"],"avgPos":"(-1.022, -1.266, -18.702)"} | 14731ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.832 | phase1 | P1:stabilizer:large-jump | {"frame":239,"posDelta":"0.5574","rotDelta":"32.33","corners":["bottom-right"],"avgPos":"(-1.022, -1.265, -18.702)"} | 14782ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.875 | phase1 | P1:stabilizer:update | {"frame":240,"markers":1,"cached":0,"posDelta":"0.5128","rotDelta":"29.75","avgPos30":"2.5172","maxPos30":"7.5751","avgRot30":"30.10","maxRot30":"73.31","lerp":0.08} | 14825ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.876 | phase1 | P1:stabilizer:large-jump | {"frame":240,"posDelta":"0.5128","rotDelta":"29.75","corners":["bottom-right"],"avgPos":"(-1.022, -1.265, -18.702)"} | 14826ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.915 | phase1 | P1:stabilizer:large-jump | {"frame":241,"posDelta":"0.4718","rotDelta":"27.37","corners":["bottom-right"],"avgPos":"(-1.022, -1.265, -18.702)"} | 14865ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.959 | phase1 | P1:stabilizer:large-jump | {"frame":242,"posDelta":"0.4341","rotDelta":"25.18","corners":["bottom-right"],"avgPos":"(-1.022, -1.265, -18.702)"} | 14909ms from boot
+2026-04-30T09:31:45.576Z | 09:31:41.993 | phase1 | P1:stabilizer:large-jump | {"frame":243,"posDelta":"0.3994","rotDelta":"23.17","corners":["bottom-right"],"avgPos":"(-1.022, -1.265, -18.702)"} | 14943ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.030 | phase1 | P1:stabilizer:large-jump | {"frame":244,"posDelta":"0.3675","rotDelta":"21.31","corners":["bottom-right"],"avgPos":"(-1.022, -1.265, -18.702)"} | 14980ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.077 | phase1 | P1:stabilizer:large-jump | {"frame":245,"posDelta":"0.3381","rotDelta":"19.61","corners":["bottom-right"],"avgPos":"(-1.022, -1.265, -18.702)"} | 15027ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.113 | phase1 | P1:stabilizer:large-jump | {"frame":246,"posDelta":"0.3110","rotDelta":"18.04","corners":["bottom-right"],"avgPos":"(-1.022, -1.265, -18.702)"} | 15063ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.159 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":2,"timeMs":15109,"model":"layers_of_the_sun"} | 15109ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.161 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 15111ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.162 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":true,"frame":246} | 15112ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.162 | phase1 | P1:stabilizer:markers-changed | {"from":["bottom-right*"],"to":["top-right","bottom-right"],"frame":247} | 15112ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.163 | phase1 | P1:stabilizer:large-jump | {"frame":247,"posDelta":"2.0663","rotDelta":"36.39","corners":["top-right","bottom-right"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15113ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.209 | phase1 | P1:stabilizer:large-jump | {"frame":248,"posDelta":"1.9010","rotDelta":"33.48","corners":["top-right","bottom-right"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15159ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.259 | phase1 | P1:stabilizer:large-jump | {"frame":249,"posDelta":"1.7489","rotDelta":"30.80","corners":["top-right","bottom-right"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15209ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.295 | phase1 | P1:stabilizer:large-jump | {"frame":250,"posDelta":"1.6090","rotDelta":"28.33","corners":["top-right","bottom-right"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15245ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.362 | phase1 | P1:stabilizer:large-jump | {"frame":251,"posDelta":"1.4803","rotDelta":"26.07","corners":["top-right","bottom-right"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15312ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.480 | phase1 | P1:stabilizer:large-jump | {"frame":252,"posDelta":"1.3618","rotDelta":"23.98","corners":["top-right","bottom-right"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15430ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.561 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":1} | 15511ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.561 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":0} | 15511ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.562 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":252} | 15512ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.562 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":252} | 15512ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.562 | phase1 | P1:stabilizer:large-jump | {"frame":253,"posDelta":"1.2529","rotDelta":"22.06","corners":["top-right*","bottom-right*"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15512ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.615 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":1,"timeMs":15565,"model":"layers_of_the_sun"} | 15565ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.615 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 15565ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.616 | phase1 | P1:stabilizer:large-jump | {"frame":254,"posDelta":"1.1527","rotDelta":"20.30","corners":["top-right*","bottom-right"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15566ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.675 | phase1 | P1:stabilizer:update | {"frame":255,"markers":2,"cached":1,"posDelta":"1.0604","rotDelta":"18.67","avgPos30":"0.9378","maxPos30":"2.0663","avgRot30":"38.93","maxRot30":"73.31","lerp":0.08} | 15625ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.677 | phase1 | P1:stabilizer:large-jump | {"frame":255,"posDelta":"1.0604","rotDelta":"18.67","corners":["top-right*","bottom-right"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15627ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.718 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 15668ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.736 | phase1 | P1:stabilizer:large-jump | {"frame":256,"posDelta":"0.9756","rotDelta":"17.18","corners":["top-right*","bottom-right"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15686ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.776 | phase1 | P1:stabilizer:large-jump | {"frame":257,"posDelta":"0.8976","rotDelta":"15.81","corners":["top-right*","bottom-right"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15726ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.825 | phase1 | P1:stabilizer:large-jump | {"frame":258,"posDelta":"0.8258","rotDelta":"14.54","corners":["top-right*","bottom-right"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15775ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.875 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":0} | 15825ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.876 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":258} | 15826ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.878 | phase1 | P1:stabilizer:large-jump | {"frame":259,"posDelta":"0.7597","rotDelta":"13.38","corners":["top-right*","bottom-right*"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15828ms from boot
+2026-04-30T09:31:45.576Z | 09:31:42.932 | phase1 | P1:stabilizer:large-jump | {"frame":260,"posDelta":"0.6989","rotDelta":"12.31","corners":["top-right*","bottom-right*"],"avgPos":"(-0.600, 0.309, -19.456)"} | 15882ms from boot
+2026-04-30T09:31:45.576Z | 09:31:43.029 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":1,"timeMs":15979,"model":"layers_of_the_sun"} | 15979ms from boot
+2026-04-30T09:31:45.576Z | 09:31:43.031 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 15981ms from boot
+2026-04-30T09:31:45.576Z | 09:31:43.032 | phase1 | P1:stabilizer:large-jump | {"frame":261,"posDelta":"0.5710","rotDelta":"53.29","corners":["top-right*","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 15982ms from boot
+2026-04-30T09:31:45.576Z | 09:31:43.084 | phase1 | P1:stabilizer:large-jump | {"frame":262,"posDelta":"0.5254","rotDelta":"49.02","corners":["top-right*","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 16034ms from boot
+2026-04-30T09:31:45.576Z | 09:31:43.141 | phase1 | P1:stabilizer:large-jump | {"frame":263,"posDelta":"0.4833","rotDelta":"45.10","corners":["top-right*","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 16091ms from boot
+2026-04-30T09:31:45.576Z | 09:31:43.210 | phase1 | P1:stabilizer:large-jump | {"frame":264,"posDelta":"0.4447","rotDelta":"41.49","corners":["top-right*","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 16160ms from boot
+2026-04-30T09:31:45.576Z | 09:31:43.246 | phase1 | P1:stabilizer:large-jump | {"frame":265,"posDelta":"0.4091","rotDelta":"38.17","corners":["top-right*","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 16196ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.296 | phase1 | P1:stabilizer:large-jump | {"frame":266,"posDelta":"0.3764","rotDelta":"35.12","corners":["top-right*","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 16246ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.344 | phase1 | P1:stabilizer:large-jump | {"frame":267,"posDelta":"0.3463","rotDelta":"32.31","corners":["top-right*","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 16294ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.443 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":2,"timeMs":16393,"model":"layers_of_the_sun"} | 16393ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.444 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 16394ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.446 | phase1 | P1:stabilizer:large-jump | {"frame":268,"posDelta":"0.3186","rotDelta":"29.73","corners":["top-right","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 16396ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.553 | phase1 | P1:stabilizer:large-jump | {"frame":269,"posDelta":"0.2931","rotDelta":"27.35","corners":["top-right","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 16503ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.819 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":1} | 16769ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.820 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":269} | 16770ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.820 | phase1 | P1:stabilizer:update | {"frame":270,"markers":2,"cached":1,"posDelta":"0.2696","rotDelta":"25.16","avgPos30":"0.8050","maxPos30":"2.0663","avgRot30":"27.49","maxRot30":"53.29","lerp":0.08} | 16770ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.820 | phase1 | P1:stabilizer:marker-detail | {"frame":270,"markers":[{"corner":"top-right","pos":"(-0.363, 5.936, -20.615)","jitter":"0.0000","cached":false},{"corner":"bottom-right","pos":"(-0.839, -5.327, -17.680)","jitter":"0.0000","cached":true}],"spread":"0.0000"} | 16770ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.821 | phase1 | P1:stabilizer:large-jump | {"frame":270,"posDelta":"0.2696","rotDelta":"25.16","corners":["top-right","bottom-right*"],"avgPos":"(-0.601, 0.305, -19.147)"} | 16771ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.975 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 16925ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.998 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 16948ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.999 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":270} | 16949ms from boot
+2026-04-30T09:31:47.621Z | 09:31:43.999 | phase1 | P1:stabilizer:large-jump | {"frame":271,"posDelta":"0.2481","rotDelta":"23.15","corners":["top-right*","bottom-right*"],"avgPos":"(-0.601, 0.305, -19.147)"} | 16949ms from boot
+2026-04-30T09:31:47.621Z | 09:31:44.119 | phase1 | P1:stabilizer:large-jump | {"frame":272,"posDelta":"0.2282","rotDelta":"21.30","corners":["top-right*","bottom-right*"],"avgPos":"(-0.601, 0.305, -19.147)"} | 17069ms from boot
+2026-04-30T09:31:47.621Z | 09:31:44.182 | phase1 | P1:stabilizer:large-jump | {"frame":273,"posDelta":"0.2100","rotDelta":"19.59","corners":["top-right*","bottom-right*"],"avgPos":"(-0.601, 0.305, -19.147)"} | 17132ms from boot
+2026-04-30T09:31:47.621Z | 09:31:44.234 | phase1 | P1:stabilizer:large-jump | {"frame":274,"posDelta":"0.1932","rotDelta":"18.02","corners":["top-right*","bottom-right*"],"avgPos":"(-0.601, 0.305, -19.147)"} | 17184ms from boot
+2026-04-30T09:31:47.621Z | 09:31:44.311 | phase1 | P1:stabilizer:large-jump | {"frame":275,"posDelta":"0.1777","rotDelta":"16.58","corners":["top-right*","bottom-right*"],"avgPos":"(-0.601, 0.305, -19.147)"} | 17261ms from boot
+2026-04-30T09:31:47.621Z | 09:31:44.402 | phase1 | P1:stabilizer:large-jump | {"frame":276,"posDelta":"0.1635","rotDelta":"15.26","corners":["top-right*","bottom-right*"],"avgPos":"(-0.601, 0.305, -19.147)"} | 17352ms from boot
+2026-04-30T09:31:47.621Z | 09:31:44.592 | phase1 | P1:stabilizer:large-jump | {"frame":277,"posDelta":"0.1504","rotDelta":"14.04","corners":["top-right*","bottom-right*"],"avgPos":"(-0.601, 0.305, -19.147)"} | 17542ms from boot
+2026-04-30T09:31:47.621Z | 09:31:44.805 | phase1 | P1:stabilizer:large-jump | {"frame":278,"posDelta":"0.1384","rotDelta":"12.91","corners":["top-right*","bottom-right*"],"avgPos":"(-0.601, 0.305, -19.147)"} | 17755ms from boot
+2026-04-30T09:31:47.621Z | 09:31:44.966 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":1,"timeMs":17916,"model":"layers_of_the_sun"} | 17916ms from boot
+2026-04-30T09:31:47.621Z | 09:31:44.968 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 17918ms from boot
+2026-04-30T09:31:47.621Z | 09:31:44.968 | phase1 | P1:stabilizer:large-jump | {"frame":279,"posDelta":"0.1273","rotDelta":"11.88","corners":["top-right*","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 17918ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.091 | phase1 | P1:stabilizer:large-jump | {"frame":280,"posDelta":"0.1171","rotDelta":"10.93","corners":["top-right*","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 18041ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.179 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 18129ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.195 | phase1 | P1:stabilizer:large-jump | {"frame":281,"posDelta":"0.1078","rotDelta":"10.05","corners":["top-right*","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 18145ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.294 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":0} | 18244ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.295 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":281} | 18245ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.296 | phase1 | P1:stabilizer:large-jump | {"frame":282,"posDelta":"0.0991","rotDelta":"9.25","corners":["top-right*","bottom-right*"],"avgPos":"(-0.601, 0.305, -19.147)"} | 18246ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.396 | phase1 | P1:stabilizer:large-jump | {"frame":283,"posDelta":"0.0912","rotDelta":"8.51","corners":["top-right*","bottom-right*"],"avgPos":"(-0.601, 0.305, -19.147)"} | 18346ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.645 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":false,"cachedFrames":15,"frame":285} | 18595ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.646 | phase1 | P1:stabilizer:markers-changed | {"from":["top-right","bottom-right"],"to":["bottom-right*"],"frame":286} | 18596ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.647 | phase1 | P1:stabilizer:large-jump | {"frame":286,"posDelta":"5.5085","rotDelta":"4.10","corners":["bottom-right*"],"avgPos":"(-0.811, -4.948, -17.261)"} | 18597ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.762 | phase1 | P1:stabilizer:large-jump | {"frame":287,"posDelta":"5.0678","rotDelta":"3.77","corners":["bottom-right*"],"avgPos":"(-0.811, -4.948, -17.261)"} | 18712ms from boot
+2026-04-30T09:31:47.621Z | 09:31:45.873 | phase1 | P1:stabilizer:large-jump | {"frame":288,"posDelta":"4.6624","rotDelta":"3.47","corners":["bottom-right*"],"avgPos":"(-0.811, -4.948, -17.261)"} | 18823ms from boot
+2026-04-30T09:31:47.621Z | 09:31:46.034 | phase1 | P1:stabilizer:large-jump | {"frame":289,"posDelta":"4.2894","rotDelta":"3.19","corners":["bottom-right*"],"avgPos":"(-0.811, -4.948, -17.261)"} | 18984ms from boot
+2026-04-30T09:31:47.621Z | 09:31:46.195 | phase1 | P1:stabilizer:large-jump | {"frame":290,"posDelta":"3.9462","rotDelta":"2.93","corners":["bottom-right*"],"avgPos":"(-0.811, -4.948, -17.261)"} | 19145ms from boot
+2026-04-30T09:31:47.621Z | 09:31:46.331 | phase1 | P1:stabilizer:large-jump | {"frame":291,"posDelta":"3.6305","rotDelta":"2.70","corners":["bottom-right*"],"avgPos":"(-0.811, -4.948, -17.261)"} | 19281ms from boot
+2026-04-30T09:31:47.621Z | 09:31:46.397 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 19347ms from boot
+2026-04-30T09:31:47.621Z | 09:31:46.463 | phase1 | P1:stabilizer:large-jump | {"frame":292,"posDelta":"3.3401","rotDelta":"2.48","corners":["bottom-right*"],"avgPos":"(-0.811, -4.948, -17.261)"} | 19413ms from boot
+2026-04-30T09:31:47.621Z | 09:31:46.562 | phase1 | P1:stabilizer:large-jump | {"frame":293,"posDelta":"3.0729","rotDelta":"2.29","corners":["bottom-right*"],"avgPos":"(-0.811, -4.948, -17.261)"} | 19512ms from boot
+2026-04-30T09:31:47.621Z | 09:31:46.789 | phase1 | P1:stabilizer:large-jump | {"frame":294,"posDelta":"2.8271","rotDelta":"2.10","corners":["bottom-right*"],"avgPos":"(-0.811, -4.948, -17.261)"} | 19739ms from boot
+2026-04-30T09:31:47.621Z | 09:31:46.846 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 19796ms from boot
+2026-04-30T09:31:47.621Z | 09:31:46.913 | phase1 | P1:stabilizer:large-jump | {"frame":295,"posDelta":"2.6009","rotDelta":"1.93","corners":["bottom-right*"],"avgPos":"(-0.811, -4.948, -17.261)"} | 19863ms from boot
+2026-04-30T09:31:47.621Z | 09:31:47.096 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 20046ms from boot
+2026-04-30T09:31:47.621Z | 09:31:47.241 | phase1 | P1:stabilizer:large-jump | {"frame":296,"posDelta":"2.3928","rotDelta":"1.78","corners":["bottom-right*"],"avgPos":"(-0.811, -4.948, -17.261)"} | 20191ms from boot
+2026-04-30T09:31:47.621Z | 09:31:47.357 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 20307ms from boot
+2026-04-30T09:31:47.621Z | 09:31:47.380 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":false,"cachedFrames":15,"frame":296} | 20330ms from boot
+2026-04-30T09:31:51.515Z | 09:31:47.381 | phase1 | P1:stabilizer:hidden | {"reason":"no markers visible","frame":296} | 20331ms from boot
+2026-04-30T09:31:51.515Z | 09:31:47.740 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 20690ms from boot
+2026-04-30T09:31:51.515Z | 09:31:48.864 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 21814ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.682 | phase1 | P1:marker:found | {"markerId":"marker-tl","visibleMarkers":1,"timeMs":22632,"model":"layers_of_the_sun"} | 22632ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.684 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 22634ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.684 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-left","visible":true,"frame":296} | 22634ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.685 | phase1 | P1:stabilizer:markers-changed | {"from":["bottom-right*"],"to":["top-left"],"frame":297} | 22635ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.686 | phase1 | P1:stabilizer:large-jump | {"frame":297,"posDelta":"10.8852","rotDelta":"27.00","corners":["top-left"],"avgPos":"(1.594, 7.386, -20.781)"} | 22636ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.809 | phase1 | P1:stabilizer:large-jump | {"frame":298,"posDelta":"10.0143","rotDelta":"24.84","corners":["top-left"],"avgPos":"(1.594, 7.386, -20.781)"} | 22759ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.924 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 22874ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.966 | phase1 | P1:marker:found | {"markerId":"marker-bl","visibleMarkers":2,"timeMs":22916,"model":"layers_of_the_sun"} | 22916ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.967 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 22917ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.967 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":3,"timeMs":22917,"model":"layers_of_the_sun"} | 22917ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.968 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 22918ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.968 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-left","visible":true,"frame":298} | 22918ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.969 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":true,"frame":298} | 22918ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.969 | phase1 | P1:stabilizer:markers-changed | {"from":["top-left"],"to":["top-left","bottom-left","bottom-right"],"frame":299} | 22919ms from boot
+2026-04-30T09:31:51.515Z | 09:31:49.970 | phase1 | P1:stabilizer:large-jump | {"frame":299,"posDelta":"1.3616","rotDelta":"9.72","corners":["top-left","bottom-left","bottom-right"],"avgPos":"(0.975, -1.269, -18.601)"} | 22920ms from boot
+2026-04-30T09:31:51.515Z | 09:31:50.029 | phase1 | P1:model:measure | {"worldSize":{"x":"0.0000","y":"0.0000","z":"0.0000"},"worldMaxDim":"0.0000","currentScale":1,"modelBaseMaxDim":"0.0000"} | 22979ms from boot
+2026-04-30T09:31:51.515Z | 09:31:50.055 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 23005ms from boot
+2026-04-30T09:31:51.515Z | 09:31:50.077 | phase1 | P1:marker:lost | {"markerId":"marker-tl","visibleMarkers":2} | 23027ms from boot
+2026-04-30T09:31:51.515Z | 09:31:50.078 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-left","usingCachedFor":15,"frame":299} | 23028ms from boot
+2026-04-30T09:31:51.515Z | 09:31:50.079 | phase1 | P1:stabilizer:update | {"frame":300,"markers":3,"cached":1,"posDelta":"1.2527","rotDelta":"8.94","avgPos30":"2.2357","maxPos30":"10.8852","avgRot30":"10.28","maxRot30":"27.00","lerp":0.08} | 23029ms from boot
+2026-04-30T09:31:51.515Z | 09:31:50.080 | phase1 | P1:stabilizer:marker-detail | {"frame":300,"markers":[{"corner":"top-left","pos":"(1.820, 6.735, -21.065)","jitter":"0.0000","cached":true},{"corner":"bottom-left","pos":"(1.599, -5.070, -17.697)","jitter":"0.0000","cached":false},{"corner":"bottom-right","pos":"(-0.495, -5.471, -17.041)","jitter":"0.0000","cached":false}],"spread":"0.0000"} | 23029ms from boot
+2026-04-30T09:31:51.515Z | 09:31:50.080 | phase1 | P1:stabilizer:large-jump | {"frame":300,"posDelta":"1.2527","rotDelta":"8.94","corners":["top-left*","bottom-left","bottom-right"],"avgPos":"(0.975, -1.269, -18.601)"} | 23030ms from boot
+2026-04-30T09:31:51.515Z | 09:31:51.765 | phase1 | P1:model:measure | {"worldSize":{"x":"2.6579","y":"3.2492","z":"3.8655"},"worldMaxDim":"3.8655","currentScale":1,"modelBaseMaxDim":"3.8655"} | 24715ms from boot
+2026-04-30T09:31:51.515Z | 09:31:51.768 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"1.6298"} | 24718ms from boot
+2026-04-30T09:31:53.350Z | 09:31:51.814 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 24764ms from boot
+2026-04-30T09:31:53.350Z | 09:31:51.826 | phase1 | P1:stabilizer:large-jump | {"frame":301,"posDelta":"1.1525","rotDelta":"8.23","corners":["top-left*","bottom-left","bottom-right"],"avgPos":"(0.975, -1.269, -18.601)"} | 24776ms from boot
+2026-04-30T09:31:53.350Z | 09:31:51.896 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":1} | 24846ms from boot
+2026-04-30T09:31:53.350Z | 09:31:51.896 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":301} | 24846ms from boot
+2026-04-30T09:31:53.350Z | 09:31:51.897 | phase1 | P1:stabilizer:large-jump | {"frame":302,"posDelta":"0.9100","rotDelta":"8.33","corners":["top-left*","bottom-left","bottom-right*"],"avgPos":"(0.815, -1.282, -18.650)"} | 24847ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.100 | phase1 | P1:marker:found | {"markerId":"marker-tl","visibleMarkers":2,"timeMs":25050,"model":"layers_of_the_sun"} | 25050ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.105 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"1.6298"} | 25055ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.108 | phase1 | P1:model:layers:fit | {"ok":true} | 25058ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.112 | phase1 | P1:stabilizer:large-jump | {"frame":306,"posDelta":"0.7393","rotDelta":"20.63","corners":["top-left","bottom-left","bottom-right*"],"avgPos":"(0.554, -0.856, -18.291)"} | 25062ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.171 | phase1 | P1:marker:lost | {"markerId":"marker-bl","visibleMarkers":1} | 25121ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.172 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-left","usingCachedFor":15,"frame":306} | 25122ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.173 | phase1 | P1:stabilizer:large-jump | {"frame":307,"posDelta":"0.6624","rotDelta":"18.62","corners":["top-left","bottom-left*","bottom-right*"],"avgPos":"(0.531, -0.819, -18.516)"} | 25123ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.262 | phase1 | P1:stabilizer:large-jump | {"frame":308,"posDelta":"0.6037","rotDelta":"16.92","corners":["top-left","bottom-left*","bottom-right*"],"avgPos":"(0.533, -0.831, -18.524)"} | 25212ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.315 | phase1 | P1:stabilizer:large-jump | {"frame":309,"posDelta":"0.5524","rotDelta":"15.46","corners":["top-left","bottom-left*","bottom-right*"],"avgPos":"(0.534, -0.838, -18.528)"} | 25265ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.385 | phase1 | P1:stabilizer:large-jump | {"frame":310,"posDelta":"0.5077","rotDelta":"14.21","corners":["top-left","bottom-left*","bottom-right*"],"avgPos":"(0.535, -0.839, -18.528)"} | 25335ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.425 | phase1 | P1:marker:lost | {"markerId":"marker-tl","visibleMarkers":0} | 25375ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.426 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-left","usingCachedFor":15,"frame":310} | 25376ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.427 | phase1 | P1:stabilizer:large-jump | {"frame":311,"posDelta":"0.4671","rotDelta":"13.07","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(0.535, -0.839, -18.528)"} | 25377ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.498 | phase1 | P1:stabilizer:large-jump | {"frame":312,"posDelta":"0.4297","rotDelta":"12.02","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(0.535, -0.839, -18.528)"} | 25447ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.552 | phase1 | P1:stabilizer:large-jump | {"frame":313,"posDelta":"0.3954","rotDelta":"11.06","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(0.535, -0.839, -18.528)"} | 25502ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.598 | phase1 | P1:stabilizer:large-jump | {"frame":314,"posDelta":"0.3637","rotDelta":"10.18","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(0.535, -0.839, -18.528)"} | 25548ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.647 | phase1 | P1:stabilizer:update | {"frame":315,"markers":3,"cached":3,"posDelta":"0.3346","rotDelta":"9.36","avgPos30":"2.4828","maxPos30":"10.8852","avgRot30":"9.41","maxRot30":"27.00","lerp":0.08} | 25597ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.647 | phase1 | P1:stabilizer:large-jump | {"frame":315,"posDelta":"0.3346","rotDelta":"9.36","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(0.535, -0.839, -18.528)"} | 25597ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.707 | phase1 | P1:stabilizer:large-jump | {"frame":316,"posDelta":"0.3079","rotDelta":"8.61","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(0.535, -0.839, -18.528)"} | 25657ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.748 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":false,"cachedFrames":15,"frame":316} | 25698ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.749 | phase1 | P1:stabilizer:markers-changed | {"from":["top-left","bottom-left","bottom-right"],"to":["top-left*","bottom-left*"],"frame":317} | 25700ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.750 | phase1 | P1:stabilizer:large-jump | {"frame":317,"posDelta":"2.2381","rotDelta":"14.93","corners":["top-left*","bottom-left*"],"avgPos":"(1.145, 0.730, -19.628)"} | 25700ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.808 | phase1 | P1:stabilizer:large-jump | {"frame":318,"posDelta":"2.0591","rotDelta":"13.73","corners":["top-left*","bottom-left*"],"avgPos":"(1.145, 0.730, -19.628)"} | 25758ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.867 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 25817ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.885 | phase1 | P1:stabilizer:large-jump | {"frame":319,"posDelta":"1.8943","rotDelta":"12.63","corners":["top-left*","bottom-left*"],"avgPos":"(1.145, 0.730, -19.628)"} | 25835ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.943 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"13.1000"} | 25893ms from boot
+2026-04-30T09:31:53.350Z | 09:31:52.975 | phase1 | P1:stabilizer:large-jump | {"frame":320,"posDelta":"1.7428","rotDelta":"11.62","corners":["top-left*","bottom-left*"],"avgPos":"(1.145, 0.730, -19.628)"} | 25925ms from boot
+2026-04-30T09:31:53.350Z | 09:31:53.117 | phase1 | P1:stabilizer:large-jump | {"frame":321,"posDelta":"1.6034","rotDelta":"10.69","corners":["top-left*","bottom-left*"],"avgPos":"(1.145, 0.730, -19.628)"} | 26067ms from boot
+2026-04-30T09:31:53.350Z | 09:31:53.170 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"14.4000"} | 26120ms from boot
+2026-04-30T09:31:53.350Z | 09:31:53.207 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-left","visible":false,"cachedFrames":15,"frame":321} | 26157ms from boot
+2026-04-30T09:31:53.350Z | 09:31:53.208 | phase1 | P1:stabilizer:markers-changed | {"from":["top-left*","bottom-left*"],"to":["top-left*"],"frame":322} | 26158ms from boot
+2026-04-30T09:31:53.350Z | 09:31:53.209 | phase1 | P1:stabilizer:large-jump | {"frame":322,"posDelta":"5.0637","rotDelta":"42.01","corners":["top-left*"],"avgPos":"(1.461, 3.815, -21.521)"} | 26159ms from boot
+2026-04-30T09:31:53.350Z | 09:31:53.256 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"15.0000"} | 26206ms from boot
+2026-04-30T09:31:53.350Z | 09:31:53.279 | phase1 | P1:stabilizer:large-jump | {"frame":323,"posDelta":"4.6586","rotDelta":"38.65","corners":["top-left*"],"avgPos":"(1.461, 3.815, -21.521)"} | 26229ms from boot
+2026-04-30T09:31:53.350Z | 09:31:53.350 | phase1 | P1:stabilizer:large-jump | {"frame":324,"posDelta":"4.2859","rotDelta":"35.56","corners":["top-left*"],"avgPos":"(1.461, 3.815, -21.521)"} | 26300ms from boot
+2026-04-30T09:31:53.350Z | 09:31:53.424 | phase1 | P1:stabilizer:large-jump | {"frame":325,"posDelta":"3.9431","rotDelta":"32.71","corners":["top-left*"],"avgPos":"(1.461, 3.815, -21.521)"} | 26374ms from boot
+2026-04-30T09:31:53.350Z | 09:31:53.481 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-left","visible":false,"cachedFrames":15,"frame":325} | 26431ms from boot
+2026-04-30T09:31:53.350Z | 09:31:53.482 | phase1 | P1:stabilizer:hidden | {"reason":"no markers visible","frame":325} | 26432ms from boot
+2026-04-30T09:31:55.608Z | 09:31:53.924 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 26874ms from boot
+2026-04-30T09:31:55.608Z | 09:31:54.460 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"14.1000"} | 27410ms from boot
+2026-04-30T09:31:55.608Z | 09:31:54.594 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"13.6000"} | 27544ms from boot
+2026-04-30T09:31:55.608Z | 09:31:54.700 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"11.6000"} | 27650ms from boot
+2026-04-30T09:31:55.608Z | 09:31:54.856 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"10.8000"} | 27806ms from boot
+2026-04-30T09:31:55.608Z | 09:31:54.974 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"10.0000"} | 27924ms from boot
+2026-04-30T09:31:55.608Z | 09:31:55.033 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 27983ms from boot
+2026-04-30T09:31:55.608Z | 09:31:55.126 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"9.6000"} | 28076ms from boot
+2026-04-30T09:31:55.608Z | 09:31:55.227 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"9.5000"} | 28177ms from boot
+2026-04-30T09:31:55.608Z | 09:31:55.337 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"9.2000"} | 28287ms from boot
+2026-04-30T09:31:55.608Z | 09:31:55.437 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"9.0000"} | 28387ms from boot
+2026-04-30T09:31:55.608Z | 09:31:55.552 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"8.7000"} | 28502ms from boot
+2026-04-30T09:31:55.608Z | 09:31:55.637 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"8.3000"} | 28587ms from boot
+2026-04-30T09:31:55.608Z | 09:31:55.732 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"7.9000"} | 28682ms from boot
+2026-04-30T09:31:55.608Z | 09:31:55.825 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"7.7000"} | 28775ms from boot
+2026-04-30T09:31:55.608Z | 09:31:55.914 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"7.4000"} | 28864ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.010 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"7.0000"} | 28960ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.074 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"6.7000"} | 29024ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.149 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 29099ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.374 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"6.6000"} | 29324ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.576 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"6.5000"} | 29526ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.649 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"6.4000"} | 29599ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.750 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"6.3000"} | 29700ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.801 | phase1 | P1:marker:found | {"markerId":"marker-bl","visibleMarkers":1,"timeMs":29751,"model":"layers_of_the_sun"} | 29751ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.802 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-left","visible":true,"frame":325} | 29752ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.803 | phase1 | P1:stabilizer:markers-changed | {"from":["top-left*"],"to":["bottom-left"],"frame":326} | 29753ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.803 | phase1 | P1:stabilizer:large-jump | {"frame":326,"posDelta":"6.8967","rotDelta":"32.61","corners":["bottom-left"],"avgPos":"(1.812, -5.690, -17.445)"} | 29753ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.876 | phase1 | P1:stabilizer:large-jump | {"frame":327,"posDelta":"6.3450","rotDelta":"30.00","corners":["bottom-left"],"avgPos":"(1.812, -5.690, -17.445)"} | 29826ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.937 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"6.2000"} | 29887ms from boot
+2026-04-30T09:31:57.658Z | 09:31:56.965 | phase1 | P1:stabilizer:large-jump | {"frame":328,"posDelta":"5.8374","rotDelta":"27.60","corners":["bottom-left"],"avgPos":"(1.812, -5.690, -17.445)"} | 29915ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.019 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"6.1000"} | 29969ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.049 | phase1 | P1:stabilizer:large-jump | {"frame":329,"posDelta":"5.3704","rotDelta":"25.39","corners":["bottom-left"],"avgPos":"(1.812, -5.690, -17.445)"} | 29999ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.118 | phase1 | P1:marker:lost | {"markerId":"marker-bl","visibleMarkers":0} | 30068ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.120 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-left","usingCachedFor":15,"frame":329} | 30070ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.121 | phase1 | P1:stabilizer:update | {"frame":330,"markers":1,"cached":1,"posDelta":"4.9407","rotDelta":"23.36","avgPos30":"2.2272","maxPos30":"6.8967","avgRot30":"18.04","maxRot30":"42.01","lerp":0.08} | 30071ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.122 | phase1 | P1:stabilizer:large-jump | {"frame":330,"posDelta":"4.9407","rotDelta":"23.36","corners":["bottom-left*"],"avgPos":"(1.812, -5.690, -17.445)"} | 30072ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.170 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"6.0000"} | 30120ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.201 | phase1 | P1:stabilizer:large-jump | {"frame":331,"posDelta":"4.5455","rotDelta":"21.49","corners":["bottom-left*"],"avgPos":"(1.812, -5.690, -17.445)"} | 30151ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.276 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 30226ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.309 | phase1 | P1:stabilizer:large-jump | {"frame":332,"posDelta":"4.1818","rotDelta":"19.77","corners":["bottom-left*"],"avgPos":"(1.812, -5.690, -17.445)"} | 30259ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.371 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"5.9000"} | 30321ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.397 | phase1 | P1:stabilizer:large-jump | {"frame":333,"posDelta":"3.8473","rotDelta":"18.19","corners":["bottom-left*"],"avgPos":"(1.812, -5.690, -17.445)"} | 30347ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.485 | phase1 | P1:marker:found | {"markerId":"marker-tl","visibleMarkers":1,"timeMs":30435,"model":"layers_of_the_sun"} | 30435ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.486 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-left","visible":true,"frame":333} | 30436ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.487 | phase1 | P1:stabilizer:markers-changed | {"from":["bottom-left"],"to":["top-left","bottom-left*"],"frame":334} | 30437ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.488 | phase1 | P1:stabilizer:large-jump | {"frame":334,"posDelta":"4.2738","rotDelta":"22.33","corners":["top-left","bottom-left*"],"avgPos":"(1.614, 0.692, -21.534)"} | 30438ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.573 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"5.8000"} | 30523ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.617 | phase1 | P1:marker:found | {"markerId":"marker-bl","visibleMarkers":2,"timeMs":30567,"model":"layers_of_the_sun"} | 30567ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.618 | phase1 | P1:stabilizer:large-jump | {"frame":335,"posDelta":"4.2511","rotDelta":"21.60","corners":["top-left","bottom-left"],"avgPos":"(1.503, 0.631, -22.038)"} | 30568ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.696 | phase1 | P1:stabilizer:large-jump | {"frame":336,"posDelta":"2.7172","rotDelta":"21.79","corners":["top-left","bottom-left"],"avgPos":"(1.695, 0.432, -20.408)"} | 30646ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.739 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"5.7000"} | 30689ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.761 | phase1 | P1:stabilizer:large-jump | {"frame":337,"posDelta":"2.4665","rotDelta":"24.71","corners":["top-left","bottom-left"],"avgPos":"(1.699, 0.417, -20.366)"} | 30711ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.817 | phase1 | P1:stabilizer:large-jump | {"frame":338,"posDelta":"2.2589","rotDelta":"24.11","corners":["top-left","bottom-left"],"avgPos":"(1.700, 0.411, -20.354)"} | 30767ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.875 | phase1 | P1:stabilizer:large-jump | {"frame":339,"posDelta":"2.0746","rotDelta":"22.65","corners":["top-left","bottom-left"],"avgPos":"(1.700, 0.410, -20.350)"} | 30825ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.932 | phase1 | P1:stabilizer:large-jump | {"frame":340,"posDelta":"1.9068","rotDelta":"21.07","corners":["top-left","bottom-left"],"avgPos":"(1.700, 0.409, -20.348)"} | 30882ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.993 | phase1 | P1:marker:lost | {"markerId":"marker-bl","visibleMarkers":1} | 30943ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.994 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-left","usingCachedFor":15,"frame":340} | 30944ms from boot
+2026-04-30T09:31:57.658Z | 09:31:57.995 | phase1 | P1:stabilizer:large-jump | {"frame":341,"posDelta":"3.5204","rotDelta":"8.13","corners":["top-left","bottom-left*"],"avgPos":"(1.417, 0.925, -22.376)"} | 30945ms from boot
+2026-04-30T09:31:57.658Z | 09:31:58.044 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"5.6000"} | 30994ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.077 | phase1 | P1:stabilizer:large-jump | {"frame":342,"posDelta":"1.6364","rotDelta":"15.25","corners":["top-left","bottom-left*"],"avgPos":"(1.652, 0.494, -20.482)"} | 31027ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.144 | phase1 | P1:stabilizer:large-jump | {"frame":343,"posDelta":"1.4662","rotDelta":"18.71","corners":["top-left","bottom-left*"],"avgPos":"(1.658, 0.478, -20.423)"} | 31094ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.210 | phase1 | P1:stabilizer:large-jump | {"frame":344,"posDelta":"1.3388","rotDelta":"18.60","corners":["top-left","bottom-left*"],"avgPos":"(1.660, 0.475, -20.406)"} | 31160ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.307 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 31257ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.320 | phase1 | P1:stabilizer:update | {"frame":345,"markers":2,"cached":1,"posDelta":"1.2276","rotDelta":"17.68","avgPos30":"3.2967","maxPos30":"6.8967","avgRot30":"21.87","maxRot30":"42.01","lerp":0.08} | 31270ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.320 | phase1 | P1:stabilizer:large-jump | {"frame":345,"posDelta":"1.2276","rotDelta":"17.68","corners":["top-left","bottom-left*"],"avgPos":"(1.661, 0.474, -20.399)"} | 31270ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.366 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"5.5000"} | 31316ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.401 | phase1 | P1:stabilizer:large-jump | {"frame":346,"posDelta":"0.9917","rotDelta":"20.58","corners":["top-left","bottom-left*"],"avgPos":"(1.636, 0.439, -19.980)"} | 31351ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.460 | phase1 | P1:stabilizer:large-jump | {"frame":347,"posDelta":"0.8986","rotDelta":"20.25","corners":["top-left","bottom-left*"],"avgPos":"(1.629, 0.423, -19.860)"} | 31410ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.530 | phase1 | P1:stabilizer:large-jump | {"frame":348,"posDelta":"0.8261","rotDelta":"19.02","corners":["top-left","bottom-left*"],"avgPos":"(1.627, 0.419, -19.826)"} | 31480ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.587 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"5.4000"} | 31537ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.617 | phase1 | P1:stabilizer:large-jump | {"frame":349,"posDelta":"0.6130","rotDelta":"10.57","corners":["top-left","bottom-left*"],"avgPos":"(1.655, 0.270, -19.985)"} | 31567ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.710 | phase1 | P1:stabilizer:large-jump | {"frame":350,"posDelta":"1.1042","rotDelta":"21.59","corners":["top-left","bottom-left*"],"avgPos":"(1.595, 0.448, -20.753)"} | 31660ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.793 | phase1 | P1:stabilizer:large-jump | {"frame":351,"posDelta":"1.1434","rotDelta":"24.32","corners":["top-left","bottom-left*"],"avgPos":"(1.582, 0.499, -20.878)"} | 31742ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.881 | phase1 | P1:stabilizer:large-jump | {"frame":352,"posDelta":"1.0828","rotDelta":"23.45","corners":["top-left","bottom-left*"],"avgPos":"(1.578, 0.512, -20.907)"} | 31831ms from boot
+2026-04-30T09:31:59.672Z | 09:31:58.985 | phase1 | P1:stabilizer:large-jump | {"frame":353,"posDelta":"1.0063","rotDelta":"21.92","corners":["top-left","bottom-left*"],"avgPos":"(1.577, 0.516, -20.917)"} | 31935ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.045 | phase1 | P1:marker:lost | {"markerId":"marker-tl","visibleMarkers":0} | 31995ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.047 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-left","usingCachedFor":15,"frame":353} | 31997ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.048 | phase1 | P1:stabilizer:large-jump | {"frame":354,"posDelta":"0.9258","rotDelta":"20.17","corners":["top-left*","bottom-left*"],"avgPos":"(1.577, 0.516, -20.917)"} | 31998ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.150 | phase1 | P1:stabilizer:large-jump | {"frame":355,"posDelta":"0.8518","rotDelta":"18.56","corners":["top-left*","bottom-left*"],"avgPos":"(1.577, 0.516, -20.917)"} | 32100ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.219 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"5.3000"} | 32169ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.249 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-left","visible":false,"cachedFrames":15,"frame":355} | 32199ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.250 | phase1 | P1:stabilizer:markers-changed | {"from":["top-left","bottom-left*"],"to":["top-left*"],"frame":356} | 32200ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.252 | phase1 | P1:stabilizer:large-jump | {"frame":356,"posDelta":"7.5763","rotDelta":"24.92","corners":["top-left*"],"avgPos":"(0.691, 7.105, -22.864)"} | 32202ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.351 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 32301ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.395 | phase1 | P1:stabilizer:large-jump | {"frame":357,"posDelta":"6.9702","rotDelta":"22.93","corners":["top-left*"],"avgPos":"(0.691, 7.105, -22.864)"} | 32345ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.442 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"5.2000"} | 32392ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.487 | phase1 | P1:stabilizer:large-jump | {"frame":358,"posDelta":"6.4126","rotDelta":"21.09","corners":["top-left*"],"avgPos":"(0.691, 7.105, -22.864)"} | 32437ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.550 | phase1 | P1:stabilizer:large-jump | {"frame":359,"posDelta":"5.8996","rotDelta":"19.41","corners":["top-left*"],"avgPos":"(0.691, 7.105, -22.864)"} | 32500ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.601 | phase1 | P1:stabilizer:update | {"frame":360,"markers":1,"cached":1,"posDelta":"5.4276","rotDelta":"17.85","avgPos30":"2.7814","maxPos30":"7.5763","avgRot30":"20.09","maxRot30":"24.92","lerp":0.08} | 32551ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.602 | phase1 | P1:stabilizer:large-jump | {"frame":360,"posDelta":"5.4276","rotDelta":"17.85","corners":["top-left*"],"avgPos":"(0.691, 7.105, -22.864)"} | 32552ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.697 | phase1 | P1:stabilizer:large-jump | {"frame":361,"posDelta":"4.9934","rotDelta":"16.43","corners":["top-left*"],"avgPos":"(0.691, 7.105, -22.864)"} | 32647ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.757 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"5.1000"} | 32707ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.786 | phase1 | P1:stabilizer:large-jump | {"frame":362,"posDelta":"4.5940","rotDelta":"15.11","corners":["top-left*"],"avgPos":"(0.691, 7.105, -22.864)"} | 32736ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.859 | phase1 | P1:marker:found | {"markerId":"marker-tl","visibleMarkers":1,"timeMs":32809,"model":"layers_of_the_sun"} | 32809ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.860 | phase1 | P1:stabilizer:large-jump | {"frame":363,"posDelta":"3.7808","rotDelta":"15.66","corners":["top-left"],"avgPos":"(1.327, 6.932, -21.567)"} | 32810ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.899 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"5.0000"} | 32849ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.929 | phase1 | P1:stabilizer:large-jump | {"frame":364,"posDelta":"3.4607","rotDelta":"15.32","corners":["top-left"],"avgPos":"(1.350, 6.910, -21.243)"} | 32879ms from boot
+2026-04-30T09:31:59.672Z | 09:31:59.983 | phase1 | P1:stabilizer:large-jump | {"frame":365,"posDelta":"3.5362","rotDelta":"12.64","corners":["top-left"],"avgPos":"(1.052, 7.102, -22.500)"} | 32933ms from boot
+2026-04-30T09:31:59.672Z | 09:32:00.086 | phase1 | P1:stabilizer:large-jump | {"frame":366,"posDelta":"3.2869","rotDelta":"10.50","corners":["top-left"],"avgPos":"(1.018, 7.049, -22.743)"} | 33036ms from boot
+2026-04-30T09:31:59.672Z | 09:32:00.146 | phase1 | P1:model:scale | {"targetDiameterMeters":0.42,"baseComputedSize":"0.1087","appliedScale":"4.9000"} | 33096ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.183 | phase1 | P1:stabilizer:large-jump | {"frame":367,"posDelta":"3.1416","rotDelta":"9.29","corners":["top-left"],"avgPos":"(0.906, 7.014, -23.079)"} | 33133ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.247 | phase1 | P1:stabilizer:large-jump | {"frame":368,"posDelta":"2.1691","rotDelta":"14.15","corners":["top-left"],"avgPos":"(1.048, 6.068, -23.193)"} | 33197ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.310 | phase1 | P1:stabilizer:large-jump | {"frame":369,"posDelta":"2.0257","rotDelta":"13.88","corners":["top-left"],"avgPos":"(1.065, 5.994, -23.313)"} | 33259ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.388 | phase1 | P1:stabilizer:large-jump | {"frame":370,"posDelta":"1.8622","rotDelta":"13.13","corners":["top-left"],"avgPos":"(1.061, 5.978, -23.325)"} | 33338ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.496 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 33446ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.524 | phase1 | P1:stabilizer:large-jump | {"frame":371,"posDelta":"1.7126","rotDelta":"12.22","corners":["top-left"],"avgPos":"(1.059, 5.972, -23.330)"} | 33474ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.586 | phase1 | P1:marker:lost | {"markerId":"marker-tl","visibleMarkers":0} | 33535ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.586 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-left","usingCachedFor":15,"frame":371} | 33536ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.587 | phase1 | P1:stabilizer:large-jump | {"frame":372,"posDelta":"1.5756","rotDelta":"11.24","corners":["top-left*"],"avgPos":"(1.059, 5.972, -23.330)"} | 33537ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.651 | phase1 | P1:stabilizer:large-jump | {"frame":373,"posDelta":"1.4496","rotDelta":"10.34","corners":["top-left*"],"avgPos":"(1.059, 5.972, -23.330)"} | 33601ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.713 | phase1 | P1:stabilizer:large-jump | {"frame":374,"posDelta":"1.3336","rotDelta":"9.52","corners":["top-left*"],"avgPos":"(1.059, 5.972, -23.330)"} | 33663ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.780 | phase1 | P1:marker:found | {"markerId":"marker-bl","visibleMarkers":1,"timeMs":33730,"model":"layers_of_the_sun"} | 33730ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.781 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-left","visible":true,"frame":374} | 33730ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.781 | phase1 | P1:stabilizer:markers-changed | {"from":["top-left*"],"to":["top-left*","bottom-left"],"frame":375} | 33731ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.781 | phase1 | P1:stabilizer:update | {"frame":375,"markers":2,"cached":1,"posDelta":"5.1977","rotDelta":"6.69","avgPos30":"2.8617","maxPos30":"7.5763","avgRot30":"16.42","maxRot30":"24.92","lerp":0.08} | 33731ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.781 | phase1 | P1:stabilizer:large-jump | {"frame":375,"posDelta":"5.1977","rotDelta":"6.69","corners":["top-left*","bottom-left"],"avgPos":"(1.747, 0.437, -20.309)"} | 33731ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.847 | phase1 | P1:stabilizer:large-jump | {"frame":376,"posDelta":"4.7819","rotDelta":"6.15","corners":["top-left*","bottom-left"],"avgPos":"(1.747, 0.437, -20.309)"} | 33797ms from boot
+2026-04-30T09:32:01.723Z | 09:32:00.933 | phase1 | P1:stabilizer:large-jump | {"frame":377,"posDelta":"4.3993","rotDelta":"5.66","corners":["top-left*","bottom-left"],"avgPos":"(1.747, 0.437, -20.309)"} | 33883ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.016 | phase1 | P1:stabilizer:large-jump | {"frame":378,"posDelta":"3.9046","rotDelta":"4.69","corners":["top-left*","bottom-left"],"avgPos":"(1.679, 0.311, -21.116)"} | 33966ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.097 | phase1 | P1:stabilizer:large-jump | {"frame":379,"posDelta":"3.7195","rotDelta":"4.47","corners":["top-left*","bottom-left"],"avgPos":"(1.778, 0.282, -20.778)"} | 34047ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.177 | phase1 | P1:stabilizer:large-jump | {"frame":380,"posDelta":"3.4446","rotDelta":"4.27","corners":["top-left*","bottom-left"],"avgPos":"(1.779, 0.264, -20.758)"} | 34127ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.245 | phase1 | P1:stabilizer:large-jump | {"frame":381,"posDelta":"3.1765","rotDelta":"3.99","corners":["top-left*","bottom-left"],"avgPos":"(1.780, 0.258, -20.752)"} | 34195ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.353 | phase1 | P1:stabilizer:large-jump | {"frame":382,"posDelta":"3.2504","rotDelta":"4.03","corners":["top-left*","bottom-left"],"avgPos":"(1.976, 0.057, -20.427)"} | 34303ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.454 | phase1 | P1:stabilizer:large-jump | {"frame":383,"posDelta":"3.0134","rotDelta":"4.20","corners":["top-left*","bottom-left"],"avgPos":"(2.038, 0.035, -20.450)"} | 34404ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.560 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 34510ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.585 | phase1 | P1:stabilizer:large-jump | {"frame":384,"posDelta":"2.8669","rotDelta":"4.62","corners":["top-left*","bottom-left"],"avgPos":"(2.100, -0.109, -20.604)"} | 34535ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.747 | phase1 | P1:stabilizer:large-jump | {"frame":385,"posDelta":"2.6313","rotDelta":"4.48","corners":["top-left*","bottom-left"],"avgPos":"(2.100, -0.100, -20.598)"} | 34697ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.886 | phase1 | P1:stabilizer:large-jump | {"frame":386,"posDelta":"2.4197","rotDelta":"4.16","corners":["top-left*","bottom-left"],"avgPos":"(2.100, -0.099, -20.596)"} | 34836ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.983 | phase1 | P1:marker:found | {"markerId":"marker-tl","visibleMarkers":2,"timeMs":34933,"model":"layers_of_the_sun"} | 34933ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.985 | phase1 | P1:marker:lost | {"markerId":"marker-bl","visibleMarkers":1} | 34935ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.986 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-left","usingCachedFor":15,"frame":386} | 34936ms from boot
+2026-04-30T09:32:01.723Z | 09:32:01.987 | phase1 | P1:stabilizer:large-jump | {"frame":387,"posDelta":"2.2494","rotDelta":"4.04","corners":["top-left","bottom-left*"],"avgPos":"(2.131, -0.133, -20.649)"} | 34937ms from boot
+2026-04-30T09:32:01.723Z | 09:32:02.096 | phase1 | P1:stabilizer:large-jump | {"frame":388,"posDelta":"2.1745","rotDelta":"4.01","corners":["top-left","bottom-left*"],"avgPos":"(2.159, -0.196, -20.514)"} | 35046ms from boot
+2026-04-30T09:32:03.799Z | 09:32:02.217 | phase1 | P1:marker:found | {"markerId":"marker-bl","visibleMarkers":2,"timeMs":35167,"model":"layers_of_the_sun"} | 35167ms from boot
+2026-04-30T09:32:03.799Z | 09:32:02.610 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 35560ms from boot
+2026-04-30T09:32:03.799Z | 09:32:02.645 | phase1 | P1:marker:lost | {"markerId":"marker-tl","visibleMarkers":1} | 35595ms from boot
+2026-04-30T09:32:03.799Z | 09:32:02.646 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":2,"timeMs":35596,"model":"layers_of_the_sun"} | 35596ms from boot
+2026-04-30T09:32:03.799Z | 09:32:02.647 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-left","usingCachedFor":15,"frame":393} | 35597ms from boot
+2026-04-30T09:32:03.799Z | 09:32:02.648 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":true,"frame":393} | 35598ms from boot
+2026-04-30T09:32:03.799Z | 09:32:02.649 | phase1 | P1:stabilizer:markers-changed | {"from":["top-left*","bottom-left"],"to":["top-left*","bottom-left","bottom-right"],"frame":394} | 35599ms from boot
+2026-04-30T09:32:03.799Z | 09:32:02.650 | phase1 | P1:stabilizer:large-jump | {"frame":394,"posDelta":"3.7739","rotDelta":"7.41","corners":["top-left*","bottom-left","bottom-right"],"avgPos":"(1.034, -1.411, -19.047)"} | 35600ms from boot
+2026-04-30T09:32:03.799Z | 09:32:02.760 | phase1 | P1:stabilizer:large-jump | {"frame":395,"posDelta":"3.4673","rotDelta":"7.15","corners":["top-left*","bottom-left","bottom-right"],"avgPos":"(1.034, -1.403, -19.044)"} | 35710ms from boot
+2026-04-30T09:32:03.799Z | 09:32:02.908 | phase1 | P1:stabilizer:large-jump | {"frame":396,"posDelta":"3.1886","rotDelta":"6.67","corners":["top-left*","bottom-left","bottom-right"],"avgPos":"(1.035, -1.401, -19.043)"} | 35858ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.034 | phase1 | P1:marker:lost | {"markerId":"marker-bl","visibleMarkers":1} | 35984ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.036 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":0} | 35986ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.040 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-left","usingCachedFor":15,"frame":396} | 35990ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.042 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":396} | 35992ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.046 | phase1 | P1:stabilizer:large-jump | {"frame":397,"posDelta":"2.9335","rotDelta":"6.14","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(1.035, -1.401, -19.043)"} | 35996ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.161 | phase1 | P1:stabilizer:large-jump | {"frame":398,"posDelta":"2.6988","rotDelta":"5.65","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(1.035, -1.401, -19.043)"} | 36111ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.300 | phase1 | P1:stabilizer:large-jump | {"frame":399,"posDelta":"2.4829","rotDelta":"5.20","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(1.035, -1.401, -19.043)"} | 36250ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.450 | phase1 | P1:stabilizer:large-jump | {"frame":400,"posDelta":"2.2843","rotDelta":"4.78","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(1.035, -1.401, -19.043)"} | 36400ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.558 | phase1 | P1:stabilizer:large-jump | {"frame":401,"posDelta":"2.1016","rotDelta":"4.40","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(1.035, -1.401, -19.043)"} | 36508ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.621 | phase1 | P1:stabilizer:large-jump | {"frame":402,"posDelta":"1.9334","rotDelta":"4.05","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(1.035, -1.401, -19.043)"} | 36570ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.718 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 36668ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.736 | phase1 | P1:stabilizer:large-jump | {"frame":403,"posDelta":"1.7788","rotDelta":"3.72","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(1.035, -1.401, -19.043)"} | 36686ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.844 | phase1 | P1:stabilizer:large-jump | {"frame":404,"posDelta":"1.6365","rotDelta":"3.42","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(1.035, -1.401, -19.043)"} | 36794ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.916 | phase1 | P1:stabilizer:update | {"frame":405,"markers":3,"cached":3,"posDelta":"1.5055","rotDelta":"3.15","avgPos30":"2.6166","maxPos30":"4.7819","avgRot30":"4.55","maxRot30":"7.41","lerp":0.08} | 36866ms from boot
+2026-04-30T09:32:03.799Z | 09:32:03.916 | phase1 | P1:stabilizer:large-jump | {"frame":405,"posDelta":"1.5055","rotDelta":"3.15","corners":["top-left*","bottom-left*","bottom-right*"],"avgPos":"(1.035, -1.401, -19.043)"} | 36866ms from boot
+2026-04-30T09:32:05.755Z | 09:32:04.226 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-left","visible":false,"cachedFrames":15,"frame":408} | 37176ms from boot
+2026-04-30T09:32:05.755Z | 09:32:04.228 | phase1 | P1:stabilizer:markers-changed | {"from":["top-left*","bottom-left","bottom-right"],"to":["bottom-left*","bottom-right*"],"frame":409} | 37178ms from boot
+2026-04-30T09:32:05.755Z | 09:32:04.229 | phase1 | P1:stabilizer:large-jump | {"frame":409,"posDelta":"5.4980","rotDelta":"6.54","corners":["bottom-left*","bottom-right*"],"avgPos":"(0.524, -5.094, -17.273)"} | 37179ms from boot
+2026-04-30T09:32:05.755Z | 09:32:04.308 | phase1 | P1:stabilizer:large-jump | {"frame":410,"posDelta":"5.0581","rotDelta":"6.01","corners":["bottom-left*","bottom-right*"],"avgPos":"(0.524, -5.094, -17.273)"} | 37258ms from boot
+2026-04-30T09:32:05.755Z | 09:32:04.414 | phase1 | P1:stabilizer:large-jump | {"frame":411,"posDelta":"4.6535","rotDelta":"5.53","corners":["bottom-left*","bottom-right*"],"avgPos":"(0.524, -5.094, -17.273)"} | 37364ms from boot
+2026-04-30T09:32:05.755Z | 09:32:04.498 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-left","visible":false,"cachedFrames":15,"frame":411} | 37448ms from boot
+2026-04-30T09:32:05.755Z | 09:32:04.499 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":false,"cachedFrames":15,"frame":411} | 37449ms from boot
+2026-04-30T09:32:05.755Z | 09:32:04.501 | phase1 | P1:stabilizer:hidden | {"reason":"no markers visible","frame":411} | 37451ms from boot
+2026-04-30T09:32:05.755Z | 09:32:04.822 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 37772ms from boot
+2026-04-30T09:32:05.755Z | 09:32:05.854 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 38804ms from boot
+2026-04-30T09:32:08.066Z | 09:32:06.545 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":39495,"model":"layers_of_the_sun"} | 39495ms from boot
+2026-04-30T09:32:08.066Z | 09:32:06.548 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":true,"frame":411} | 39498ms from boot
+2026-04-30T09:32:08.066Z | 09:32:06.549 | phase1 | P1:stabilizer:markers-changed | {"from":["bottom-left*","bottom-right*"],"to":["top-right"],"frame":412} | 39499ms from boot
+2026-04-30T09:32:08.066Z | 09:32:06.550 | phase1 | P1:stabilizer:large-jump | {"frame":412,"posDelta":"7.9939","rotDelta":"23.94","corners":["top-right"],"avgPos":"(-0.317, 6.452, -20.268)"} | 39500ms from boot
+2026-04-30T09:32:08.066Z | 09:32:06.684 | phase1 | P1:stabilizer:large-jump | {"frame":413,"posDelta":"7.3544","rotDelta":"22.03","corners":["top-right"],"avgPos":"(-0.317, 6.452, -20.268)"} | 39634ms from boot
+2026-04-30T09:32:08.066Z | 09:32:06.765 | phase1 | P1:stabilizer:large-jump | {"frame":414,"posDelta":"6.7661","rotDelta":"20.27","corners":["top-right"],"avgPos":"(-0.317, 6.452, -20.268)"} | 39715ms from boot
+2026-04-30T09:32:08.066Z | 09:32:06.880 | phase1 | P1:stabilizer:large-jump | {"frame":415,"posDelta":"6.2248","rotDelta":"18.65","corners":["top-right"],"avgPos":"(-0.317, 6.452, -20.268)"} | 39829ms from boot
+2026-04-30T09:32:08.066Z | 09:32:06.955 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 39905ms from boot
+2026-04-30T09:32:08.066Z | 09:32:06.973 | phase1 | P1:stabilizer:large-jump | {"frame":416,"posDelta":"5.7268","rotDelta":"17.15","corners":["top-right"],"avgPos":"(-0.317, 6.452, -20.268)"} | 39923ms from boot
+2026-04-30T09:32:08.066Z | 09:32:07.070 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 40020ms from boot
+2026-04-30T09:32:08.066Z | 09:32:07.073 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":416} | 40023ms from boot
+2026-04-30T09:32:08.066Z | 09:32:07.075 | phase1 | P1:stabilizer:large-jump | {"frame":417,"posDelta":"5.2686","rotDelta":"15.78","corners":["top-right*"],"avgPos":"(-0.317, 6.452, -20.268)"} | 40025ms from boot
+2026-04-30T09:32:08.066Z | 09:32:07.163 | phase1 | P1:stabilizer:large-jump | {"frame":418,"posDelta":"4.8472","rotDelta":"14.52","corners":["top-right*"],"avgPos":"(-0.317, 6.452, -20.268)"} | 40113ms from boot
+2026-04-30T09:32:08.066Z | 09:32:07.280 | phase1 | P1:stabilizer:large-jump | {"frame":419,"posDelta":"4.4594","rotDelta":"13.36","corners":["top-right*"],"avgPos":"(-0.317, 6.452, -20.268)"} | 40230ms from boot
+2026-04-30T09:32:08.066Z | 09:32:07.360 | phase1 | P1:stabilizer:update | {"frame":420,"markers":1,"cached":1,"posDelta":"4.1026","rotDelta":"12.29","avgPos30":"3.5301","maxPos30":"7.9939","avgRot30":"8.58","maxRot30":"23.94","lerp":0.08} | 40310ms from boot
+2026-04-30T09:32:08.066Z | 09:32:07.361 | phase1 | P1:stabilizer:large-jump | {"frame":420,"posDelta":"4.1026","rotDelta":"12.29","corners":["top-right*"],"avgPos":"(-0.317, 6.452, -20.268)"} | 40311ms from boot
+2026-04-30T09:32:08.066Z | 09:32:07.431 | phase1 | P1:stabilizer:large-jump | {"frame":421,"posDelta":"3.7744","rotDelta":"11.31","corners":["top-right*"],"avgPos":"(-0.317, 6.452, -20.268)"} | 40381ms from boot
+2026-04-30T09:32:08.066Z | 09:32:07.512 | phase1 | P1:stabilizer:large-jump | {"frame":422,"posDelta":"3.4725","rotDelta":"10.40","corners":["top-right*"],"avgPos":"(-0.317, 6.452, -20.268)"} | 40462ms from boot
+2026-04-30T09:32:08.067Z | 09:32:07.576 | phase1 | P1:stabilizer:large-jump | {"frame":423,"posDelta":"3.1947","rotDelta":"9.57","corners":["top-right*"],"avgPos":"(-0.317, 6.452, -20.268)"} | 40526ms from boot
+2026-04-30T09:32:08.067Z | 09:32:07.677 | phase1 | P1:stabilizer:large-jump | {"frame":424,"posDelta":"2.9391","rotDelta":"8.80","corners":["top-right*"],"avgPos":"(-0.317, 6.452, -20.268)"} | 40627ms from boot
+2026-04-30T09:32:08.067Z | 09:32:07.778 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":1,"timeMs":40728,"model":"layers_of_the_sun"} | 40728ms from boot
+2026-04-30T09:32:08.067Z | 09:32:07.780 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":true,"frame":424} | 40729ms from boot
+2026-04-30T09:32:08.067Z | 09:32:07.781 | phase1 | P1:stabilizer:markers-changed | {"from":["top-right"],"to":["top-right*","bottom-right"],"frame":425} | 40731ms from boot
+2026-04-30T09:32:08.067Z | 09:32:07.781 | phase1 | P1:stabilizer:large-jump | {"frame":425,"posDelta":"3.6760","rotDelta":"5.06","corners":["top-right*","bottom-right"],"avgPos":"(-0.601, 0.305, -19.147)"} | 40731ms from boot
+2026-04-30T09:32:08.067Z | 09:32:07.868 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":2,"timeMs":40818,"model":"layers_of_the_sun"} | 40818ms from boot
+2026-04-30T09:32:08.067Z | 09:32:07.873 | phase1 | P1:stabilizer:large-jump | {"frame":426,"posDelta":"3.3641","rotDelta":"6.57","corners":["top-right","bottom-right"],"avgPos":"(-0.645, 0.318, -19.222)"} | 40823ms from boot
+2026-04-30T09:32:08.067Z | 09:32:07.948 | phase1 | P1:stabilizer:large-jump | {"frame":427,"posDelta":"3.0950","rotDelta":"6.04","corners":["top-right","bottom-right"],"avgPos":"(-0.645, 0.318, -19.222)"} | 40898ms from boot
+2026-04-30T09:32:08.067Z | 09:32:08.073 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 41023ms from boot
+2026-04-30T09:32:08.067Z | 09:32:08.106 | phase1 | P1:stabilizer:large-jump | {"frame":428,"posDelta":"2.8342","rotDelta":"7.08","corners":["top-right","bottom-right"],"avgPos":"(-0.659, 0.323, -19.286)"} | 41056ms from boot
+2026-04-30T09:32:08.067Z | 09:32:08.194 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":1} | 41144ms from boot
+2026-04-30T09:32:08.067Z | 09:32:08.195 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":428} | 41145ms from boot
+2026-04-30T09:32:08.067Z | 09:32:08.197 | phase1 | P1:stabilizer:large-jump | {"frame":429,"posDelta":"2.6077","rotDelta":"6.66","corners":["top-right","bottom-right*"],"avgPos":"(-0.659, 0.322, -19.286)"} | 41147ms from boot
+2026-04-30T09:32:08.067Z | 09:32:08.292 | phase1 | P1:stabilizer:large-jump | {"frame":430,"posDelta":"2.3820","rotDelta":"8.67","corners":["top-right","bottom-right*"],"avgPos":"(-0.651, 0.324, -19.381)"} | 41242ms from boot
+2026-04-30T09:32:08.067Z | 09:32:08.382 | phase1 | P1:stabilizer:large-jump | {"frame":431,"posDelta":"2.2087","rotDelta":"10.57","corners":["top-right","bottom-right*"],"avgPos":"(-0.646, 0.300, -19.417)"} | 41332ms from boot
+2026-04-30T09:32:08.067Z | 09:32:08.499 | phase1 | P1:stabilizer:large-jump | {"frame":432,"posDelta":"2.0418","rotDelta":"10.67","corners":["top-right","bottom-right*"],"avgPos":"(-0.648, 0.292, -19.403)"} | 41449ms from boot
+2026-04-30T09:32:10.217Z | 09:32:08.602 | phase1 | P1:stabilizer:large-jump | {"frame":433,"posDelta":"1.8640","rotDelta":"10.08","corners":["top-right","bottom-right*"],"avgPos":"(-0.626, 0.294, -19.478)"} | 41552ms from boot
+2026-04-30T09:32:10.217Z | 09:32:08.662 | phase1 | P1:stabilizer:large-jump | {"frame":434,"posDelta":"1.7156","rotDelta":"9.32","corners":["top-right","bottom-right*"],"avgPos":"(-0.626, 0.293, -19.478)"} | 41612ms from boot
+2026-04-30T09:32:10.217Z | 09:32:08.748 | phase1 | P1:stabilizer:update | {"frame":435,"markers":2,"cached":1,"posDelta":"1.5786","rotDelta":"8.59","avgPos30":"3.7619","maxPos30":"7.9939","avgRot30":"10.47","maxRot30":"23.94","lerp":0.08} | 41698ms from boot
+2026-04-30T09:32:10.217Z | 09:32:08.749 | phase1 | P1:stabilizer:large-jump | {"frame":435,"posDelta":"1.5786","rotDelta":"8.59","corners":["top-right","bottom-right*"],"avgPos":"(-0.626, 0.293, -19.478)"} | 41699ms from boot
+2026-04-30T09:32:10.217Z | 09:32:08.862 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 41812ms from boot
+2026-04-30T09:32:10.217Z | 09:32:08.864 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":436} | 41814ms from boot
+2026-04-30T09:32:10.217Z | 09:32:09.177 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 42127ms from boot
+2026-04-30T09:32:10.217Z | 09:32:09.315 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":false,"cachedFrames":15,"frame":443} | 42265ms from boot
+2026-04-30T09:32:10.217Z | 09:32:09.317 | phase1 | P1:stabilizer:markers-changed | {"from":["top-right*","bottom-right"],"to":["top-right*"],"frame":444} | 42267ms from boot
+2026-04-30T09:32:10.217Z | 09:32:09.318 | phase1 | P1:stabilizer:large-jump | {"frame":444,"posDelta":"4.3878","rotDelta":"7.44","corners":["top-right*"],"avgPos":"(-0.395, 5.576, -21.664)"} | 42268ms from boot
+2026-04-30T09:32:10.217Z | 09:32:09.416 | phase1 | P1:stabilizer:large-jump | {"frame":445,"posDelta":"4.0368","rotDelta":"6.85","corners":["top-right*"],"avgPos":"(-0.395, 5.576, -21.664)"} | 42366ms from boot
+2026-04-30T09:32:10.217Z | 09:32:09.495 | phase1 | P1:stabilizer:large-jump | {"frame":446,"posDelta":"3.7138","rotDelta":"6.30","corners":["top-right*"],"avgPos":"(-0.395, 5.576, -21.664)"} | 42445ms from boot
+2026-04-30T09:32:10.217Z | 09:32:09.580 | phase1 | P1:stabilizer:large-jump | {"frame":447,"posDelta":"3.4167","rotDelta":"5.80","corners":["top-right*"],"avgPos":"(-0.395, 5.576, -21.664)"} | 42530ms from boot
+2026-04-30T09:32:10.217Z | 09:32:09.664 | phase1 | P1:stabilizer:large-jump | {"frame":448,"posDelta":"3.1434","rotDelta":"5.33","corners":["top-right*"],"avgPos":"(-0.395, 5.576, -21.664)"} | 42614ms from boot
+2026-04-30T09:32:10.217Z | 09:32:09.747 | phase1 | P1:stabilizer:large-jump | {"frame":449,"posDelta":"2.8919","rotDelta":"4.91","corners":["top-right*"],"avgPos":"(-0.395, 5.576, -21.664)"} | 42696ms from boot
+2026-04-30T09:32:10.217Z | 09:32:09.928 | phase1 | P1:stabilizer:update | {"frame":450,"markers":1,"cached":1,"posDelta":"2.6606","rotDelta":"4.51","avgPos30":"2.5539","maxPos30":"4.3878","avgRot30":"7.79","maxRot30":"11.31","lerp":0.08} | 42878ms from boot
+2026-04-30T09:32:10.217Z | 09:32:09.932 | phase1 | P1:stabilizer:large-jump | {"frame":450,"posDelta":"2.6606","rotDelta":"4.51","corners":["top-right*"],"avgPos":"(-0.395, 5.576, -21.664)"} | 42882ms from boot
+2026-04-30T09:32:10.217Z | 09:32:10.049 | phase1 | P1:stabilizer:large-jump | {"frame":451,"posDelta":"2.4477","rotDelta":"4.15","corners":["top-right*"],"avgPos":"(-0.395, 5.576, -21.664)"} | 42996ms from boot
+2026-04-30T09:32:10.217Z | 09:32:10.129 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":false,"cachedFrames":15,"frame":451} | 43079ms from boot
+2026-04-30T09:32:10.217Z | 09:32:10.130 | phase1 | P1:stabilizer:hidden | {"reason":"no markers visible","frame":451} | 43080ms from boot
+2026-04-30T09:32:10.217Z | 09:32:10.202 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 43151ms from boot
+2026-04-30T09:32:12.922Z | 09:32:11.267 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 44217ms from boot
+2026-04-30T09:32:12.922Z | 09:32:11.817 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":44767,"model":"layers_of_the_sun"} | 44767ms from boot
+2026-04-30T09:32:12.922Z | 09:32:11.821 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":true,"frame":451} | 44771ms from boot
+2026-04-30T09:32:12.922Z | 09:32:11.824 | phase1 | P1:stabilizer:large-jump | {"frame":452,"posDelta":"2.4185","rotDelta":"10.11","corners":["top-right"],"avgPos":"(-0.118, 5.407, -22.180)"} | 44774ms from boot
+2026-04-30T09:32:12.922Z | 09:32:12.001 | phase1 | P1:stabilizer:large-jump | {"frame":453,"posDelta":"2.2255","rotDelta":"9.29","corners":["top-right"],"avgPos":"(-0.118, 5.408, -22.180)"} | 44951ms from boot
+2026-04-30T09:32:12.922Z | 09:32:12.100 | phase1 | P1:stabilizer:large-jump | {"frame":454,"posDelta":"2.0476","rotDelta":"8.55","corners":["top-right"],"avgPos":"(-0.118, 5.408, -22.180)"} | 45050ms from boot
+2026-04-30T09:32:12.922Z | 09:32:12.199 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 45149ms from boot
+2026-04-30T09:32:12.923Z | 09:32:12.201 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":454} | 45151ms from boot
+2026-04-30T09:32:12.923Z | 09:32:12.209 | phase1 | P1:stabilizer:large-jump | {"frame":455,"posDelta":"1.8838","rotDelta":"7.86","corners":["top-right*"],"avgPos":"(-0.118, 5.408, -22.180)"} | 45159ms from boot
+2026-04-30T09:32:12.923Z | 09:32:12.267 | phase1 | P1:stabilizer:large-jump | {"frame":456,"posDelta":"1.7331","rotDelta":"7.23","corners":["top-right*"],"avgPos":"(-0.118, 5.408, -22.180)"} | 45217ms from boot
+2026-04-30T09:32:12.923Z | 09:32:12.335 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 45285ms from boot
+2026-04-30T09:32:12.923Z | 09:32:12.355 | phase1 | P1:stabilizer:large-jump | {"frame":457,"posDelta":"1.5944","rotDelta":"6.65","corners":["top-right*"],"avgPos":"(-0.118, 5.408, -22.180)"} | 45305ms from boot
+2026-04-30T09:32:12.923Z | 09:32:13.231 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":false,"cachedFrames":15,"frame":469} | 46181ms from boot
+2026-04-30T09:32:12.923Z | 09:32:13.232 | phase1 | P1:stabilizer:hidden | {"reason":"no markers visible","frame":469} | 46182ms from boot
+2026-04-30T09:32:15.058Z | 09:32:13.430 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 46380ms from boot
+2026-04-30T09:32:15.058Z | 09:32:14.529 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 47479ms from boot
+2026-04-30T09:32:15.058Z | 09:32:15.009 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":47959,"model":"layers_of_the_sun"} | 47959ms from boot
+2026-04-30T09:32:15.058Z | 09:32:15.011 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":true,"frame":469} | 47961ms from boot
+2026-04-30T09:32:15.058Z | 09:32:15.015 | phase1 | P1:stabilizer:large-jump | {"frame":470,"posDelta":"1.4737","rotDelta":"12.80","corners":["top-right"],"avgPos":"(-0.068, 5.095, -22.452)"} | 47965ms from boot
+2026-04-30T09:32:15.058Z | 09:32:15.173 | phase1 | P1:stabilizer:large-jump | {"frame":471,"posDelta":"1.3564","rotDelta":"11.76","corners":["top-right"],"avgPos":"(-0.068, 5.097, -22.452)"} | 48123ms from boot
+2026-04-30T09:32:15.058Z | 09:32:15.285 | phase1 | P1:stabilizer:large-jump | {"frame":472,"posDelta":"1.2480","rotDelta":"10.82","corners":["top-right"],"avgPos":"(-0.068, 5.097, -22.452)"} | 48235ms from boot
+2026-04-30T09:32:15.058Z | 09:32:15.348 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 48298ms from boot
+2026-04-30T09:32:15.058Z | 09:32:15.349 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":472} | 48299ms from boot
+2026-04-30T09:32:15.058Z | 09:32:15.350 | phase1 | P1:stabilizer:large-jump | {"frame":473,"posDelta":"1.1482","rotDelta":"9.95","corners":["top-right*"],"avgPos":"(-0.068, 5.097, -22.452)"} | 48299ms from boot
+2026-04-30T09:32:15.058Z | 09:32:15.426 | phase1 | P1:stabilizer:large-jump | {"frame":474,"posDelta":"1.0563","rotDelta":"9.16","corners":["top-right*"],"avgPos":"(-0.068, 5.097, -22.452)"} | 48376ms from boot
+2026-04-30T09:32:15.058Z | 09:32:15.536 | phase1 | P1:stabilizer:large-jump | {"frame":475,"posDelta":"0.9718","rotDelta":"8.42","corners":["top-right*"],"avgPos":"(-0.068, 5.097, -22.452)"} | 48486ms from boot
+2026-04-30T09:32:17.226Z | 09:32:15.586 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 48536ms from boot
+2026-04-30T09:32:17.226Z | 09:32:15.913 | phase1 | P1:stabilizer:deadband-active | {"posDelta":"0.8941","rotDelta":"7.75","skipped":87,"frame":480} | 48863ms from boot
+2026-04-30T09:32:17.226Z | 09:32:16.308 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":49258,"model":"layers_of_the_sun"} | 49258ms from boot
+2026-04-30T09:32:17.226Z | 09:32:16.309 | phase1 | P1:stabilizer:large-jump | {"frame":484,"posDelta":"1.0212","rotDelta":"14.43","corners":["top-right"],"avgPos":"(-0.159, 4.730, -22.722)"} | 49259ms from boot
+2026-04-30T09:32:17.226Z | 09:32:16.390 | phase1 | P1:stabilizer:large-jump | {"frame":485,"posDelta":"0.9396","rotDelta":"13.26","corners":["top-right"],"avgPos":"(-0.158, 4.731, -22.722)"} | 49340ms from boot
+2026-04-30T09:32:17.226Z | 09:32:16.458 | phase1 | P1:stabilizer:large-jump | {"frame":486,"posDelta":"0.8645","rotDelta":"12.20","corners":["top-right"],"avgPos":"(-0.158, 4.731, -22.722)"} | 49408ms from boot
+2026-04-30T09:32:17.226Z | 09:32:16.532 | phase1 | P1:stabilizer:large-jump | {"frame":487,"posDelta":"0.7953","rotDelta":"11.22","corners":["top-right"],"avgPos":"(-0.158, 4.731, -22.722)"} | 49482ms from boot
+2026-04-30T09:32:17.226Z | 09:32:16.640 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 49590ms from boot
+2026-04-30T09:32:17.226Z | 09:32:16.679 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 49629ms from boot
+2026-04-30T09:32:17.226Z | 09:32:16.681 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":487} | 49631ms from boot
+2026-04-30T09:32:17.226Z | 09:32:16.682 | phase1 | P1:stabilizer:large-jump | {"frame":488,"posDelta":"0.7317","rotDelta":"10.32","corners":["top-right*"],"avgPos":"(-0.158, 4.731, -22.722)"} | 49632ms from boot
+2026-04-30T09:32:17.226Z | 09:32:16.762 | phase1 | P1:stabilizer:large-jump | {"frame":489,"posDelta":"0.6731","rotDelta":"9.50","corners":["top-right*"],"avgPos":"(-0.158, 4.731, -22.722)"} | 49712ms from boot
+2026-04-30T09:32:17.226Z | 09:32:16.882 | phase1 | P1:stabilizer:large-jump | {"frame":490,"posDelta":"0.6193","rotDelta":"8.74","corners":["top-right*"],"avgPos":"(-0.158, 4.731, -22.722)"} | 49832ms from boot
+2026-04-30T09:32:17.226Z | 09:32:17.031 | phase1 | P1:stabilizer:large-jump | {"frame":491,"posDelta":"0.5697","rotDelta":"8.04","corners":["top-right*"],"avgPos":"(-0.158, 4.731, -22.722)"} | 49981ms from boot
+2026-04-30T09:32:17.226Z | 09:32:17.298 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":50247,"model":"layers_of_the_sun"} | 50247ms from boot
+2026-04-30T09:32:17.226Z | 09:32:17.301 | phase1 | P1:stabilizer:large-jump | {"frame":494,"posDelta":"0.7510","rotDelta":"14.34","corners":["top-right"],"avgPos":"(-0.187, 4.347, -22.878)"} | 50251ms from boot
+2026-04-30T09:32:17.226Z | 09:32:17.427 | phase1 | P1:stabilizer:update | {"frame":495,"markers":1,"cached":0,"posDelta":"0.6908","rotDelta":"13.19","avgPos30":"0.9660","maxPos30":"1.4737","avgRot30":"9.31","maxRot30":"14.43","lerp":0.08} | 50377ms from boot
+2026-04-30T09:32:17.226Z | 09:32:17.428 | phase1 | P1:stabilizer:large-jump | {"frame":495,"posDelta":"0.6908","rotDelta":"13.19","corners":["top-right"],"avgPos":"(-0.187, 4.348, -22.878)"} | 50378ms from boot
+2026-04-30T09:32:17.226Z | 09:32:17.532 | phase1 | P1:stabilizer:large-jump | {"frame":496,"posDelta":"0.6356","rotDelta":"12.14","corners":["top-right"],"avgPos":"(-0.187, 4.348, -22.878)"} | 50482ms from boot
+2026-04-30T09:32:19.480Z | 09:32:17.711 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 50661ms from boot
+2026-04-30T09:32:19.480Z | 09:32:17.752 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 50701ms from boot
+2026-04-30T09:32:19.480Z | 09:32:17.753 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":496} | 50703ms from boot
+2026-04-30T09:32:19.480Z | 09:32:17.754 | phase1 | P1:stabilizer:large-jump | {"frame":497,"posDelta":"0.5847","rotDelta":"11.16","corners":["top-right*"],"avgPos":"(-0.187, 4.348, -22.878)"} | 50704ms from boot
+2026-04-30T09:32:19.480Z | 09:32:17.884 | phase1 | P1:stabilizer:large-jump | {"frame":498,"posDelta":"0.5379","rotDelta":"10.27","corners":["top-right*"],"avgPos":"(-0.187, 4.348, -22.878)"} | 50834ms from boot
+2026-04-30T09:32:19.480Z | 09:32:18.017 | phase1 | P1:stabilizer:large-jump | {"frame":499,"posDelta":"0.4949","rotDelta":"9.45","corners":["top-right*"],"avgPos":"(-0.187, 4.348, -22.878)"} | 50967ms from boot
+2026-04-30T09:32:19.480Z | 09:32:18.278 | phase1 | P1:stabilizer:large-jump | {"frame":500,"posDelta":"0.4553","rotDelta":"8.69","corners":["top-right*"],"avgPos":"(-0.187, 4.348, -22.878)"} | 51228ms from boot
+2026-04-30T09:32:19.480Z | 09:32:18.755 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 51705ms from boot
+2026-04-30T09:32:19.480Z | 09:32:19.316 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":false,"cachedFrames":15,"frame":511} | 52266ms from boot
+2026-04-30T09:32:19.480Z | 09:32:19.317 | phase1 | P1:stabilizer:hidden | {"reason":"no markers visible","frame":511} | 52267ms from boot
+2026-04-30T09:32:19.480Z | 09:32:19.693 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":52643,"model":"layers_of_the_sun"} | 52643ms from boot
+2026-04-30T09:32:19.480Z | 09:32:19.708 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":true,"frame":511} | 52658ms from boot
+2026-04-30T09:32:19.480Z | 09:32:19.714 | phase1 | P1:stabilizer:large-jump | {"frame":512,"posDelta":"0.7430","rotDelta":"14.73","corners":["top-right"],"avgPos":"(-0.223, 3.977, -22.996)"} | 52664ms from boot
+2026-04-30T09:32:21.947Z | 09:32:19.974 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 52923ms from boot
+2026-04-30T09:32:21.947Z | 09:32:20.048 | phase1 | P1:stabilizer:large-jump | {"frame":513,"posDelta":"0.6834","rotDelta":"13.55","corners":["top-right"],"avgPos":"(-0.223, 3.977, -22.996)"} | 52998ms from boot
+2026-04-30T09:32:21.947Z | 09:32:20.218 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 53167ms from boot
+2026-04-30T09:32:21.947Z | 09:32:20.222 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":513} | 53172ms from boot
+2026-04-30T09:32:21.947Z | 09:32:20.226 | phase1 | P1:stabilizer:large-jump | {"frame":514,"posDelta":"0.6288","rotDelta":"12.47","corners":["top-right*"],"avgPos":"(-0.223, 3.977, -22.996)"} | 53176ms from boot
+2026-04-30T09:32:21.947Z | 09:32:20.409 | phase1 | P1:stabilizer:large-jump | {"frame":515,"posDelta":"0.5785","rotDelta":"11.47","corners":["top-right*"],"avgPos":"(-0.223, 3.977, -22.996)"} | 53359ms from boot
+2026-04-30T09:32:21.947Z | 09:32:20.493 | phase1 | P1:stabilizer:large-jump | {"frame":516,"posDelta":"0.5322","rotDelta":"10.55","corners":["top-right*"],"avgPos":"(-0.223, 3.977, -22.996)"} | 53443ms from boot
+2026-04-30T09:32:21.947Z | 09:32:20.659 | phase1 | P1:stabilizer:large-jump | {"frame":517,"posDelta":"0.4896","rotDelta":"9.71","corners":["top-right*"],"avgPos":"(-0.223, 3.977, -22.996)"} | 53609ms from boot
+2026-04-30T09:32:21.947Z | 09:32:20.863 | phase1 | P1:stabilizer:large-jump | {"frame":518,"posDelta":"0.4504","rotDelta":"8.93","corners":["top-right*"],"avgPos":"(-0.223, 3.977, -22.996)"} | 53813ms from boot
+2026-04-30T09:32:21.947Z | 09:32:21.026 | phase1 | P1:stabilizer:large-jump | {"frame":519,"posDelta":"0.4144","rotDelta":"8.22","corners":["top-right*"],"avgPos":"(-0.223, 3.977, -22.996)"} | 53975ms from boot
+2026-04-30T09:32:21.947Z | 09:32:21.201 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 54151ms from boot
+2026-04-30T09:32:21.947Z | 09:32:21.600 | phase1 | P1:marker:found | {"markerId":"marker-tr","visibleMarkers":1,"timeMs":54550,"model":"layers_of_the_sun"} | 54550ms from boot
+2026-04-30T09:32:21.947Z | 09:32:21.601 | phase1 | P1:stabilizer:large-jump | {"frame":521,"posDelta":"0.5112","rotDelta":"8.10","corners":["top-right"],"avgPos":"(-0.189, 3.932, -23.133)"} | 54551ms from boot
+2026-04-30T09:32:21.947Z | 09:32:21.710 | phase1 | P1:stabilizer:large-jump | {"frame":522,"posDelta":"0.8533","rotDelta":"13.48","corners":["top-right"],"avgPos":"(-0.153, 3.611, -23.354)"} | 54660ms from boot
+2026-04-30T09:32:21.947Z | 09:32:21.897 | phase1 | P1:stabilizer:large-jump | {"frame":523,"posDelta":"1.0831","rotDelta":"16.96","corners":["top-right"],"avgPos":"(-0.120, 3.374, -23.534)"} | 54847ms from boot
+2026-04-30T09:32:23.767Z | 09:32:22.273 | phase1 | P1:stabilizer:large-jump | {"frame":524,"posDelta":"1.0308","rotDelta":"16.70","corners":["top-right"],"avgPos":"(-0.120, 3.319, -23.523)"} | 55223ms from boot
+2026-04-30T09:32:23.767Z | 09:32:22.429 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 55379ms from boot
+2026-04-30T09:32:23.767Z | 09:32:22.456 | phase1 | P1:marker:lost | {"markerId":"marker-tr","visibleMarkers":0} | 55406ms from boot
+2026-04-30T09:32:23.767Z | 09:32:22.457 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"top-right","usingCachedFor":15,"frame":524} | 55407ms from boot
+2026-04-30T09:32:23.767Z | 09:32:22.457 | phase1 | P1:stabilizer:update | {"frame":525,"markers":1,"cached":1,"posDelta":"0.9483","rotDelta":"15.37","avgPos30":"0.5548","maxPos30":"1.0831","avgRot30":"10.25","maxRot30":"16.96","lerp":0.08} | 55407ms from boot
+2026-04-30T09:32:23.767Z | 09:32:22.457 | phase1 | P1:stabilizer:large-jump | {"frame":525,"posDelta":"0.9483","rotDelta":"15.37","corners":["top-right*"],"avgPos":"(-0.120, 3.319, -23.523)"} | 55407ms from boot
+2026-04-30T09:32:23.767Z | 09:32:22.633 | phase1 | P1:stabilizer:large-jump | {"frame":526,"posDelta":"0.8725","rotDelta":"14.14","corners":["top-right*"],"avgPos":"(-0.120, 3.319, -23.523)"} | 55583ms from boot
+2026-04-30T09:32:23.767Z | 09:32:22.778 | phase1 | P1:stabilizer:large-jump | {"frame":527,"posDelta":"0.8027","rotDelta":"13.01","corners":["top-right*"],"avgPos":"(-0.120, 3.319, -23.523)"} | 55728ms from boot
+2026-04-30T09:32:23.767Z | 09:32:22.989 | phase1 | P1:stabilizer:large-jump | {"frame":528,"posDelta":"0.7385","rotDelta":"11.97","corners":["top-right*"],"avgPos":"(-0.120, 3.319, -23.523)"} | 55939ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.111 | phase1 | P1:marker:found | {"markerId":"marker-br","visibleMarkers":1,"timeMs":56061,"model":"layers_of_the_sun"} | 56061ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.112 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":true,"frame":528} | 56062ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.116 | phase1 | P1:stabilizer:markers-changed | {"from":["top-right*"],"to":["top-right*","bottom-right"],"frame":529} | 56066ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.116 | phase1 | P1:stabilizer:large-jump | {"frame":529,"posDelta":"4.4435","rotDelta":"16.01","corners":["top-right*","bottom-right"],"avgPos":"(-0.498, 0.383, -20.333)"} | 56066ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.249 | phase1 | P1:stabilizer:large-jump | {"frame":530,"posDelta":"4.0880","rotDelta":"14.73","corners":["top-right*","bottom-right"],"avgPos":"(-0.498, 0.383, -20.333)"} | 56199ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.341 | phase1 | P1:stabilizer:large-jump | {"frame":531,"posDelta":"3.7609","rotDelta":"13.55","corners":["top-right*","bottom-right"],"avgPos":"(-0.498, 0.383, -20.333)"} | 56291ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.493 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 56443ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.535 | phase1 | P1:marker:lost | {"markerId":"marker-br","visibleMarkers":0} | 56485ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.541 | phase1 | P1:stabilizer:marker-hysteresis | {"corner":"bottom-right","usingCachedFor":15,"frame":531} | 56491ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.543 | phase1 | P1:stabilizer:large-jump | {"frame":532,"posDelta":"3.4601","rotDelta":"12.47","corners":["top-right*","bottom-right*"],"avgPos":"(-0.498, 0.383, -20.333)"} | 56493ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.683 | phase1 | P1:stabilizer:large-jump | {"frame":533,"posDelta":"3.1833","rotDelta":"11.47","corners":["top-right*","bottom-right*"],"avgPos":"(-0.498, 0.383, -20.333)"} | 56633ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.775 | phase1 | P1:stabilizer:large-jump | {"frame":534,"posDelta":"2.9286","rotDelta":"10.55","corners":["top-right*","bottom-right*"],"avgPos":"(-0.498, 0.383, -20.333)"} | 56724ms from boot
+2026-04-30T09:32:23.767Z | 09:32:23.856 | phase1 | P1:stabilizer:large-jump | {"frame":535,"posDelta":"2.6943","rotDelta":"9.71","corners":["top-right*","bottom-right*"],"avgPos":"(-0.498, 0.383, -20.333)"} | 56805ms from boot
+2026-04-30T09:32:23.767Z | 09:32:24.022 | phase1 | P1:stabilizer:large-jump | {"frame":536,"posDelta":"2.4788","rotDelta":"8.93","corners":["top-right*","bottom-right*"],"avgPos":"(-0.498, 0.383, -20.333)"} | 56972ms from boot
+2026-04-30T09:32:23.767Z | 09:32:24.141 | phase1 | P1:stabilizer:large-jump | {"frame":537,"posDelta":"2.2805","rotDelta":"8.22","corners":["top-right*","bottom-right*"],"avgPos":"(-0.498, 0.383, -20.333)"} | 57091ms from boot
+2026-04-30T09:32:25.918Z | 09:32:24.289 | phase1 | P1:stabilizer:large-jump | {"frame":538,"posDelta":"2.0980","rotDelta":"7.56","corners":["top-right*","bottom-right*"],"avgPos":"(-0.498, 0.383, -20.333)"} | 57239ms from boot
+2026-04-30T09:32:25.918Z | 09:32:24.387 | phase1 | P1:stabilizer:large-jump | {"frame":539,"posDelta":"1.9302","rotDelta":"6.95","corners":["top-right*","bottom-right*"],"avgPos":"(-0.498, 0.383, -20.333)"} | 57337ms from boot
+2026-04-30T09:32:25.918Z | 09:32:24.460 | phase1 | P1:stabilizer:marker-visibility | {"corner":"top-right","visible":false,"cachedFrames":15,"frame":539} | 57410ms from boot
+2026-04-30T09:32:25.918Z | 09:32:24.462 | phase1 | P1:stabilizer:markers-changed | {"from":["top-right*","bottom-right"],"to":["bottom-right*"],"frame":540} | 57412ms from boot
+2026-04-30T09:32:25.918Z | 09:32:24.463 | phase1 | P1:stabilizer:update | {"frame":540,"markers":1,"cached":1,"posDelta":"7.9484","rotDelta":"33.37","avgPos30":"1.7818","maxPos30":"7.9484","avgRot30":"12.28","maxRot30":"33.37","lerp":0.08} | 57413ms from boot
+2026-04-30T09:32:25.918Z | 09:32:24.463 | phase1 | P1:stabilizer:large-jump | {"frame":540,"posDelta":"7.9484","rotDelta":"33.37","corners":["bottom-right*"],"avgPos":"(-0.657, -5.228, -17.675)"} | 57413ms from boot
+2026-04-30T09:32:25.918Z | 09:32:24.575 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 57525ms from boot
+2026-04-30T09:32:25.918Z | 09:32:24.594 | phase1 | P1:stabilizer:large-jump | {"frame":541,"posDelta":"7.3125","rotDelta":"30.70","corners":["bottom-right*"],"avgPos":"(-0.657, -5.228, -17.675)"} | 57544ms from boot
+2026-04-30T09:32:25.918Z | 09:32:24.664 | phase1 | P1:stabilizer:large-jump | {"frame":542,"posDelta":"6.7275","rotDelta":"28.24","corners":["bottom-right*"],"avgPos":"(-0.657, -5.228, -17.675)"} | 57614ms from boot
+2026-04-30T09:32:25.918Z | 09:32:24.818 | phase1 | P1:stabilizer:large-jump | {"frame":543,"posDelta":"6.1893","rotDelta":"25.98","corners":["bottom-right*"],"avgPos":"(-0.657, -5.228, -17.675)"} | 57768ms from boot
+2026-04-30T09:32:25.918Z | 09:32:24.943 | phase1 | P1:stabilizer:large-jump | {"frame":544,"posDelta":"5.6942","rotDelta":"23.91","corners":["bottom-right*"],"avgPos":"(-0.657, -5.228, -17.675)"} | 57893ms from boot
+2026-04-30T09:32:25.918Z | 09:32:25.097 | phase1 | P1:stabilizer:large-jump | {"frame":545,"posDelta":"5.2386","rotDelta":"21.99","corners":["bottom-right*"],"avgPos":"(-0.657, -5.228, -17.675)"} | 58046ms from boot
+2026-04-30T09:32:25.918Z | 09:32:25.192 | phase1 | P1:stabilizer:large-jump | {"frame":546,"posDelta":"4.8195","rotDelta":"20.23","corners":["bottom-right*"],"avgPos":"(-0.657, -5.228, -17.675)"} | 58142ms from boot
+2026-04-30T09:32:25.918Z | 09:32:25.273 | phase1 | P1:stabilizer:marker-visibility | {"corner":"bottom-right","visible":false,"cachedFrames":15,"frame":546} | 58223ms from boot
+2026-04-30T09:32:25.918Z | 09:32:25.274 | phase1 | P1:stabilizer:hidden | {"reason":"no markers visible","frame":546} | 58224ms from boot
+2026-04-30T09:32:25.918Z | 09:32:25.620 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 58570ms from boot
+2026-04-30T09:32:28.375Z | 09:32:26.687 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 59637ms from boot
+2026-04-30T09:32:28.375Z | 09:32:27.932 | phase1 | P1:life:resize | {"innerW":411,"innerH":806,"dpr":2.625} | 60882ms from boot

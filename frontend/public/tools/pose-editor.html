@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Model Pose Editor</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      display: flex;
+      height: 100vh;
+    }
+    #viewer {
+      flex: 1;
+      position: relative;
+    }
+    canvas { display: block; }
+    #controls {
+      width: 320px;
+      padding: 20px;
+      background: #16213e;
+      overflow-y: auto;
+    }
+    h1 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #00d9ff;
+    }
+    .control-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+    input[type="range"] {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+    .value {
+      font-family: monospace;
+      font-size: 1.1rem;
+      color: #00d9ff;
+    }
+    .output-box {
+      background: #0f0f23;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .output-box h2 {
+      font-size: 0.9rem;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    .output-code {
+      font-family: monospace;
+      font-size: 0.85rem;
+      background: #1a1a2e;
+      padding: 10px;
+      border-radius: 4px;
+      word-break: break-all;
+      user-select: all;
+    }
+    button {
+      background: #00d9ff;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+      width: 100%;
+    }
+    button:hover {
+      background: #00b8d9;
+    }
+    .reset-btn {
+      background: #444;
+      color: #fff;
+    }
+    .reset-btn:hover {
+      background: #555;
+    }
+    #model-select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      background: #0f0f23;
+      color: #eee;
+      border: 1px solid #333;
+      border-radius: 4px;
+    }
+    .hint {
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="viewer"></div>
+  <div id="controls">
+    <h1>Model Pose Editor</h1>
+    
+    <div class="control-group">
+      <label>Model File</label>
+      <select id="model-select">
+        <option value="/sun-xsection.glb">sun-xsection.glb</option>
+        <option value="/layers_of_the_sun.glb">layers_of_the_sun.glb</option>
+      </select>
+    </div>
+    
+    <div class="control-group">
+      <label>Pitch (X rotation): <span class="value" id="pitch-val">0</span>°</label>
+      <input type="range" id="pitch" min="-180" max="180" step="1" value="0">
+    </div>
+    
+    <div class="control-group">
+      <label>Yaw (Y rotation): <span class="value" id="yaw-val">0</span>°</label>
+      <input type="range" id="yaw" min="-180" max="180" step="1" value="0">
+    </div>
+    
+    <div class="control-group">
+      <label>Roll (Z rotation): <span class="value" id="roll-val">0</span>°</label>
+      <input type="range" id="roll" min="-180" max="180" step="1" value="0">
+    </div>
+
+    <div class="control-group">
+      <label>Scale: <span class="value" id="scale-val">1</span>x</label>
+      <input type="range" id="scale" min="0.1" max="5" step="0.1" value="1">
+    </div>
+    
+    <button class="reset-btn" id="reset-btn">Reset to Zero</button>
+    
+    <div class="output-box">
+      <h2>Copy these values to model-transform.js:</h2>
+      <div class="output-code" id="output">
+        { pitch: 0, yaw: 0, roll: 0 }
+      </div>
+      <button id="copy-btn">Copy Values</button>
+      <p class="hint">Update MODEL_DEVICE_CALIBRATION in model-transform.js</p>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.173.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.173.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+
+    const viewer = document.getElementById('viewer');
+    const pitchSlider = document.getElementById('pitch');
+    const yawSlider = document.getElementById('yaw');
+    const rollSlider = document.getElementById('roll');
+    const scaleSlider = document.getElementById('scale');
+    const pitchVal = document.getElementById('pitch-val');
+    const yawVal = document.getElementById('yaw-val');
+    const rollVal = document.getElementById('roll-val');
+    const scaleVal = document.getElementById('scale-val');
+    const output = document.getElementById('output');
+    const modelSelect = document.getElementById('model-select');
+
+    // Scene setup
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x1a1a2e);
+
+    const camera = new THREE.PerspectiveCamera(50, viewer.clientWidth / viewer.clientHeight, 0.1, 1000);
+    camera.position.set(0, 2, 5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(viewer.clientWidth, viewer.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    viewer.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 10, 5);
+    scene.add(directionalLight);
+
+    const pointLight = new THREE.PointLight(0xffcc00, 2, 10);
+    pointLight.position.set(0, 0, 0);
+    scene.add(pointLight);
+
+    // Grid helper
+    const gridHelper = new THREE.GridHelper(10, 10, 0x444444, 0x222222);
+    scene.add(gridHelper);
+
+    // Axes helper
+    const axesHelper = new THREE.AxesHelper(2);
+    scene.add(axesHelper);
+
+    let model = null;
+    const loader = new GLTFLoader();
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.173.0/examples/jsm/libs/draco/');
+    loader.setDRACOLoader(dracoLoader);
+
+    function loadModel(url) {
+      if (model) {
+        scene.remove(model);
+      }
+      
+      loader.load(url, (gltf) => {
+        model = gltf.scene;
+        
+        // Center the model
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        model.position.sub(center);
+        
+        // Apply current rotation
+        updateModel();
+        scene.add(model);
+      }, undefined, (error) => {
+        console.error('Error loading model:', error);
+      });
+    }
+
+    function updateModel() {
+      if (!model) return;
+      
+      const pitch = parseFloat(pitchSlider.value);
+      const yaw = parseFloat(yawSlider.value);
+      const roll = parseFloat(rollSlider.value);
+      const scale = parseFloat(scaleSlider.value);
+      
+      model.rotation.set(
+        THREE.MathUtils.degToRad(pitch),
+        THREE.MathUtils.degToRad(yaw),
+        THREE.MathUtils.degToRad(roll)
+      );
+      model.scale.setScalar(scale);
+      
+      pitchVal.textContent = pitch;
+      yawVal.textContent = yaw;
+      rollVal.textContent = roll;
+      scaleVal.textContent = scale;
+      
+      output.textContent = `{ size: ${scale}, pitch: ${pitch}, yaw: ${yaw}, roll: ${roll} }`;
+    }
+
+    // Event listeners
+    pitchSlider.addEventListener('input', updateModel);
+    yawSlider.addEventListener('input', updateModel);
+    rollSlider.addEventListener('input', updateModel);
+    scaleSlider.addEventListener('input', updateModel);
+
+    modelSelect.addEventListener('change', () => {
+      loadModel(modelSelect.value);
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      pitchSlider.value = 0;
+      yawSlider.value = 0;
+      rollSlider.value = 0;
+      scaleSlider.value = 1;
+      updateModel();
+    });
+
+    document.getElementById('copy-btn').addEventListener('click', () => {
+      navigator.clipboard.writeText(output.textContent);
+      document.getElementById('copy-btn').textContent = 'Copied!';
+      setTimeout(() => {
+        document.getElementById('copy-btn').textContent = 'Copy Values';
+      }, 1500);
+    });
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+      camera.aspect = viewer.clientWidth / viewer.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(viewer.clientWidth, viewer.clientHeight);
+    });
+
+    // Animation loop
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    // Initialize
+    loadModel(modelSelect.value);
+    animate();
+  </script>
+</body>
+</html>

@@ -5,17 +5,24 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:network": "./start-dev.sh",
+    "dev:network:nolog": "./start-dev.sh --no-log",
+    "log-server": "node log-server.mjs",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "generate:qr": "node scripts/generate-qr.mjs"
+    "generate:qr": "node scripts/generate-qr.mjs",
+    "generate:markers": "./scripts/generate-markers.sh"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "canvas": "^3.2.3",
     "eslint": "^10.2.1",
     "eslint-plugin-security": "^4.0.0",
     "globals": "^17.5.0",
+    "sharp": "^0.34.5",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.0",
     "vite": "^8.0.10"

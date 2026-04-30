@@ -7,7 +7,7 @@
 
 import { layersModelEl } from "./dom-elements.js";
 import { CHART_HEIGHT_M, CHART_WIDTH_M, MARKER_SIZE_M } from "./marker-config.js";
-import { modelPosition, modelRotation, modelSize, syncDisplaysFromState } from "./slider-bindings.js";
+import { modelPosition, modelRotation, modelSize, syncDisplaysFromState, syncSlidersFromState } from "./slider-bindings.js";
 
 /** @typedef {(tag: string, ...parts: unknown[]) => void} DebugLogFn */
 
@@ -15,9 +15,10 @@ const IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userA
 const COORD_SCALE = 1 / MARKER_SIZE_M;
 
 const MODEL_CENTER_OFFSET_M = { x: 0.0, y: -0.5, z: 2.0 };
+const MODEL_SCALE_FACTOR = 4;
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
-  ? { size: 1.5, pitch: -41, yaw: 2, roll: 2 }
-  : { size: 1.0, pitch: 0, yaw: 0, roll: 0 };
+  ? { pitch: -11, yaw: -68, roll: 0 }
+  : { pitch: -11, yaw: -68, roll: 0 };
 
 let modelBaseMaxDim = 0;
 let modelFitDone = false;
@@ -85,7 +86,8 @@ const fitModelScale = () => {
   
   if (!baseComputedSize) {
     baseComputedSize = targetDiameterMeters / modelBaseMaxDim;
-    modelSize.value = baseComputedSize * MODEL_DEVICE_CALIBRATION.size;
+    modelSize.value = baseComputedSize * MODEL_SCALE_FACTOR;
+    syncSlidersFromState();
   }
 
   const s = modelSize.value;

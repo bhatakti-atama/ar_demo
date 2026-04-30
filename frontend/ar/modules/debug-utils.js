@@ -1,8 +1,62 @@
+const LOG_ENDPOINT = "/api/log";
+const LOG_FLUSH_INTERVAL_MS = 2000;
+const LOG_BATCH_SIZE = 50;
+
+let pendingLogs = [];
+let flushTimer = null;
+let loggingEnabled = new URLSearchParams(window.location?.search).get("log") !== "0";
+let remoteLoggingEnabled = new URLSearchParams(window.location?.search).get("remotelog") !== "0";
+
+export const isLoggingEnabled = () => loggingEnabled;
+export const isRemoteLoggingEnabled = () => remoteLoggingEnabled;
+
+export const setLoggingEnabled = (enabled) => {
+  loggingEnabled = enabled;
+  console.log(`[debug-utils] Logging ${enabled ? "enabled" : "disabled"}`);
+};
+
+export const setRemoteLoggingEnabled = (enabled) => {
+  remoteLoggingEnabled = enabled;
+  console.log(`[debug-utils] Remote logging ${enabled ? "enabled" : "disabled"}`);
+  if (!enabled && pendingLogs.length > 0) {
+    pendingLogs = [];
+  }
+};
+
+const flushLogs = async () => {
+  if (pendingLogs.length === 0 || !remoteLoggingEnabled) return;
+  const toSend = pendingLogs.splice(0, LOG_BATCH_SIZE);
+  try {
+    await fetch(LOG_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ logs: toSend }),
+    });
+  } catch {
+    pendingLogs.unshift(...toSend);
+  }
+};
+
+const scheduleFlush = () => {
+  if (flushTimer || !remoteLoggingEnabled) return;
+  flushTimer = setTimeout(() => {
+    flushTimer = null;
+    void flushLogs();
+  }, LOG_FLUSH_INTERVAL_MS);
+};
+
+if (typeof window !== "undefined") {
+  window.addEventListener("beforeunload", () => void flushLogs());
+  window.addEventListener("pagehide", () => void flushLogs());
+}
+
 export const createDebugLog = ({ bootTime, namespace, maxLines = 220, logElementId = "app-debug-log" }) => {
   /** @type {string[]} */
   const logBuffer = [];
 
   return (tag, ...parts) => {
+    if (!loggingEnabled) return;
+    
     const row = { tag, tMs: Math.round(performance.now() - bootTime) };
     const fmt = (p) => {
       if (p === undefined) {
@@ -32,6 +86,11 @@ export const createDebugLog = ({ bootTime, namespace, maxLines = 220, logElement
     const el = document.getElementById(logElementId);
     if (el) {
       el.textContent = logBuffer.slice(-maxLines).join("\n");
+    }
+
+    if (remoteLoggingEnabled) {
+      pendingLogs.push(stack);
+      scheduleFlush();
     }
   };
 };

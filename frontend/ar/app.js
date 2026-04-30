@@ -33,7 +33,7 @@ import {
   getCornerOffset,
   markerIdToBarcodeValue,
 } from "./modules/marker-config.js";
-import { createDebugLog } from "./modules/debug-utils.js";
+import { createDebugLog, isLoggingEnabled, isRemoteLoggingEnabled, setLoggingEnabled, setRemoteLoggingEnabled } from "./modules/debug-utils.js";
 import {
   initSliderBindings,
   stabilizerState,
@@ -430,6 +430,8 @@ const wireLifecycle = () => {
 
 // --- Multi-marker stabilizer component ---
 
+const MARKER_HYSTERESIS_FRAMES = 15;
+
 if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
   window.AFRAME.registerComponent("multi-marker-stabilizer", {
     schema: {
@@ -444,6 +446,12 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
         spec,
         el: document.getElementById(spec.elementId),
         offset: null,
+        lastPos: new THREERef.Vector3(),
+        lastQuat: new THREERef.Quaternion(),
+        lastChartCenter: new THREERef.Vector3(),
+        lastVisible: false,
+        framesSinceLost: 0,
+        hasValidCache: false,
       })).filter((x) => x.el);
       this.avgPos = new THREERef.Vector3();
       this.tmpPos = new THREERef.Vector3();
@@ -454,6 +462,12 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       this.hasInitQuat = false;
       this.el.object3D.visible = false;
       this.debugCounter = 0;
+      this.lastVisibleCount = 0;
+      this.lastVisibleCorners = [];
+      this.updateCount = 0;
+      this.deadbandSkipCount = 0;
+      this.posDeltas = [];
+      this.rotDeltas = [];
     },
     computeOffsets() {
       for (const marker of this.markerConfig) {
@@ -474,22 +488,69 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       if (!this.avgPos) return;
       if (!this.offsetsComputed) this.computeOffsets();
 
-      const visibleMarkers = [];
+      const activeMarkers = [];
+      const markerPositions = [];
+      
       for (const marker of this.markerConfig) {
         const markerObj = marker.el?.object3D;
-        if (!markerObj || !markerObj.visible || !marker.offset) continue;
-        visibleMarkers.push(marker);
+        const isCurrentlyVisible = markerObj && markerObj.visible && marker.offset;
+        
+        if (isCurrentlyVisible) {
+          marker.el.object3D.getWorldPosition(marker.lastPos);
+          marker.el.object3D.getWorldQuaternion(marker.lastQuat);
+          marker.framesSinceLost = 0;
+          marker.hasValidCache = true;
+          
+          if (!marker.lastVisible) {
+            debugLog("P1:stabilizer:marker-visibility", {
+              corner: marker.spec.corner,
+              visible: true,
+              frame: this.debugCounter,
+            });
+            marker.lastVisible = true;
+          }
+          activeMarkers.push({ marker, useCached: false });
+        } else {
+          marker.framesSinceLost++;
+          
+          if (marker.hasValidCache && marker.framesSinceLost <= MARKER_HYSTERESIS_FRAMES) {
+            activeMarkers.push({ marker, useCached: true });
+            
+            if (marker.lastVisible && marker.framesSinceLost === 1) {
+              debugLog("P1:stabilizer:marker-hysteresis", {
+                corner: marker.spec.corner,
+                usingCachedFor: MARKER_HYSTERESIS_FRAMES,
+                frame: this.debugCounter,
+              });
+            }
+          } else if (marker.lastVisible) {
+            debugLog("P1:stabilizer:marker-visibility", {
+              corner: marker.spec.corner,
+              visible: false,
+              cachedFrames: marker.framesSinceLost - 1,
+              frame: this.debugCounter,
+            });
+            marker.lastVisible = false;
+          }
+        }
       }
 
-      if (visibleMarkers.length === 0) {
+      if (activeMarkers.length === 0) {
+        if (this.el.object3D.visible) {
+          debugLog("P1:stabilizer:hidden", { reason: "no markers visible", frame: this.debugCounter });
+        }
         this.el.object3D.visible = false;
         return;
       }
 
       this.avgQuat.set(0, 0, 0, 0);
       let quatCount = 0;
-      for (const marker of visibleMarkers) {
-        marker.el.object3D.getWorldQuaternion(this.tmpQuat);
+      for (const { marker, useCached } of activeMarkers) {
+        if (useCached) {
+          this.tmpQuat.copy(marker.lastQuat);
+        } else {
+          marker.el.object3D.getWorldQuaternion(this.tmpQuat);
+        }
         if (quatCount === 0) {
           this.avgQuat.copy(this.tmpQuat);
         } else {
@@ -507,14 +568,27 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
 
       this.avgPos.set(0, 0, 0);
       const visibleCorners = [];
-      for (const marker of visibleMarkers) {
-        marker.el.object3D.getWorldPosition(this.tmpPos);
+      for (const { marker, useCached } of activeMarkers) {
+        if (useCached) {
+          this.tmpPos.copy(marker.lastPos);
+        } else {
+          marker.el.object3D.getWorldPosition(this.tmpPos);
+        }
         this.tmpOffset.copy(marker.offset).multiplyScalar(-1).applyQuaternion(this.avgQuat);
         this.chartCenter.copy(this.tmpPos).add(this.tmpOffset);
         this.avgPos.add(this.chartCenter);
-        visibleCorners.push(marker.spec.corner);
+        visibleCorners.push(marker.spec.corner + (useCached ? "*" : ""));
+        
+        const markerJitter = marker.lastChartCenter.distanceTo(this.chartCenter);
+        markerPositions.push({
+          corner: marker.spec.corner,
+          pos: `(${this.chartCenter.x.toFixed(3)}, ${this.chartCenter.y.toFixed(3)}, ${this.chartCenter.z.toFixed(3)})`,
+          jitter: markerJitter.toFixed(4),
+          cached: useCached,
+        });
+        marker.lastChartCenter.copy(this.chartCenter);
       }
-      this.avgPos.divideScalar(visibleMarkers.length);
+      this.avgPos.divideScalar(activeMarkers.length);
 
       this.debugCounter++;
 
@@ -524,16 +598,85 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       const posDelta = this.el.object3D.position.distanceTo(this.avgPos);
       const rotDeltaDeg = (this.el.object3D.quaternion.angleTo(this.avgQuat) * 180) / Math.PI;
 
+      this.posDeltas.push(posDelta);
+      this.rotDeltas.push(rotDeltaDeg);
+      if (this.posDeltas.length > 30) this.posDeltas.shift();
+      if (this.rotDeltas.length > 30) this.rotDeltas.shift();
+
+      const cleanCorners = visibleCorners.map(c => c.replace("*", ""));
+      const lastCleanCorners = this.lastVisibleCorners.map(c => c.replace("*", ""));
+      const cornersChanged = cleanCorners.length !== lastCleanCorners.length ||
+        cleanCorners.some((c, i) => c !== lastCleanCorners[i]);
+      
+      if (cornersChanged) {
+        debugLog("P1:stabilizer:markers-changed", {
+          from: this.lastVisibleCorners,
+          to: visibleCorners,
+          frame: this.debugCounter,
+        });
+        this.lastVisibleCount = visibleCorners.length;
+        this.lastVisibleCorners = [...visibleCorners];
+      }
+
       if (posDelta < stabilizerState.positionDeadband && rotDeltaDeg < stabilizerState.rotationDeadbandDeg) {
+        this.deadbandSkipCount++;
+        if (this.debugCounter % 60 === 0) {
+          debugLog("P1:stabilizer:deadband-active", {
+            posDelta: posDelta.toFixed(4),
+            rotDelta: rotDeltaDeg.toFixed(2),
+            skipped: this.deadbandSkipCount,
+            frame: this.debugCounter,
+          });
+        }
         return;
       }
 
+      this.updateCount++;
       this.el.object3D.position.lerp(this.avgPos, lerpFactor);
       this.el.object3D.quaternion.slerp(this.avgQuat, lerpFactor);
 
-      if (this.debugCounter % 90 === 0) {
-        debugLog("P1:stabilizer:tick", {
-          count: visibleMarkers.length,
+      const avgPosDelta = this.posDeltas.reduce((a, b) => a + b, 0) / this.posDeltas.length;
+      const avgRotDelta = this.rotDeltas.reduce((a, b) => a + b, 0) / this.rotDeltas.length;
+      const maxPosDelta = Math.max(...this.posDeltas);
+      const maxRotDelta = Math.max(...this.rotDeltas);
+
+      if (this.debugCounter % 15 === 0) {
+        const cachedCount = activeMarkers.filter(m => m.useCached).length;
+        debugLog("P1:stabilizer:update", {
+          frame: this.debugCounter,
+          markers: activeMarkers.length,
+          cached: cachedCount,
+          posDelta: posDelta.toFixed(4),
+          rotDelta: rotDeltaDeg.toFixed(2),
+          avgPos30: avgPosDelta.toFixed(4),
+          maxPos30: maxPosDelta.toFixed(4),
+          avgRot30: avgRotDelta.toFixed(2),
+          maxRot30: maxRotDelta.toFixed(2),
+          lerp: lerpFactor,
+        });
+      }
+
+      if (this.debugCounter % 30 === 0 && activeMarkers.length > 1) {
+        let maxSpread = 0;
+        for (let i = 0; i < markerPositions.length; i++) {
+          for (let j = i + 1; j < markerPositions.length; j++) {
+            const jitterI = parseFloat(markerPositions[i].jitter);
+            const jitterJ = parseFloat(markerPositions[j].jitter);
+            maxSpread = Math.max(maxSpread, Math.abs(jitterI - jitterJ));
+          }
+        }
+        debugLog("P1:stabilizer:marker-detail", {
+          frame: this.debugCounter,
+          markers: markerPositions,
+          spread: maxSpread.toFixed(4),
+        });
+      }
+
+      if (posDelta > 0.5 || rotDeltaDeg > 8) {
+        debugLog("P1:stabilizer:large-jump", {
+          frame: this.debugCounter,
+          posDelta: posDelta.toFixed(4),
+          rotDelta: rotDeltaDeg.toFixed(2),
           corners: visibleCorners,
           avgPos: `(${this.avgPos.x.toFixed(3)}, ${this.avgPos.y.toFixed(3)}, ${this.avgPos.z.toFixed(3)})`,
         });
@@ -715,6 +858,26 @@ if (clearDebugLogBtn && appDebugLog) {
   clearDebugLogBtn.addEventListener("click", () => {
     appDebugLog.textContent = "";
     showToast("Log cleared", 1500);
+  });
+}
+
+// Logging toggles
+const toggleLoggingEl = document.getElementById("toggle-logging");
+const toggleRemoteLoggingEl = document.getElementById("toggle-remote-logging");
+
+if (toggleLoggingEl) {
+  toggleLoggingEl.checked = isLoggingEnabled();
+  toggleLoggingEl.addEventListener("change", () => {
+    setLoggingEnabled(toggleLoggingEl.checked);
+    showToast(`Logging ${toggleLoggingEl.checked ? "enabled" : "disabled"}`, 1500);
+  });
+}
+
+if (toggleRemoteLoggingEl) {
+  toggleRemoteLoggingEl.checked = isRemoteLoggingEnabled();
+  toggleRemoteLoggingEl.addEventListener("change", () => {
+    setRemoteLoggingEnabled(toggleRemoteLoggingEl.checked);
+    showToast(`Remote logging ${toggleRemoteLoggingEl.checked ? "enabled" : "disabled"}`, 1500);
   });
 }
 
