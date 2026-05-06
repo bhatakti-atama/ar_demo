@@ -28,20 +28,20 @@
         embedded
         vr-mode-ui="enabled: false"
         background="color: #000000; transparent: true"
-        renderer="logarithmicDepthBuffer: true; precision: medium; antialias: true; alpha: true;"
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; maxDetectionRate: 60; sourceWidth: 1280; sourceHeight: 960; displayWidth: 1280; displayHeight: 960;"
+        renderer="logarithmicDepthBuffer: true; precision: medium; antialias: true; alpha: true; powerPreference: high-performance; sortObjects: true; physicallyCorrectLights: false;"
+        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; maxDetectionRate: 60; sourceWidth: 1280; sourceHeight: 960; displayWidth: 1280; displayHeight: 960; patternRatio: 0.75;"
       >
         <!-- Preload assets -->
         <a-assets timeout="30000">
           <a-asset-item id="sun-model" src="/sun-xsection.glb"></a-asset-item>
         </a-assets>
 
-        <a-marker id="marker-tl" class="tracker-marker" type="barcode" value="1" size="0.065" smooth="true" smooth-count="20" smooth-tolerance="0.01" smooth-threshold="5"></a-marker>
-        <a-marker id="marker-tr" class="tracker-marker" type="barcode" value="6" size="0.065" smooth="true" smooth-count="20" smooth-tolerance="0.01" smooth-threshold="5"></a-marker>
-        <a-marker id="marker-bl" class="tracker-marker" type="barcode" value="12" size="0.065" smooth="true" smooth-count="20" smooth-tolerance="0.01" smooth-threshold="5"></a-marker>
-        <a-marker id="marker-br" class="tracker-marker" type="barcode" value="18" size="0.065" smooth="true" smooth-count="20" smooth-tolerance="0.01" smooth-threshold="5"></a-marker>
+        <a-marker id="marker-tl" class="tracker-marker" type="barcode" value="1" size="0.065" smooth="true" smooth-count="30" smooth-tolerance="0.005" smooth-threshold="3"></a-marker>
+        <a-marker id="marker-tr" class="tracker-marker" type="barcode" value="6" size="0.065" smooth="true" smooth-count="30" smooth-tolerance="0.005" smooth-threshold="3"></a-marker>
+        <a-marker id="marker-bl" class="tracker-marker" type="barcode" value="12" size="0.065" smooth="true" smooth-count="30" smooth-tolerance="0.005" smooth-threshold="3"></a-marker>
+        <a-marker id="marker-br" class="tracker-marker" type="barcode" value="18" size="0.065" smooth="true" smooth-count="30" smooth-tolerance="0.005" smooth-threshold="3"></a-marker>
 
-        <a-entity id="stable-model-root" multi-marker-stabilizer="lerpFactor: 0.12">
+        <a-entity id="stable-model-root" multi-marker-stabilizer="lerpFactor: 0.12; useOneEuro: true; minCutoff: 0.8; beta: 0.004">
           <a-entity id="solar-dummy-anchor" position="0 0 0">
             <!-- @sun-xsection.glb (preloaded) -->
             <a-gltf-model
@@ -89,8 +89,11 @@
           <h1 id="splash-title" class="splash-title">Solar System Scan</h1>
           <p class="splash-sub">Initialize sensors and align to Barcode ID 5 target.</p>
           <div id="model-loading-status" class="model-loading-status">
-            <span class="loading-spinner"></span>
-            <span id="loading-text">Loading 3D model...</span>
+            <span id="loading-text">Initializing 3D model...</span>
+            <div class="loading-progress-track">
+              <div id="loading-progress-bar" class="loading-progress-bar"></div>
+            </div>
+            <span id="loading-percent" class="loading-percent">0%</span>
           </div>
           <button type="button" id="splash-start" class="btn-mission" disabled>
             START SCAN
@@ -125,9 +128,6 @@
 
       <!-- Toast / data link -->
       <div id="hud-toast" class="hud-toast" role="status" aria-live="polite" hidden></div>
-      <div id="detected-markers" class="hud-detected-markers" aria-live="polite">
-        DETECTED TAGS: --
-      </div>
 
       <!-- D) Interaction footer -->
       <footer class="control-bar glass-panel" aria-label="Optical controls">

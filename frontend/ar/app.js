@@ -12,7 +12,6 @@ import {
   copyDebugLogBtn,
   crosshair,
   crosshairLabel,
-  detectedMarkersEl,
   drawerClose,
   hudHeader,
   layersModelEl,
@@ -31,7 +30,6 @@ import {
   MARKER_LAYOUT,
   PERMISSIONS_QUERY_TIMEOUT_MS,
   getCornerOffset,
-  markerIdToBarcodeValue,
 } from "./modules/marker-config.js";
 import { createDebugLog, isLoggingEnabled, isRemoteLoggingEnabled, setLoggingEnabled, setRemoteLoggingEnabled } from "./modules/debug-utils.js";
 import {
@@ -86,17 +84,6 @@ initModelTransform(debugLog);
 initTouchGestures(debugLog);
 
 // --- HUD helpers ---
-
-const updateDetectedMarkersHud = (visibleMarkerIds) => {
-  if (!detectedMarkersEl) return;
-  const detected = [...visibleMarkerIds]
-    .map((id) => markerIdToBarcodeValue.get(id) ?? id)
-    .sort((a, b) => Number(a) - Number(b));
-  detectedMarkersEl.textContent = detected.length
-    ? `DETECTED TAGS: ${detected.join(", ")}`
-    : "DETECTED TAGS: --";
-  detectedMarkersEl.classList.toggle("active", detected.length > 0);
-};
 
 const showToast = (message, durationMs = 3200) => {
   const el = document.getElementById("hud-toast");
@@ -431,14 +418,19 @@ const wireLifecycle = () => {
   });
 };
 
-// --- Multi-marker stabilizer component ---
+// --- Multi-marker stabilizer component (with One-Euro Filter for smooth tracking) ---
 
-const MARKER_HYSTERESIS_FRAMES = 25;
+import { OneEuroFilterVector3, OneEuroFilterQuaternion, OneEuroPresets } from "./modules/one-euro-filter.js";
+
+const MARKER_HYSTERESIS_FRAMES = 35; // Increased for better stability
 
 if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
   window.AFRAME.registerComponent("multi-marker-stabilizer", {
     schema: {
       lerpFactor: { type: "number", default: stabilizerState.stabilizerLerp },
+      useOneEuro: { type: "boolean", default: true },
+      minCutoff: { type: "number", default: 0.8 },
+      beta: { type: "number", default: 0.004 },
     },
     init() {
       const THREERef = window.THREE;
@@ -471,6 +463,25 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       this.deadbandSkipCount = 0;
       this.posDeltas = [];
       this.rotDeltas = [];
+      
+      // One-Euro filters for smooth tracking
+      // Lower minCutoff = more smoothing at rest, higher beta = faster response to movement
+      this.posFilter = new OneEuroFilterVector3(60, this.data.minCutoff, this.data.beta, 1.0);
+      this.quatFilter = new OneEuroFilterQuaternion(THREERef, 60, 1.2, 0.3, 1.0);
+      this.filteredPos = new THREERef.Vector3();
+      this.filteredQuat = new THREERef.Quaternion();
+      this.lastFrameTime = null;
+      
+      // Force GPU layer for smoother compositing
+      if (this.el.object3D) {
+        this.el.object3D.matrixAutoUpdate = true;
+      }
+      
+      debugLog("P1:stabilizer:init", {
+        useOneEuro: this.data.useOneEuro,
+        minCutoff: this.data.minCutoff,
+        beta: this.data.beta,
+      });
     },
     computeOffsets() {
       for (const marker of this.markerConfig) {
@@ -487,9 +498,12 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
         })),
       });
     },
-    tick() {
+    tick(time, timeDelta) {
       if (!this.avgPos) return;
       if (!this.offsetsComputed) this.computeOffsets();
+
+      // Calculate timestamp in seconds for One-Euro filter
+      const timestamp = time / 1000;
 
       const activeMarkers = [];
       const markerPositions = [];
@@ -541,6 +555,9 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
       if (activeMarkers.length === 0) {
         if (this.el.object3D.visible) {
           debugLog("P1:stabilizer:hidden", { reason: "no markers visible", frame: this.debugCounter });
+          // Reset filters when markers lost for clean restart
+          this.posFilter.reset();
+          this.quatFilter.reset();
         }
         this.el.object3D.visible = false;
         return;
@@ -595,9 +612,34 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
 
       this.debugCounter++;
 
-      const lerpFactor = this.data.lerpFactor;
       this.el.object3D.visible = true;
 
+      // Apply One-Euro filter for smooth tracking (or fall back to lerp)
+      if (this.data.useOneEuro) {
+        // Filter position and rotation through One-Euro
+        this.posFilter.filter(this.avgPos, this.filteredPos, timestamp);
+        this.quatFilter.filter(this.avgQuat, this.filteredQuat, timestamp);
+        
+        // Apply filtered values directly (One-Euro handles the smoothing)
+        this.el.object3D.position.copy(this.filteredPos);
+        this.el.object3D.quaternion.copy(this.filteredQuat);
+      } else {
+        // Legacy lerp-based smoothing
+        const lerpFactor = this.data.lerpFactor;
+        
+        const posDelta = this.el.object3D.position.distanceTo(this.avgPos);
+        const rotDeltaDeg = (this.el.object3D.quaternion.angleTo(this.avgQuat) * 180) / Math.PI;
+
+        if (posDelta < stabilizerState.positionDeadband && rotDeltaDeg < stabilizerState.rotationDeadbandDeg) {
+          this.deadbandSkipCount++;
+          return;
+        }
+
+        this.el.object3D.position.lerp(this.avgPos, lerpFactor);
+        this.el.object3D.quaternion.slerp(this.avgQuat, lerpFactor);
+      }
+
+      // Stats tracking for debugging
       const posDelta = this.el.object3D.position.distanceTo(this.avgPos);
       const rotDeltaDeg = (this.el.object3D.quaternion.angleTo(this.avgQuat) * 180) / Math.PI;
 
@@ -621,45 +663,28 @@ if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
         this.lastVisibleCorners = [...visibleCorners];
       }
 
-      if (posDelta < stabilizerState.positionDeadband && rotDeltaDeg < stabilizerState.rotationDeadbandDeg) {
-        this.deadbandSkipCount++;
-        if (this.debugCounter % 60 === 0) {
-          debugLog("P1:stabilizer:deadband-active", {
-            posDelta: posDelta.toFixed(4),
-            rotDelta: rotDeltaDeg.toFixed(2),
-            skipped: this.deadbandSkipCount,
-            frame: this.debugCounter,
-          });
-        }
-        return;
-      }
-
       this.updateCount++;
-      this.el.object3D.position.lerp(this.avgPos, lerpFactor);
-      this.el.object3D.quaternion.slerp(this.avgQuat, lerpFactor);
 
       const avgPosDelta = this.posDeltas.reduce((a, b) => a + b, 0) / this.posDeltas.length;
       const avgRotDelta = this.rotDeltas.reduce((a, b) => a + b, 0) / this.rotDeltas.length;
       const maxPosDelta = Math.max(...this.posDeltas);
       const maxRotDelta = Math.max(...this.rotDeltas);
 
-      if (this.debugCounter % 15 === 0) {
+      if (this.debugCounter % 30 === 0) {
         const cachedCount = activeMarkers.filter(m => m.useCached).length;
         debugLog("P1:stabilizer:update", {
           frame: this.debugCounter,
           markers: activeMarkers.length,
           cached: cachedCount,
-          posDelta: posDelta.toFixed(4),
-          rotDelta: rotDeltaDeg.toFixed(2),
+          oneEuro: this.data.useOneEuro,
           avgPos30: avgPosDelta.toFixed(4),
           maxPos30: maxPosDelta.toFixed(4),
           avgRot30: avgRotDelta.toFixed(2),
           maxRot30: maxRotDelta.toFixed(2),
-          lerp: lerpFactor,
         });
       }
 
-      if (this.debugCounter % 30 === 0 && activeMarkers.length > 1) {
+      if (this.debugCounter % 60 === 0 && activeMarkers.length > 1) {
         let maxSpread = 0;
         for (let i = 0; i < markerPositions.length; i++) {
           for (let j = i + 1; j < markerPositions.length; j++) {
@@ -763,12 +788,10 @@ if (arScene) {
 // Marker events
 if (markerEls.length) {
   const visibleMarkerIds = new Set();
-  updateDetectedMarkersHud(visibleMarkerIds);
 
   markerEls.forEach((marker) => {
     marker.addEventListener("markerFound", () => {
       visibleMarkerIds.add(marker.id);
-      updateDetectedMarkersHud(visibleMarkerIds);
       debugLog("P1:marker:found", {
         markerId: marker.id,
         visibleMarkers: visibleMarkerIds.size,
@@ -786,7 +809,6 @@ if (markerEls.length) {
 
     marker.addEventListener("markerLost", () => {
       visibleMarkerIds.delete(marker.id);
-      updateDetectedMarkersHud(visibleMarkerIds);
       debugLog("P1:marker:lost", { markerId: marker.id, visibleMarkers: visibleMarkerIds.size });
       if (visibleMarkerIds.size === 0) {
         setCrosshairScanning();
@@ -799,31 +821,109 @@ if (markerEls.length) {
 // Model loading UI elements
 const modelLoadingStatus = document.getElementById("model-loading-status");
 const loadingText = document.getElementById("loading-text");
+const loadingProgressBar = document.getElementById("loading-progress-bar");
+const loadingPercent = document.getElementById("loading-percent");
 const splashStartBtn = document.getElementById("splash-start");
+
+/**
+ * Update loading progress UI
+ * @param {number} percent - Progress percentage (0-100)
+ * @param {string} [status] - Optional status text
+ */
+const updateLoadingProgress = (percent, status) => {
+  const clampedPercent = Math.max(0, Math.min(100, percent));
+  if (loadingProgressBar) {
+    loadingProgressBar.style.width = `${clampedPercent}%`;
+  }
+  if (loadingPercent) {
+    loadingPercent.textContent = `${Math.round(clampedPercent)}%`;
+  }
+  if (status && loadingText) {
+    loadingText.textContent = status;
+  }
+};
 
 // Model loaded event
 const modelLoadStart = performance.now();
 debugLog("P1:model:load-start", { timestamp: modelLoadStart });
+
+// Hook into THREE.js loading manager for real progress
+if (window.THREE?.DefaultLoadingManager) {
+  const manager = window.THREE.DefaultLoadingManager;
+  let itemsLoaded = 0;
+  let itemsTotal = 0;
+  
+  manager.onStart = (url, loaded, total) => {
+    itemsLoaded = loaded;
+    itemsTotal = total;
+    updateLoadingProgress(5, "Loading assets...");
+    debugLog("P1:model:loader-start", { url, loaded, total });
+  };
+  
+  manager.onProgress = (url, loaded, total) => {
+    itemsLoaded = loaded;
+    itemsTotal = total;
+    const percent = 5 + (loaded / total) * 85; // 5-90%
+    updateLoadingProgress(percent, "Loading model...");
+  };
+  
+  manager.onLoad = () => {
+    updateLoadingProgress(90, "Processing...");
+    debugLog("P1:model:loader-complete", { itemsLoaded, itemsTotal });
+  };
+  
+  manager.onError = (url) => {
+    debugLog("P1:model:loader-error", { url });
+  };
+} else {
+  // Fallback: animate progress while waiting
+  updateLoadingProgress(10, "Loading model...");
+  let fakeProgress = 10;
+  const progressInterval = setInterval(() => {
+    fakeProgress += Math.random() * 8;
+    if (fakeProgress >= 85) {
+      clearInterval(progressInterval);
+      fakeProgress = 85;
+    }
+    updateLoadingProgress(fakeProgress, "Loading model...");
+  }, 200);
+  
+  // Clear interval when model loads
+  if (layersModelEl) {
+    layersModelEl.addEventListener("model-loaded", () => clearInterval(progressInterval), { once: true });
+  }
+}
 
 if (layersModelEl) {
   layersModelEl.addEventListener("model-loaded", () => {
     const loadTime = Math.round(performance.now() - modelLoadStart);
     debugLog("P1:model:loaded", { loadTimeMs: loadTime });
     
-    onModelLoaded();
+    updateLoadingProgress(95, "Preparing scene...");
     
-    if (modelLoadingStatus) {
-      modelLoadingStatus.classList.add("hidden");
-    }
-    if (splashStartBtn) {
-      splashStartBtn.disabled = false;
-    }
+    // Quick finish animation
+    setTimeout(() => {
+      updateLoadingProgress(100, "Ready!");
+      onModelLoaded();
+      
+      setTimeout(() => {
+        if (modelLoadingStatus) {
+          modelLoadingStatus.classList.add("hidden");
+        }
+        if (splashStartBtn) {
+          splashStartBtn.disabled = false;
+        }
+      }, 200);
+    }, 100);
   });
   
   layersModelEl.addEventListener("model-error", (e) => {
     debugLog("P1:model:error", { error: e.detail?.message || "Unknown error" });
     if (loadingText) {
       loadingText.textContent = "Failed to load model";
+    }
+    if (loadingProgressBar) {
+      loadingProgressBar.style.background = "linear-gradient(90deg, #ff3355, #ff5555)";
     }
   });
 }
