@@ -1,21 +1,21 @@
 /**
- * Model transformation logic - scaling, positioning, and rotation.
- * AR.js with size="X" uses coordinates scaled by 1/X.
- * So positions must be scaled by 1/MARKER_SIZE_M.
+ * Model transformation logic — scaling, positioning, rotation.
+ * WebXR / A-Frame AR uses real-world meters (1 unit ≈ 1 m).
  * @file model-transform.js
  */
 
 import { layersModelEl } from "./dom-elements.js";
-import { CHART_HEIGHT_M, CHART_WIDTH_M, MARKER_SIZE_M } from "./marker-config.js";
 import { modelPosition, modelRotation, modelSize, syncDisplaysFromState, syncSlidersFromState } from "./slider-bindings.js";
 
 /** @typedef {(tag: string, ...parts: unknown[]) => void} DebugLogFn */
 
 const IS_MOBILE_DEVICE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-const COORD_SCALE = 1 / MARKER_SIZE_M;
 
-const MODEL_CENTER_OFFSET_M = { x: 0.0, y: -0.5, z: 2.0 };
-const MODEL_SCALE_FACTOR = 4;
+/** Target widest extent of the scaled model at size multiplier 1 (~32 cm — readable in handheld AR). */
+const MODEL_TARGET_WIDTH_WEBXR_M = 0.32;
+
+/** Local offset of the model relative to the hit-test anchor (meters). */
+const MODEL_CENTER_OFFSET_M = { x: 0, y: 0.06, z: 0 };
 const MODEL_DEVICE_CALIBRATION = IS_MOBILE_DEVICE
   ? { pitch: -11, yaw: -91, roll: 90 }
   : { pitch: -11, yaw: -91, roll: 90 };
@@ -82,19 +82,21 @@ const fitModelScale = () => {
     return false;
   }
 
-  const targetDiameterMeters = CHART_WIDTH_M * 0.7;
+  const targetDiameterMeters = MODEL_TARGET_WIDTH_WEBXR_M;
   
   if (!baseComputedSize) {
     baseComputedSize = targetDiameterMeters / modelBaseMaxDim;
   }
 
-  const s = modelSize.value;
+  const mult = modelSize.value;
+  const s = baseComputedSize * mult;
   layersModelEl.setAttribute("scale", `${s} ${s} ${s}`);
-  
+
   debugLog("P1:model:scale", {
     targetDiameterMeters,
     baseComputedSize: baseComputedSize.toFixed(4),
-    appliedScale: s.toFixed(4),
+    sizeMultiplier: mult.toFixed(4),
+    appliedEntityScale: s.toFixed(4),
   });
   
   return true;

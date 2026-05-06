@@ -1,10 +1,3 @@
-export const markerTlEl = document.getElementById("marker-tl");
-export const markerTrEl = document.getElementById("marker-tr");
-export const markerBlEl = document.getElementById("marker-bl");
-export const markerBrEl = document.getElementById("marker-br");
-export const markerEls = [markerTlEl, markerTrEl, markerBlEl, markerBrEl].filter(Boolean);
-export const markerEl = markerEls[0] ?? null;
-
 export const solarModelEl = document.getElementById("solar-dummy-model");
 export const layersModelEl = document.getElementById("layers_of_the_sun_model");
 export const settingsDrawer = document.getElementById("settings-drawer");
@@ -56,8 +49,11 @@ export const rollValue = document.getElementById("roll-value");
 export const cameraSelect = document.getElementById("camera-select");
 export const splashScreen = document.getElementById("splash-screen");
 export const splashStart = document.getElementById("splash-start");
+export const calibrationScreen = document.getElementById("calibration-screen");
+export const calibrationContinue = document.getElementById("calibration-continue");
 export const crosshair = document.getElementById("crosshair");
 export const crosshairLabel = document.getElementById("crosshair-label");
+export const arPlacementHint = document.getElementById("ar-placement-hint");
 export const hudHeader = document.getElementById("hud-header");
 export const signalBarInner = document.getElementById("signal-bar-inner");
 export const arViewport = document.getElementById("ar-viewport");

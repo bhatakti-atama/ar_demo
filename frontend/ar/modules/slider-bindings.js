@@ -37,8 +37,8 @@ export const modelPosition = { x: 0, y: 0, z: 0 };
 /** @type {{ pitch: number, yaw: number, roll: number }} */
 export const modelRotation = { pitch: 0, yaw: 0, roll: 0 };
 
-/** @type {{ value: number }} */
-export const modelSize = { value: 4 };
+/** @type {{ value: number }} — multiplier on WebXR auto-fit (1 ≈ target width ~MODEL_TARGET_WIDTH_WEBXR_M). */
+export const modelSize = { value: 1 };
 
 const fmt2 = (v) => v.toFixed(2);
 const fmt3 = (v) => v.toFixed(3);
@@ -214,7 +214,7 @@ export const syncSlidersFromState = () => {
 
 /** Default values for model transform */
 const MODEL_DEFAULTS = {
-  size: 4,
+  size: 1,
   position: { x: 0, y: 0, z: 0 },
   rotation: { pitch: 0, yaw: 0, roll: 0 },
 };

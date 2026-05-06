@@ -17,37 +17,28 @@
     />
     <link rel="stylesheet" href="./style.css" />
     <script src="https://cdn.jsdelivr.net/npm/aframe@1.7.0/dist/aframe.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@ar-js-org/ar.js@3.4.8/aframe/build/aframe-ar.js"
-    ></script>
   </head>
   <body>
+    <!-- WebXR handheld AR: tap placement uses floor (look down) or a vertical wall sheet in front of you (HTTPS). -->
     <div id="ar-viewport" class="ar-viewport" aria-label="AR view">
       <a-scene
         id="ar-scene"
-        embedded
-        vr-mode-ui="enabled: false"
+        xr-mode-ui="enabled: true; enterAREnabled: false; enterVREnabled: false; XRMode: ar"
+        webxr="requiredFeatures: local-floor; optionalFeatures: dom-overlay, anchors; overlayElement: #hud-root;"
         background="color: #000000; transparent: true"
         renderer="logarithmicDepthBuffer: true; precision: medium; antialias: true; alpha: true; powerPreference: high-performance; sortObjects: true; physicallyCorrectLights: false;"
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; maxDetectionRate: 60; sourceWidth: 1280; sourceHeight: 960; displayWidth: 1280; displayHeight: 960; patternRatio: 0.75;"
       >
         <!-- Preload assets -->
         <a-assets timeout="30000">
           <a-asset-item id="sun-model" src="/sun-xsection.glb"></a-asset-item>
         </a-assets>
 
-        <a-marker id="marker-tl" class="tracker-marker" type="barcode" value="1" size="0.065" smooth="true" smooth-count="30" smooth-tolerance="0.005" smooth-threshold="3"></a-marker>
-        <a-marker id="marker-tr" class="tracker-marker" type="barcode" value="6" size="0.065" smooth="true" smooth-count="30" smooth-tolerance="0.005" smooth-threshold="3"></a-marker>
-        <a-marker id="marker-bl" class="tracker-marker" type="barcode" value="12" size="0.065" smooth="true" smooth-count="30" smooth-tolerance="0.005" smooth-threshold="3"></a-marker>
-        <a-marker id="marker-br" class="tracker-marker" type="barcode" value="18" size="0.065" smooth="true" smooth-count="30" smooth-tolerance="0.005" smooth-threshold="3"></a-marker>
-
-        <a-entity id="stable-model-root" multi-marker-stabilizer="lerpFactor: 0.12; useOneEuro: true; minCutoff: 0.8; beta: 0.004">
+        <a-entity id="stable-model-root" visible="false">
           <a-entity id="solar-dummy-anchor" position="0 0 0">
-            <!-- @sun-xsection.glb (preloaded) -->
             <a-gltf-model
               id="layers_of_the_sun_model"
               src="#sun-model"
-              position="-0.22 -0.16 0.09"
+              position="0 0 0"
               scale="1 1 1"
               rotation="0 0 0"
             ></a-gltf-model>
@@ -87,7 +78,9 @@
         <div class="splash-inner glass-panel">
           <p class="splash-eyebrow">ORBITAL TELEMETRY UNIT</p>
           <h1 id="splash-title" class="splash-title">Solar System Scan</h1>
-          <p class="splash-sub">Initialize sensors and align to Barcode ID 5 target.</p>
+          <p class="splash-sub">
+            After <strong>START SCAN</strong>, complete the quick <strong>environment calibration</strong>, then use <strong>ENTER AR</strong> (Chrome on Android). <strong>Tap the view</strong> where you want the Sun; drag from a touch to use rotation controls. Requires <strong>trusted HTTPS</strong>—a certificate warning in the address bar usually blocks AR.
+          </p>
           <div id="model-loading-status" class="model-loading-status">
             <span id="loading-text">Initializing 3D model...</span>
             <div class="loading-progress-track">
@@ -97,6 +90,38 @@
           </div>
           <button type="button" id="splash-start" class="btn-mission" disabled>
             START SCAN
+          </button>
+        </div>
+      </div>
+
+      <!-- A2) Environment calibration (after START SCAN) -->
+      <div
+        id="calibration-screen"
+        class="calibration-screen"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="calibration-title"
+        hidden
+      >
+        <div class="calibration-inner glass-panel">
+          <p class="calibration-eyebrow">AR SESSION PREP</p>
+          <h2 id="calibration-title" class="calibration-title">Environment calibration</h2>
+          <ol class="calibration-list">
+            <li>
+              Good lighting still helps tracking even though placement follows your <strong>tap</strong>, not surface detection.
+            </li>
+            <li>
+              Tap <strong>above the bottom bar</strong>. A quick tap places or moves the Sun; if you drag instead, the side joysticks take over.
+            </li>
+            <li>
+              <strong>Floor:</strong> look noticeably <strong>down</strong> and tap. <strong>Wall:</strong> look at the wall and tap — placement uses a vertical surface about arm’s length in front of you (not a real wall scan).
+            </li>
+            <li>
+              <strong>Trusted HTTPS</strong> is required. A certificate warning in the address bar usually blocks AR even if the camera works.
+            </li>
+          </ol>
+          <button type="button" id="calibration-continue" class="btn-mission calibration-cta">
+            CONTINUE TO AR
           </button>
         </div>
       </div>
@@ -126,6 +151,8 @@
         <span id="crosshair-label" class="crosshair-label">SEARCH</span>
       </div>
 
+      <p id="ar-placement-hint" class="ar-placement-hint" hidden role="status" aria-live="polite"></p>
+
       <!-- Toast / data link -->
       <div id="hud-toast" class="hud-toast" role="status" aria-live="polite" hidden></div>
 
@@ -148,6 +175,14 @@
             value="1"
           />
         </div>
+        <button
+          type="button"
+          id="enter-ar-hud"
+          class="btn-enter-ar-hud"
+          title="Start WebXR camera AR session"
+        >
+          ENTER AR
+        </button>
         <button
           type="button"
           id="settings-gear"
@@ -188,11 +223,11 @@
         <div id="zoom-note" class="zoom-note"></div>
         <div id="focus-note" class="zoom-note"></div>
         <p class="drawer-hint">
-          Fixed board calibration active: marker 6.5cm, chart 60x45cm.
+          <strong>WebXR AR</strong> needs <strong>trusted HTTPS</strong> (no “Not secure” / broken lock in the address bar). Self-signed certs on a LAN IP often block AR—use a tunnel (ngrok, Cloudflare Tunnel) or install your dev CA on the phone.
         </p>
         <div class="tune-group" aria-label="Model transform tuning">
-          <label for="size-slider" class="tune-label">Model Size <span id="size-value" class="tune-value">4.00x</span></label>
-          <input id="size-slider" class="tune-slider" type="range" min="0.5" max="15" step="0.1" value="4" />
+          <label for="size-slider" class="tune-label">Model Size <span id="size-value" class="tune-value">1.00x</span></label>
+          <input id="size-slider" class="tune-slider" type="range" min="0.5" max="8" step="0.1" value="1" />
 
           <label for="offset-x-slider" class="tune-label">Offset X <span id="offset-x-value" class="tune-value">0.00</span></label>
           <input id="offset-x-slider" class="tune-slider" type="range" min="-5" max="5" step="0.05" value="0" />

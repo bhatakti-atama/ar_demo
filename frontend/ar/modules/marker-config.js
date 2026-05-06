@@ -1,5 +1,3 @@
-import { markerEl } from "./dom-elements.js";
-
 export const STORAGE_DEVICE_KEY = "ar-charts-preferred-camera-device-id";
 export const PERMISSIONS_QUERY_TIMEOUT_MS = 2000;
 
@@ -29,8 +27,7 @@ export const VISIBILITY_CONTEXT_BIAS = {
   four: { x: 0, y: 0, z: 0 },
 };
 
-export const getMarkerSizeUnits = () =>
-  Number(markerEl?.getAttribute("size")) > 0 ? Number(markerEl?.getAttribute("size")) : 1.0;
+export const getMarkerSizeUnits = () => 1.0;
 
 export const computeModelSizeRelativeToTag = (markerSize) => {
   const safeMarker = markerSize > 0 ? markerSize : MARKER_SIZE_M;

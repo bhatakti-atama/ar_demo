@@ -1,12 +1,14 @@
 /**
- * Phase 1 (plan.md): A-Frame + AR.js (CDN) + secure context + maximum structured logging.
- * Refactored for clarity - redundant logic moved to dedicated modules.
+ * Phase 1: A-Frame WebXR hit-test (surface placement) + HUD + logging.
  * @file app.js
  */
 
 import {
   appDebugLog,
   arScene,
+  arPlacementHint,
+  calibrationContinue,
+  calibrationScreen,
   cameraSelect,
   clearDebugLogBtn,
   copyDebugLogBtn,
@@ -15,27 +17,20 @@ import {
   drawerClose,
   hudHeader,
   layersModelEl,
-  markerEls,
   refreshCamerasBtn,
   settingsDrawer,
   settingsGear,
   signalBarInner,
-  solarModelEl,
   splashScreen,
   splashStart,
   stableModelRootEl,
   zoomNote,
 } from "./modules/dom-elements.js";
-import {
-  MARKER_LAYOUT,
-  PERMISSIONS_QUERY_TIMEOUT_MS,
-  getCornerOffset,
-} from "./modules/marker-config.js";
+import { PERMISSIONS_QUERY_TIMEOUT_MS } from "./modules/marker-config.js";
 import { createDebugLog, isLoggingEnabled, isRemoteLoggingEnabled, setLoggingEnabled, setRemoteLoggingEnabled } from "./modules/debug-utils.js";
 import {
   initSliderBindings,
   resetModelToDefaults,
-  stabilizerState,
   syncSlidersFromState,
 } from "./modules/slider-bindings.js";
 import {
@@ -62,13 +57,13 @@ import {
   scheduleModelTransform,
   tryInitialModelFit,
 } from "./modules/model-transform.js";
-import { initTouchGestures, setupTouchGestures, syncTouchTargetsFromModel } from "./modules/touch-gestures.js";
+import { initTouchGestures, registerArQuickTapHandler, setArTapPlacementMode, setupTouchGestures, syncTouchTargetsFromModel } from "./modules/touch-gestures.js";
 
 const BOOT_T0 = performance.now();
 const LOG_NS = "phase1";
 const MAX_DEBUG_LOG_LINES = 220;
 
-let firstMarkerLock = true;
+let firstWebxrPlacement = true;
 let signalJitterId = 0;
 let toastHideTimer = 0;
 
@@ -98,23 +93,22 @@ const showToast = (message, durationMs = 3200) => {
   }, durationMs);
 };
 
+const setCrosshairTapReady = () => {
+  if (!crosshair) return;
+  crosshair.classList.remove("locked");
+  crosshair.classList.add("scanning");
+  if (crosshairLabel) crosshairLabel.textContent = "TAP";
+  if (signalBarInner) signalBarInner.dataset.lock = "0";
+  updateArPlacementHint();
+};
+
 const setCrosshairScanning = () => {
   if (!crosshair) return;
   crosshair.classList.remove("locked");
   crosshair.classList.add("scanning");
   if (crosshairLabel) crosshairLabel.textContent = "SEARCH";
   if (signalBarInner) signalBarInner.dataset.lock = "0";
-};
-
-const setCrosshairLocked = () => {
-  if (!crosshair) return;
-  crosshair.classList.remove("scanning");
-  crosshair.classList.add("locked");
-  if (crosshairLabel) crosshairLabel.textContent = "LOCK-ON";
-  if (signalBarInner) {
-    signalBarInner.dataset.lock = "1";
-    signalBarInner.style.width = "100%";
-  }
+  updateArPlacementHint();
 };
 
 const startSignalJitter = () => {
@@ -145,6 +139,29 @@ const dismissSplash = () => {
   splashScreen.classList.add("splash--dismissed");
   splashScreen.setAttribute("aria-hidden", "true");
   debugLog("P1:hud:splash", "dismissed");
+};
+
+const showCalibrationScreen = () => {
+  if (!calibrationScreen) return;
+  calibrationScreen.removeAttribute("hidden");
+  calibrationScreen.setAttribute("aria-hidden", "false");
+  debugLog("P1:hud:calibration", "shown");
+  window.requestAnimationFrame(() => {
+    calibrationContinue?.focus();
+  });
+};
+
+const dismissCalibrationScreen = () => {
+  if (!calibrationScreen) return;
+  calibrationScreen.setAttribute("hidden", "true");
+  calibrationScreen.setAttribute("aria-hidden", "true");
+  debugLog("P1:hud:calibration", "dismissed");
+};
+
+/** After START SCAN (and optional calibration): toast + camera nudge. */
+const finishMissionStart = async () => {
+  showToast("Use ENTER AR, then tap the view to place the Sun (drag to use rotation joysticks).", 5500);
+  await onNudgeOrManualCamera();
 };
 
 // --- Boot & environment logging ---
@@ -228,12 +245,16 @@ const logAframeAndThree = () => {
 const logSceneIntrospection = (scene) => {
   if (!scene) return;
   try {
-    const arjs = scene.getAttribute("arjs");
+    const webxr = scene.getAttribute("webxr");
+    const xrModeUi = scene.getAttribute("xr-mode-ui");
+    const arHitTest = scene.getAttribute("ar-hit-test");
     const renderer = scene.renderer;
     const el = /** @type {import('aframe').Entity} */ (scene);
     const sysKeys = el.systems && typeof el.systems === "object" ? Object.keys(el.systems) : [];
     debugLog("P1:scene:attribs", {
-      arjs,
+      webxr,
+      xrModeUi,
+      arHitTest,
       embedded: scene.getAttribute("embedded"),
       hasRenderer: Boolean(renderer),
       systemKeys: sysKeys,
@@ -373,8 +394,11 @@ const onStartMission = async () => {
     debugLog("P1:hud:audioContext:skip", e instanceof Error ? e.message : e);
   }
   dismissSplash();
-  showToast("Sensors online. Point camera at Barcode ID 5 marker.", 4500);
-  await onNudgeOrManualCamera();
+  if (calibrationScreen) {
+    showCalibrationScreen();
+  } else {
+    await finishMissionStart();
+  }
 };
 
 // --- Error hooks ---
@@ -418,328 +442,219 @@ const wireLifecycle = () => {
   });
 };
 
-// --- Multi-marker stabilizer component (with One-Euro Filter for smooth tracking) ---
+// --- WebXR tap placement (floor when looking down; virtual vertical wall otherwise) ---
 
-import { OneEuroFilterVector3, OneEuroFilterQuaternion, OneEuroPresets } from "./modules/one-euro-filter.js";
+const AR_PLACEMENT_HINT =
+  "Tap to place. Look down for the floor. Looking at walls places on a vertical surface in front of you (approx. your tap). Drag to use joysticks.";
 
-const MARKER_HYSTERESIS_FRAMES = 35; // Increased for better stability
+const PLACE_FLOOR_MIN_T = 0.25;
+const PLACE_FLOOR_MAX_T = 14;
+/** Ray direction.y below this ⇒ prefer WebXR floor plane (y = 0). */
+const PLACE_LOOK_DOWN_FOR_FLOOR = -0.18;
+/** Distance (m) in front of you where we approximate a vertical wall sheet for non-floor taps. */
+const WALL_VIRTUAL_DEPTH_M = 1.5;
+const PLACE_FALLBACK_M = 1.35;
 
-if (window.AFRAME && !window.AFRAME.components["multi-marker-stabilizer"]) {
-  window.AFRAME.registerComponent("multi-marker-stabilizer", {
-    schema: {
-      lerpFactor: { type: "number", default: stabilizerState.stabilizerLerp },
-      useOneEuro: { type: "boolean", default: true },
-      minCutoff: { type: "number", default: 0.8 },
-      beta: { type: "number", default: 0.004 },
-    },
-    init() {
-      const THREERef = window.THREE;
-      if (!THREERef) return;
-      this.THREERef = THREERef;
-      this.offsetsComputed = false;
-      this.markerConfig = MARKER_LAYOUT.map((spec) => ({
-        spec,
-        el: document.getElementById(spec.elementId),
-        offset: null,
-        lastPos: new THREERef.Vector3(),
-        lastQuat: new THREERef.Quaternion(),
-        lastChartCenter: new THREERef.Vector3(),
-        lastVisible: false,
-        framesSinceLost: 0,
-        hasValidCache: false,
-      })).filter((x) => x.el);
-      this.avgPos = new THREERef.Vector3();
-      this.tmpPos = new THREERef.Vector3();
-      this.tmpOffset = new THREERef.Vector3();
-      this.chartCenter = new THREERef.Vector3();
-      this.avgQuat = new THREERef.Quaternion();
-      this.tmpQuat = new THREERef.Quaternion();
-      this.hasInitQuat = false;
-      this.el.object3D.visible = false;
-      this.debugCounter = 0;
-      this.lastVisibleCount = 0;
-      this.lastVisibleCorners = [];
-      this.updateCount = 0;
-      this.deadbandSkipCount = 0;
-      this.posDeltas = [];
-      this.rotDeltas = [];
-      
-      // One-Euro filters for smooth tracking
-      // Lower minCutoff = more smoothing at rest, higher beta = faster response to movement
-      this.posFilter = new OneEuroFilterVector3(60, this.data.minCutoff, this.data.beta, 1.0);
-      this.quatFilter = new OneEuroFilterQuaternion(THREERef, 60, 1.2, 0.3, 1.0);
-      this.filteredPos = new THREERef.Vector3();
-      this.filteredQuat = new THREERef.Quaternion();
-      this.lastFrameTime = null;
-      
-      // Force GPU layer for smoother compositing
-      if (this.el.object3D) {
-        this.el.object3D.matrixAutoUpdate = true;
-      }
-      
-      debugLog("P1:stabilizer:init", {
-        useOneEuro: this.data.useOneEuro,
-        minCutoff: this.data.minCutoff,
-        beta: this.data.beta,
-      });
-    },
-    computeOffsets() {
-      for (const marker of this.markerConfig) {
-        marker.offset = getCornerOffset(this.THREERef, marker.spec.corner);
-      }
-      this.offsetsComputed = true;
-      const scaleFactor = 1 / 0.065;
-      debugLog("P1:stabilizer:offsets", {
-        scaleFactor: scaleFactor.toFixed(2),
-        halfSpanScaled: { x: (0.2675 * scaleFactor).toFixed(2), y: (0.1925 * scaleFactor).toFixed(2) },
-        offsets: this.markerConfig.map((m) => ({
-          corner: m.spec.corner,
-          offset: `(${m.offset.x.toFixed(2)}, ${m.offset.y.toFixed(2)}, ${m.offset.z.toFixed(2)})`,
-        })),
-      });
-    },
-    tick(time, timeDelta) {
-      if (!this.avgPos) return;
-      if (!this.offsetsComputed) this.computeOffsets();
+/**
+ * @param {import("three").Vector3} origin ray origin (world)
+ * @param {import("three").Vector3} dir unit direction (world)
+ * @param {import("three").PerspectiveCamera} camObj
+ * @param {typeof import("three")} TH
+ * @param {import("three").Vector3} out
+ */
+const computePlacePoint = (origin, dir, camObj, TH, out) => {
+  // 1) Floor plane y = 0 (local-floor), only when aiming clearly downward
+  if (dir.y < PLACE_LOOK_DOWN_FOR_FLOOR - 1e-6) {
+    const tFloor = -origin.y / dir.y;
+    if (tFloor >= PLACE_FLOOR_MIN_T && tFloor <= PLACE_FLOOR_MAX_T) {
+      debugLog("P1:webxr:tap-place:branch", "floor");
+      return out.copy(dir).multiplyScalar(tFloor).add(origin);
+    }
+  }
 
-      // Calculate timestamp in seconds for One-Euro filter
-      const timestamp = time / 1000;
+  // 2) Vertical plane through camPos + horizontalForward * depth, normal = horizontalForward
+  const camPos = new TH.Vector3();
+  camObj.getWorldPosition(camPos);
+  const quat = new TH.Quaternion();
+  camObj.getWorldQuaternion(quat);
+  const forward = new TH.Vector3(0, 0, -1).applyQuaternion(quat).normalize();
+  const h = new TH.Vector3(forward.x, 0, forward.z);
+  if (h.lengthSq() < 1e-8) {
+    h.set(0, 0, -1);
+  } else {
+    h.normalize();
+  }
 
-      const activeMarkers = [];
-      const markerPositions = [];
-      
-      for (const marker of this.markerConfig) {
-        const markerObj = marker.el?.object3D;
-        const isCurrentlyVisible = markerObj && markerObj.visible && marker.offset;
-        
-        if (isCurrentlyVisible) {
-          marker.el.object3D.getWorldPosition(marker.lastPos);
-          marker.el.object3D.getWorldQuaternion(marker.lastQuat);
-          marker.framesSinceLost = 0;
-          marker.hasValidCache = true;
-          
-          if (!marker.lastVisible) {
-            debugLog("P1:stabilizer:marker-visibility", {
-              corner: marker.spec.corner,
-              visible: true,
-              frame: this.debugCounter,
-            });
-            marker.lastVisible = true;
-          }
-          activeMarkers.push({ marker, useCached: false });
-        } else {
-          marker.framesSinceLost++;
-          
-          if (marker.hasValidCache && marker.framesSinceLost <= MARKER_HYSTERESIS_FRAMES) {
-            activeMarkers.push({ marker, useCached: true });
-            
-            if (marker.lastVisible && marker.framesSinceLost === 1) {
-              debugLog("P1:stabilizer:marker-hysteresis", {
-                corner: marker.spec.corner,
-                usingCachedFor: MARKER_HYSTERESIS_FRAMES,
-                frame: this.debugCounter,
-              });
-            }
-          } else if (marker.lastVisible) {
-            debugLog("P1:stabilizer:marker-visibility", {
-              corner: marker.spec.corner,
-              visible: false,
-              cachedFrames: marker.framesSinceLost - 1,
-              frame: this.debugCounter,
-            });
-            marker.lastVisible = false;
-          }
-        }
-      }
+  const tDenom = dir.dot(h);
+  if (Math.abs(tDenom) > 1e-5) {
+    const p0x = camPos.x + h.x * WALL_VIRTUAL_DEPTH_M;
+    const p0y = camPos.y + h.y * WALL_VIRTUAL_DEPTH_M;
+    const p0z = camPos.z + h.z * WALL_VIRTUAL_DEPTH_M;
+    const tWall = ((p0x - origin.x) * h.x + (p0y - origin.y) * h.y + (p0z - origin.z) * h.z) / tDenom;
+    if (tWall >= PLACE_FLOOR_MIN_T && tWall <= PLACE_FLOOR_MAX_T) {
+      debugLog("P1:webxr:tap-place:branch", "wall-plane");
+      return out.copy(dir).multiplyScalar(tWall).add(origin);
+    }
+  }
 
-      if (activeMarkers.length === 0) {
-        if (this.el.object3D.visible) {
-          debugLog("P1:stabilizer:hidden", { reason: "no markers visible", frame: this.debugCounter });
-          // Reset filters when markers lost for clean restart
-          this.posFilter.reset();
-          this.quatFilter.reset();
-        }
-        this.el.object3D.visible = false;
-        return;
-      }
+  debugLog("P1:webxr:tap-place:branch", "fallback-ray");
+  return out.copy(dir).multiplyScalar(PLACE_FALLBACK_M).add(origin);
+};
 
-      this.avgQuat.set(0, 0, 0, 0);
-      let quatCount = 0;
-      for (const { marker, useCached } of activeMarkers) {
-        if (useCached) {
-          this.tmpQuat.copy(marker.lastQuat);
-        } else {
-          marker.el.object3D.getWorldQuaternion(this.tmpQuat);
-        }
-        if (quatCount === 0) {
-          this.avgQuat.copy(this.tmpQuat);
-        } else {
-          if (this.avgQuat.dot(this.tmpQuat) < 0) {
-            this.tmpQuat.set(-this.tmpQuat.x, -this.tmpQuat.y, -this.tmpQuat.z, -this.tmpQuat.w);
-          }
-          this.avgQuat.x += this.tmpQuat.x;
-          this.avgQuat.y += this.tmpQuat.y;
-          this.avgQuat.z += this.tmpQuat.z;
-          this.avgQuat.w += this.tmpQuat.w;
-        }
-        quatCount++;
-      }
-      this.avgQuat.normalize();
+const isInteractiveHudAt = (clientX, clientY) => {
+  const el = document.elementFromPoint(clientX, clientY);
+  if (!el) return false;
+  return Boolean(
+    el.closest(
+      ".control-bar, .hud-header, .settings-drawer, .splash-screen:not(.splash--dismissed), #calibration-screen:not([hidden]), label, button, input, select, textarea, a[href], .model-loading-status, .hud-toast",
+    ),
+  );
+};
 
-      this.avgPos.set(0, 0, 0);
-      const visibleCorners = [];
-      for (const { marker, useCached } of activeMarkers) {
-        if (useCached) {
-          this.tmpPos.copy(marker.lastPos);
-        } else {
-          marker.el.object3D.getWorldPosition(this.tmpPos);
-        }
-        this.tmpOffset.copy(marker.offset).multiplyScalar(-1).applyQuaternion(this.avgQuat);
-        this.chartCenter.copy(this.tmpPos).add(this.tmpOffset);
-        this.avgPos.add(this.chartCenter);
-        visibleCorners.push(marker.spec.corner + (useCached ? "*" : ""));
-        
-        const markerJitter = marker.lastChartCenter.distanceTo(this.chartCenter);
-        markerPositions.push({
-          corner: marker.spec.corner,
-          pos: `(${this.chartCenter.x.toFixed(3)}, ${this.chartCenter.y.toFixed(3)}, ${this.chartCenter.z.toFixed(3)})`,
-          jitter: markerJitter.toFixed(4),
-          cached: useCached,
-        });
-        marker.lastChartCenter.copy(this.chartCenter);
-      }
-      this.avgPos.divideScalar(activeMarkers.length);
+/**
+ * A-Frame may set `scene.camera` to the camera entity or to the raw THREE camera.
+ * @param {import('aframe').Scene} scene
+ * @returns {import('three').PerspectiveCamera | import('three').OrthographicCamera | null}
+ */
+const resolveSceneThreeCamera = (scene) => {
+  if (!scene) return null;
+  const camRef = scene.camera;
+  if (!camRef) return null;
+  if (typeof camRef.getObject3D === "function") {
+    const fromEntity = camRef.getObject3D("camera");
+    if (fromEntity && "isCamera" in fromEntity && fromEntity.isCamera) return fromEntity;
+  }
+  if ("isCamera" in camRef && camRef.isCamera) {
+    return camRef;
+  }
+  const fromComp = /** @type {{ components?: { camera?: { camera?: import('three').Camera } } }} */ (
+    camRef
+  ).components?.camera?.camera;
+  if (fromComp && "isCamera" in fromComp && fromComp.isCamera) {
+    return /** @type {import('three').PerspectiveCamera} */ (fromComp);
+  }
+  return null;
+};
 
-      this.debugCounter++;
+/** @param {import('aframe').Scene} scene */
+const placeSunAtScreen = (scene, clientX, clientY) => {
+  const TH = window.THREE;
+  if (!TH || !scene?.renderer?.xr?.isPresenting || !stableModelRootEl) return;
 
-      this.el.object3D.visible = true;
+  const canvas = scene.canvas;
+  const camObj = resolveSceneThreeCamera(scene);
+  if (!canvas || !camObj) {
+    debugLog("P1:webxr:tap-place:skip", { hasCanvas: Boolean(canvas), hasCam: Boolean(camObj) });
+    return;
+  }
 
-      // Apply One-Euro filter for smooth tracking (or fall back to lerp)
-      if (this.data.useOneEuro) {
-        // Filter position and rotation through One-Euro
-        this.posFilter.filter(this.avgPos, this.filteredPos, timestamp);
-        this.quatFilter.filter(this.avgQuat, this.filteredQuat, timestamp);
-        
-        // Apply filtered values directly (One-Euro handles the smoothing)
-        this.el.object3D.position.copy(this.filteredPos);
-        this.el.object3D.quaternion.copy(this.filteredQuat);
-      } else {
-        // Legacy lerp-based smoothing
-        const lerpFactor = this.data.lerpFactor;
-        
-        const posDelta = this.el.object3D.position.distanceTo(this.avgPos);
-        const rotDeltaDeg = (this.el.object3D.quaternion.angleTo(this.avgQuat) * 180) / Math.PI;
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width < 1 || rect.height < 1) return;
 
-        if (posDelta < stabilizerState.positionDeadband && rotDeltaDeg < stabilizerState.rotationDeadbandDeg) {
-          this.deadbandSkipCount++;
-          return;
-        }
+  const ndcX = ((clientX - rect.left) / rect.width) * 2 - 1;
+  const ndcY = -((clientY - rect.top) / rect.height) * 2 + 1;
 
-        this.el.object3D.position.lerp(this.avgPos, lerpFactor);
-        this.el.object3D.quaternion.slerp(this.avgQuat, lerpFactor);
-      }
+  try {
+    camObj.updateMatrixWorld(true);
+    const raycaster = new TH.Raycaster();
+    raycaster.setFromCamera(new TH.Vector2(ndcX, ndcY), camObj);
 
-      // Stats tracking for debugging
-      const posDelta = this.el.object3D.position.distanceTo(this.avgPos);
-      const rotDeltaDeg = (this.el.object3D.quaternion.angleTo(this.avgQuat) * 180) / Math.PI;
+    const origin = raycaster.ray.origin;
+    const dir = raycaster.ray.direction.clone().normalize();
+    const point = computePlacePoint(origin, dir, camObj, TH, new TH.Vector3());
 
-      this.posDeltas.push(posDelta);
-      this.rotDeltas.push(rotDeltaDeg);
-      if (this.posDeltas.length > 30) this.posDeltas.shift();
-      if (this.rotDeltas.length > 30) this.rotDeltas.shift();
+    stableModelRootEl.setAttribute("position", { x: point.x, y: point.y, z: point.z });
+    stableModelRootEl.setAttribute("visible", true);
 
-      const cleanCorners = visibleCorners.map(c => c.replace("*", ""));
-      const lastCleanCorners = this.lastVisibleCorners.map(c => c.replace("*", ""));
-      const cornersChanged = cleanCorners.length !== lastCleanCorners.length ||
-        cleanCorners.some((c, i) => c !== lastCleanCorners[i]);
-      
-      if (cornersChanged) {
-        debugLog("P1:stabilizer:markers-changed", {
-          from: this.lastVisibleCorners,
-          to: visibleCorners,
-          frame: this.debugCounter,
-        });
-        this.lastVisibleCount = visibleCorners.length;
-        this.lastVisibleCorners = [...visibleCorners];
-      }
+    showToast(
+      firstWebxrPlacement ? "Placed — tap again to move. Side drags spin the model." : "Moved.",
+      firstWebxrPlacement ? 3200 : 1600,
+    );
+    if (firstWebxrPlacement) {
+      firstWebxrPlacement = false;
+      runHeaderGlitch();
+    }
+    tryInitialModelFit();
+    scheduleModelTransform({ recomputeScale: true });
+    setCrosshairTapReady();
+    debugLog("P1:webxr:tap-place", { x: point.x.toFixed(3), y: point.y.toFixed(3), z: point.z.toFixed(3) });
+  } catch (err) {
+    debugLog("P1:webxr:tap-place:error", err instanceof Error ? err.message : err);
+  }
+};
 
-      this.updateCount++;
+/** Shown during handheld AR session (tap-to-place + joystick guidance). */
+const updateArPlacementHint = () => {
+  if (!arPlacementHint || !arScene) return;
+  if (!arScene.is("ar-mode")) {
+    arPlacementHint.setAttribute("hidden", "true");
+    return;
+  }
 
-      const avgPosDelta = this.posDeltas.reduce((a, b) => a + b, 0) / this.posDeltas.length;
-      const avgRotDelta = this.rotDeltas.reduce((a, b) => a + b, 0) / this.rotDeltas.length;
-      const maxPosDelta = Math.max(...this.posDeltas);
-      const maxRotDelta = Math.max(...this.rotDeltas);
+  arPlacementHint.textContent = AR_PLACEMENT_HINT;
+  arPlacementHint.removeAttribute("hidden");
+};
 
-      if (this.debugCounter % 30 === 0) {
-        const cachedCount = activeMarkers.filter(m => m.useCached).length;
-        debugLog("P1:stabilizer:update", {
-          frame: this.debugCounter,
-          markers: activeMarkers.length,
-          cached: cachedCount,
-          oneEuro: this.data.useOneEuro,
-          avgPos30: avgPosDelta.toFixed(4),
-          maxPos30: maxPosDelta.toFixed(4),
-          avgRot30: avgRotDelta.toFixed(2),
-          maxRot30: maxRotDelta.toFixed(2),
-        });
-      }
+const wireWebXrTapPlacement = () => {
+  if (!arScene) return;
 
-      if (this.debugCounter % 60 === 0 && activeMarkers.length > 1) {
-        let maxSpread = 0;
-        for (let i = 0; i < markerPositions.length; i++) {
-          for (let j = i + 1; j < markerPositions.length; j++) {
-            const jitterI = parseFloat(markerPositions[i].jitter);
-            const jitterJ = parseFloat(markerPositions[j].jitter);
-            maxSpread = Math.max(maxSpread, Math.abs(jitterI - jitterJ));
-          }
-        }
-        debugLog("P1:stabilizer:marker-detail", {
-          frame: this.debugCounter,
-          markers: markerPositions,
-          spread: maxSpread.toFixed(4),
-        });
-      }
-
-      if (posDelta > 0.5 || rotDeltaDeg > 8) {
-        debugLog("P1:stabilizer:large-jump", {
-          frame: this.debugCounter,
-          posDelta: posDelta.toFixed(4),
-          rotDelta: rotDeltaDeg.toFixed(2),
-          corners: visibleCorners,
-          avgPos: `(${this.avgPos.x.toFixed(3)}, ${this.avgPos.y.toFixed(3)}, ${this.avgPos.z.toFixed(3)})`,
-        });
-      }
-    },
+  arScene.addEventListener("exit-vr", () => {
+    setArTapPlacementMode(false);
+    if (stableModelRootEl) stableModelRootEl.setAttribute("visible", false);
+    setCrosshairScanning();
+    updateArPlacementHint();
+    debugLog("P1:webxr:session-end");
   });
-}
 
-// --- Stabilizer update ---
+  arScene.addEventListener("enter-vr", () => {
+    if (arScene.is("ar-mode")) {
+      setArTapPlacementMode(true);
+      setCrosshairTapReady();
+    } else {
+      setArTapPlacementMode(false);
+    }
+    updateArPlacementHint();
+  });
+};
 
-const applyStabilizerLerpToRoot = () => {
-  if (!stableModelRootEl) return;
-  stableModelRootEl.setAttribute("multi-marker-stabilizer", `lerpFactor: ${stabilizerState.stabilizerLerp.toFixed(2)}`);
+/**
+ * Custom ENTER / EXIT AR control (avoids xr-mode-ui hiding the button mid-session).
+ * @param {import('aframe').Scene} scene
+ */
+const wireEnterArButton = (scene) => {
+  const btn = document.getElementById("enter-ar-hud");
+  if (!btn || !scene) return;
+
+  const sync = () => {
+    // Immersive AR uses `ar-mode`; headset VR uses `vr-mode` (A-Frame a-scene.enterVR.)
+    const inSession = scene.is("vr-mode") || scene.is("ar-mode");
+    btn.textContent = inSession ? "EXIT AR" : "ENTER AR";
+    btn.classList.toggle("in-ar-session", Boolean(inSession));
+    btn.setAttribute(
+      "aria-label",
+      inSession ? "Exit AR session" : "Enter WebXR AR, then tap the view to place the model",
+    );
+    updateArPlacementHint();
+    setArTapPlacementMode(scene.is("ar-mode"));
+  };
+
+  scene.addEventListener("enter-vr", sync);
+  scene.addEventListener("exit-vr", sync);
+  sync();
+
+  btn.addEventListener("click", (ev) => {
+    ev.preventDefault();
+    if (scene.is("vr-mode") || scene.is("ar-mode")) {
+      if (typeof scene.exitVR === "function") scene.exitVR();
+    } else if (typeof scene.enterAR === "function") {
+      scene.enterAR();
+    }
+  });
 };
 
 // --- Run ---
 
 logBootEnvironment();
-
-for (const spec of MARKER_LAYOUT) {
-  const marker = document.getElementById(spec.elementId);
-  if (!marker) {
-    debugLog("P1:marker:config:missing", spec);
-    continue;
-  }
-  const configuredValue = String(marker.getAttribute("value") ?? "");
-  if (configuredValue !== spec.barcodeValue) {
-    debugLog("P1:marker:config:mismatch", {
-      elementId: spec.elementId,
-      expectedValue: spec.barcodeValue,
-      actualValue: configuredValue,
-      expectedFile: spec.markerFile,
-    });
-  }
-}
 
 debugLog("P1:model:device-calibration", {
   isMobile: isMobileDevice(),
@@ -773,10 +688,28 @@ if (arScene) {
     debugLog("P1:scene:loaded", { id: arScene.id, loadTimeMs: sceneLoadTime });
     logSceneIntrospection(arScene);
     logCanvasOnce(/** @type {import('aframe').Scene} */ (arScene));
-    // Single reparent attempt (MutationObserver handles the rest)
     reparentArjsVideoIntoViewport();
-    // Setup touch gestures for model manipulation
     setupTouchGestures();
+    wireEnterArButton(arScene);
+    registerArQuickTapHandler((x, y) => {
+      if (!arScene?.is("ar-mode") || !arScene.renderer?.xr?.isPresenting) return;
+      if (isInteractiveHudAt(x, y)) return;
+      placeSunAtScreen(arScene, x, y);
+    });
+
+    if (navigator.xr?.isSessionSupported) {
+      void navigator.xr.isSessionSupported("immersive-ar").then((supported) => {
+        debugLog("P1:webxr:immersive-ar_supported", { supported, secureContext: window.isSecureContext });
+        if (!supported) {
+          showToast(
+            "WebXR AR not available (try Chrome on Android, trusted HTTPS, or fix the certificate warning).",
+            9000,
+          );
+        }
+      });
+    } else {
+      debugLog("P1:webxr:no_api", { secureContext: window.isSecureContext });
+    }
   });
   arScene.addEventListener("renderstart", () => {
     debugLog("P1:scene:renderstart");
@@ -785,38 +718,7 @@ if (arScene) {
   debugLog("P1:scene:missing", "No #ar-scene");
 }
 
-// Marker events
-if (markerEls.length) {
-  const visibleMarkerIds = new Set();
-
-  markerEls.forEach((marker) => {
-    marker.addEventListener("markerFound", () => {
-      visibleMarkerIds.add(marker.id);
-      debugLog("P1:marker:found", {
-        markerId: marker.id,
-        visibleMarkers: visibleMarkerIds.size,
-        timeMs: Math.round(performance.now() - BOOT_T0),
-        model: layersModelEl ? "layers_of_the_sun" : solarModelEl ? "solar-dummy" : "none",
-      });
-      setCrosshairLocked();
-      showToast("STABLE LINK // SOLAR TELEMETRY LOCKED", 2000);
-      if (firstMarkerLock) {
-        firstMarkerLock = false;
-        runHeaderGlitch();
-      }
-      tryInitialModelFit();
-    });
-
-    marker.addEventListener("markerLost", () => {
-      visibleMarkerIds.delete(marker.id);
-      debugLog("P1:marker:lost", { markerId: marker.id, visibleMarkers: visibleMarkerIds.size });
-      if (visibleMarkerIds.size === 0) {
-        setCrosshairScanning();
-        showToast("SIGNAL LOST // RESCANNING TARGET", 2000);
-      }
-    });
-  });
-}
+wireWebXrTapPlacement();
 
 // Model loading UI elements
 const modelLoadingStatus = document.getElementById("model-loading-status");
@@ -898,7 +800,7 @@ if (layersModelEl) {
   layersModelEl.addEventListener("model-loaded", () => {
     const loadTime = Math.round(performance.now() - modelLoadStart);
     debugLog("P1:model:loaded", { loadTimeMs: loadTime });
-    
+
     updateLoadingProgress(95, "Preparing scene...");
     
     // Quick finish animation
@@ -933,15 +835,20 @@ setTimeout(tryInitialModelFit, 1500);
 
 // Initialize sliders with callbacks
 initSliderBindings({
-  onStabilizerChange: applyStabilizerLerpToRoot,
   onModelTransformChange: scheduleModelTransform,
 });
 syncSlidersFromState();
-applyStabilizerLerpToRoot();
 
 // UI event handlers
 if (splashStart) {
   splashStart.addEventListener("click", () => void onStartMission());
+}
+
+if (calibrationContinue) {
+  calibrationContinue.addEventListener("click", () => {
+    dismissCalibrationScreen();
+    void finishMissionStart();
+  });
 }
 
 if (refreshCamerasBtn) {

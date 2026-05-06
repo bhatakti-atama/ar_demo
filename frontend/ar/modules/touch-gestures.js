@@ -25,7 +25,7 @@ const PITCH_SENSITIVITY = 1.2; // Pitch rotation speed
 const ROLL_SENSITIVITY = 1.2; // Roll rotation speed
 const SCALE_SENSITIVITY = 0.01;
 const MIN_SCALE = 0.5;
-const MAX_SCALE = 15;
+const MAX_SCALE = 8;
 const SMOOTHING = 0.25;
 
 // Joystick state
@@ -56,12 +56,24 @@ let isPinching = false;
 let pinchTouchIds = [];
 let lastPinchDistance = 0;
 
+/** When true, quick taps defer joystick start so app can treat them as AR placement. */
+let arTapPlacementMode = false;
+
+/** @type {((clientX: number, clientY: number) => void) | null} */
+let onArQuickTap = null;
+
+/** Deferred touches: promote to joystick after movement, or fire tap on release. */
+const pendingArTouches = new Map();
+
+const AR_QUICK_TAP_MOVE_PX = 16;
+const AR_QUICK_TAP_MAX_MS = 420;
+
 // Animation
 let animationFrameId = null;
 let targetYaw = 0;
 let targetPitch = 0;
 let targetRoll = 0;
-let targetScale = 4;
+let targetScale = 1;
 
 /**
  * Initialize touch gestures with debug logger
@@ -78,6 +90,22 @@ export const initTouchGestures = (logger) => {
 export const setTouchGesturesEnabled = (enabled) => {
   isEnabled = enabled;
   debugLog("P1:joystick:enabled", { enabled });
+};
+
+/**
+ * Enable AR “quick tap” path (joysticks activate only after movement).
+ * @param {boolean} on
+ */
+export const setArTapPlacementMode = (on) => {
+  arTapPlacementMode = on;
+  if (!on) pendingArTouches.clear();
+};
+
+/**
+ * @param {((clientX: number, clientY: number) => void) | null} fn
+ */
+export const registerArQuickTapHandler = (fn) => {
+  onArQuickTap = fn;
 };
 
 /**
@@ -356,6 +384,33 @@ const hideJoystick = (joystick) => {
 };
 
 /**
+ * Finger moved enough to count as joystick drag — begin joystick from the original press point.
+ * @param {Touch} touch
+ * @param {{ x0: number, y0: number }} pending
+ */
+const promotePendingToJoystick = (touch, pending) => {
+  if (isPinching) return;
+  const screenMidX = window.innerWidth / 2;
+  const isLeftSide = pending.x0 < screenMidX;
+
+  if (isLeftSide && !leftJoystick.active) {
+    leftJoystick.active = true;
+    leftJoystick.touchId = touch.identifier;
+    positionJoystick(leftJoystick, pending.x0, pending.y0);
+    document.getElementById("zone-left")?.classList.add("active");
+    updateJoystickKnob(leftJoystick, touch.clientX, touch.clientY);
+    debugLog("P1:joystick:left-start-promoted", { x: touch.clientX, y: touch.clientY });
+  } else if (!isLeftSide && !rightJoystick.active) {
+    rightJoystick.active = true;
+    rightJoystick.touchId = touch.identifier;
+    positionJoystick(rightJoystick, pending.x0, pending.y0);
+    document.getElementById("zone-right")?.classList.add("active");
+    updateJoystickKnob(rightJoystick, touch.clientX, touch.clientY);
+    debugLog("P1:joystick:right-start-promoted", { x: touch.clientX, y: touch.clientY });
+  }
+};
+
+/**
  * Lerp helper
  */
 const lerp = (current, target, factor) => current + (target - current) * factor;
@@ -432,38 +487,40 @@ const startUpdateLoop = () => {
  */
 const onTouchStart = (e) => {
   if (!isEnabled) return;
-  
+
   const screenMidX = window.innerWidth / 2;
   const bottomZone = window.innerHeight * 0.85; // Ignore touches in bottom 15% (control bar)
-  
-  for (const touch of e.changedTouches) {
-    // Skip if in bottom zone
-    if (touch.clientY > bottomZone) continue;
-    
-    const isLeftSide = touch.clientX < screenMidX;
-    
-    // Check for pinch (two touches close in time)
-    if (e.touches.length === 2 && !isPinching) {
-      // Start pinch
+
+  if (e.touches.length === 2 && !isPinching) {
+    const t0 = e.touches[0];
+    const t1 = e.touches[1];
+    if (t0.clientY <= bottomZone && t1.clientY <= bottomZone) {
+      for (const t of e.touches) pendingArTouches.delete(t.identifier);
       isPinching = true;
-      pinchTouchIds = [e.touches[0].identifier, e.touches[1].identifier];
+      pinchTouchIds = [t0.identifier, t1.identifier];
       lastPinchDistance = getPinchDistance(e.touches);
       targetScale = modelSize.value;
-      
-      // Hide joysticks during pinch
       hideJoystick(leftJoystick);
       hideJoystick(rightJoystick);
-      
       document.getElementById("scale-indicator")?.classList.add("active");
       debugLog("P1:joystick:pinch-start", { distance: lastPinchDistance });
       startUpdateLoop();
       return;
     }
-    
-    // Skip if already pinching
-    if (isPinching) continue;
-    
-    // Assign to joystick
+  }
+
+  if (isPinching) return;
+
+  for (const touch of e.changedTouches) {
+    if (touch.clientY > bottomZone) continue;
+
+    const isLeftSide = touch.clientX < screenMidX;
+
+    if (arTapPlacementMode) {
+      pendingArTouches.set(touch.identifier, { x0: touch.clientX, y0: touch.clientY, t0: performance.now() });
+      continue;
+    }
+
     if (isLeftSide && !leftJoystick.active) {
       leftJoystick.active = true;
       leftJoystick.touchId = touch.identifier;
@@ -478,7 +535,7 @@ const onTouchStart = (e) => {
       debugLog("P1:joystick:right-start", { x: touch.clientX, y: touch.clientY });
     }
   }
-  
+
   startUpdateLoop();
 };
 
@@ -506,6 +563,18 @@ const onTouchMove = (e) => {
     
     startUpdateLoop();
     return;
+  }
+
+  for (const touch of e.changedTouches) {
+    const pending = pendingArTouches.get(touch.identifier);
+    if (pending) {
+      const dx = touch.clientX - pending.x0;
+      const dy = touch.clientY - pending.y0;
+      if (dx * dx + dy * dy > AR_QUICK_TAP_MOVE_PX * AR_QUICK_TAP_MOVE_PX) {
+        pendingArTouches.delete(touch.identifier);
+        promotePendingToJoystick(touch, pending);
+      }
+    }
   }
   
   // Handle joysticks
@@ -541,6 +610,15 @@ const onTouchEnd = (e) => {
   
   // Handle joystick end
   for (const touch of e.changedTouches) {
+    const pending = pendingArTouches.get(touch.identifier);
+    if (pending) {
+      pendingArTouches.delete(touch.identifier);
+      const dt = performance.now() - pending.t0;
+      if (dt <= AR_QUICK_TAP_MAX_MS && arTapPlacementMode && typeof onArQuickTap === "function") {
+        onArQuickTap(pending.x0, pending.y0);
+      }
+      continue;
+    }
     if (leftJoystick.active && touch.identifier === leftJoystick.touchId) {
       hideJoystick(leftJoystick);
       document.getElementById("zone-left")?.classList.remove("active");
