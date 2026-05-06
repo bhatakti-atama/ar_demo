@@ -162,6 +162,171 @@ video#arjs-video {
   pointer-events: auto;
 }
 
+/* Joystick overlay — must live under #hud-root for WebXR dom-overlay; visuals only (touches use document). */
+#joystick-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none !important;
+}
+
+#joystick-layer,
+#joystick-layer * {
+  pointer-events: none !important;
+}
+
+.joystick-zones {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  z-index: 1;
+}
+
+.joystick-zone {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: max(180px, calc(18vh + 3.5rem));
+  opacity: 0.36;
+  transition: opacity 0.2s ease;
+}
+
+.hud-root--ar-session .joystick-zone {
+  opacity: 0.78;
+}
+
+.joystick-zone.active {
+  opacity: 0.1;
+}
+
+.zone-hint {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.42);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  text-align: center;
+}
+
+.joystick-zone-yaw .zone-hint {
+  color: rgba(0, 255, 136, 0.82);
+  border-color: rgba(0, 255, 136, 0.35);
+}
+
+.joystick-zone-pitch .zone-hint {
+  color: rgba(120, 220, 255, 0.9);
+  border-color: rgba(120, 220, 255, 0.35);
+}
+
+.joystick-zone-roll .zone-hint {
+  color: rgba(255, 185, 0, 0.88);
+  border-color: rgba(255, 185, 0, 0.35);
+}
+
+.zone-hint-label {
+  display: block;
+  font-size: 10px;
+  margin-bottom: 2px;
+  font-weight: 700;
+}
+
+.zone-hint-sub {
+  display: block;
+  font-size: 8px;
+  opacity: 0.8;
+}
+
+#joystick-layer .joystick {
+  position: fixed;
+  width: 96px;
+  height: 96px;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  transform: translate(-50%, -50%);
+}
+
+#joystick-layer .joystick.active {
+  opacity: 1;
+}
+
+.hud-root--ar-session #joystick-layer .joystick:not(.active) {
+  opacity: 0.35;
+}
+
+.joystick-ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgba(255, 185, 0, 0.5);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.32);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.35), inset 0 0 14px rgba(0, 0, 0, 0.28);
+}
+
+.joystick-yaw .joystick-ring {
+  border-color: rgba(0, 255, 136, 0.55);
+}
+
+.joystick-pitch .joystick-ring {
+  border-color: rgba(120, 220, 255, 0.55);
+}
+
+.joystick-roll .joystick-ring {
+  border-color: rgba(255, 185, 0, 0.55);
+}
+
+.joystick-knob {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 185, 0, 0.92), rgba(255, 140, 0, 0.75));
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+.joystick-yaw .joystick-knob {
+  background: radial-gradient(circle at 30% 30%, rgba(0, 255, 160, 0.92), rgba(0, 200, 110, 0.75));
+}
+
+.joystick-pitch .joystick-knob {
+  background: radial-gradient(circle at 30% 30%, rgba(160, 230, 255, 0.92), rgba(80, 180, 220, 0.75));
+}
+
+.joystick-roll .joystick-knob {
+  background: radial-gradient(circle at 30% 30%, rgba(255, 200, 100, 0.92), rgba(255, 150, 60, 0.75));
+}
+
+#joystick-layer .scale-indicator {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffb900;
+  background: rgba(0, 0, 0, 0.58);
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 185, 0, 0.4);
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none !important;
+}
+
+#joystick-layer .scale-indicator.active {
+  opacity: 1;
+}
+
 /* A) Splash */
 .splash-screen {
   position: fixed;

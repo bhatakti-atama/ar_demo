@@ -57,7 +57,7 @@ import {
   scheduleModelTransform,
   tryInitialModelFit,
 } from "./modules/model-transform.js";
-import { initTouchGestures, registerArQuickTapHandler, setArTapPlacementMode, setupTouchGestures, syncTouchTargetsFromModel } from "./modules/touch-gestures.js";
+import { initTouchGestures, registerArQuickTapHandler, setArTapPlacementMode, setJoystickArSession, setupTouchGestures, syncTouchTargetsFromModel } from "./modules/touch-gestures.js";
 
 const BOOT_T0 = performance.now();
 const LOG_NS = "phase1";
@@ -445,7 +445,7 @@ const wireLifecycle = () => {
 // --- WebXR tap placement (floor when looking down; virtual vertical wall otherwise) ---
 
 const AR_PLACEMENT_HINT =
-  "Tap to place. Look down for the floor. Looking at walls places on a vertical surface in front of you (approx. your tap). Drag to use joysticks.";
+  "Tap to place. Look down for the floor; level view uses a wall sheet. Bottom thirds: left YAW ↔, center PITCH ↕, right ROLL ↔. Two-finger pinch = size.";
 
 const PLACE_FLOOR_MIN_T = 0.25;
 const PLACE_FLOOR_MAX_T = 14;
@@ -600,6 +600,7 @@ const wireWebXrTapPlacement = () => {
 
   arScene.addEventListener("exit-vr", () => {
     setArTapPlacementMode(false);
+    setJoystickArSession(false);
     if (stableModelRootEl) stableModelRootEl.setAttribute("visible", false);
     setCrosshairScanning();
     updateArPlacementHint();
@@ -609,9 +610,11 @@ const wireWebXrTapPlacement = () => {
   arScene.addEventListener("enter-vr", () => {
     if (arScene.is("ar-mode")) {
       setArTapPlacementMode(true);
+      setJoystickArSession(true);
       setCrosshairTapReady();
     } else {
       setArTapPlacementMode(false);
+      setJoystickArSession(false);
     }
     updateArPlacementHint();
   });
@@ -636,6 +639,7 @@ const wireEnterArButton = (scene) => {
     );
     updateArPlacementHint();
     setArTapPlacementMode(scene.is("ar-mode"));
+    setJoystickArSession(scene.is("ar-mode"));
   };
 
   scene.addEventListener("enter-vr", sync);
